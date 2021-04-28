@@ -14,11 +14,12 @@ public class Driver extends JPanel implements ActionListener, KeyListener{
 	
 	public void paint(Graphics g) {
 		super.paintComponent(g);
+		
 		//g.fillOval(0, 0, 200, 200);
 	}
 	
 	public Driver () {
-		JFrame f = new JFrame("Minecraft Pacman");
+		JFrame f = new JFrame("Minecraft Pacman Game");
 		f.setSize(800, 600);
 		
 		//set default action for x button
