@@ -1,12 +1,14 @@
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-public class Driver extends JPanel implements ActionListener{
+public class Driver extends JPanel implements ActionListener, KeyListener{
 	//handles drawing animation
 	Timer animationTimer;
 	
@@ -16,7 +18,7 @@ public class Driver extends JPanel implements ActionListener{
 	}
 	
 	public Driver () {
-		JFrame f = new JFrame("Example Drawing");
+		JFrame f = new JFrame("Minecraft Pacman");
 		f.setSize(800, 600);
 		
 		//set default action for x button
@@ -42,6 +44,24 @@ public class Driver extends JPanel implements ActionListener{
 		
 		//call the frame to refresh
 		repaint();
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 
