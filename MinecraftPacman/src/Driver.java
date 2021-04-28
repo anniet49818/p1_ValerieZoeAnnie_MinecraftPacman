@@ -19,7 +19,7 @@ public class Driver extends JPanel implements ActionListener, KeyListener{
 	}
 	
 	public Driver () {
-		JFrame f = new JFrame("Minecraft Pacman Game");
+		JFrame f = new JFrame("Minecraft Pacman");
 		f.setSize(800, 600);
 		
 		//set default action for x button
