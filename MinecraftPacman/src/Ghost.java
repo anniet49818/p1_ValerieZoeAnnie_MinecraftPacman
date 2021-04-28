@@ -24,7 +24,7 @@ public class Ghost {
 		width = ;
 		height = ;
 		img = getImage("???");	
-		init(x, y);
+	
 		*/
 	}
 	public void setX(int x) {
