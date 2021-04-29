@@ -27,6 +27,17 @@ public class Ghost {
 	
 		*/
 	}
+	public void paint(Graphics g) {
+		Graphics2D g2 = (Graphics2D) g;
+		
+		g2.drawImage(img, tx, null);
+		
+	}
+	
+	private AffineTransform tx = AffineTransform.getTranslateInstance(x, y);
+	
+	
+	
 	public void setX(int x) {
 		this.x = x;
 	}
