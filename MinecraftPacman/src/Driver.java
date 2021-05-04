@@ -8,12 +8,17 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+
+
 public class Driver extends JPanel implements ActionListener, KeyListener{
 	//handles drawing animation
 	Timer animationTimer;
+	Background backImg;
 	
 	public void paint(Graphics g) {
 		super.paintComponent(g);
+		
+		backImg.paint(g);
 		
 		//g.fillOval(0, 0, 200, 200);
 	}
@@ -29,6 +34,7 @@ public class Driver extends JPanel implements ActionListener, KeyListener{
 		//allows connection with "drawing"
 		f.add(this);
 		
+		backImg = new Background("startScreen.png", 0, 0);
 		
 		//setup animation timer
 		animationTimer = new Timer(16, this);
