@@ -29,6 +29,7 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 	
 	//Background background;
 	Player player;
+	Ghost ghost;
 	
 	
 	public void paint(Graphics g) {
@@ -37,6 +38,7 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 		
 		//background.paint(g);
 		player.paint(g);
+		ghost.paint(g);
 	}
 	
 	public Driver () {
@@ -62,6 +64,7 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 		
 		//background = new Background();
 		player = new Player();
+		ghost = new Ghost();
 	}
 
 	

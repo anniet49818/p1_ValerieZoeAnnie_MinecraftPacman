@@ -1,3 +1,4 @@
+package pacman;
 import java.io.File;
 import java.io.IOException;
 
