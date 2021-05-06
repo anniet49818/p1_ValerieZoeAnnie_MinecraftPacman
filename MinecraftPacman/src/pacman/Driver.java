@@ -27,32 +27,47 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 	//handles drawing animation
 	Timer animationTimer; //different
 	
-	//Background background;
+	Background background;
 	Player player;
-	
+	Walls walls;
+	Coin coin;
+	Fruit fruit;
+	ImmunityCoin immuneCoin;
+	Ghost ghost;
 	
 	public void paint(Graphics g) {
 		super.paintComponent(g);
 		//g.fillOval(0, 0, 200, 200);
 		
-		//background.paint(g);
+		background.paint(g);
 		player.paint(g);
+		walls.paint(g);
+		coin.paint(g);
+		fruit.paint(g);
+		immuneCoin.paint(g);
+		ghost.paint(g);
+		
 	}
 	
 	public Driver () {
 		JFrame f = new JFrame("Example Drawing");
-		f.setSize(600, 700);
+		f.setSize(600, 728);
 		f.setResizable(false);
 		f.addKeyListener(this);
 		
+		background = new Background();
+		player = new Player();
+		walls = new Walls();
+		coin = new Coin();
+		fruit = new Fruit();
+		immuneCoin = new ImmunityCoin();
+		ghost = new Ghost();
+	
 		//set default action for x button
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
 		//add this panel to the JFrame
 		//allows connection with "drawing"
 		f.add(this);
-		
-		
 		//setup animation timer
 		animationTimer = new Timer(16, this);
 		animationTimer.start();
@@ -60,8 +75,7 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 		
 		f.setVisible(true);
 		
-		//background = new Background();
-		player = new Player();
+		
 	}
 
 	

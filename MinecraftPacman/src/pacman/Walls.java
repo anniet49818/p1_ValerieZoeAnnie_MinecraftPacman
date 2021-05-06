@@ -8,34 +8,34 @@ import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 import java.net.URL;
 
-public class Background {
+public class Walls {
 	
 	private int x, y; // Position of background
 	private int width; // the size of player
 	private int height;
 	
-	private Image background; // image of the player
+	private Image walls; // image of the player
 	private Image img;
 	
-	public Background() {
+	public Walls() {
 		// assignment statements for attributes
 		x = 0;
 		y = 0;
-		width = 600;
-		height = 700;
-		background = getImage("background.png");
-		img = background;
+		width = 50;
+		height = 50;
+		walls = getImage("walls.png");
+		img = walls;
 		init(x, y); //call init every time x, y of image is being set
 
 	}
 	
 	/* if filename is provided */
-	public Background(String fileName, int x, int y, int vx) {
+	public Walls(String fileName, int x, int y, int vx) {
 		// assignment statements for attributes
 		this.x = x;
 		this.y = y;
-		width = 600;
-		height = 700;
+		width = 50;
+		height = 50;
 		img = getImage(fileName);
 		init(x, y);
 

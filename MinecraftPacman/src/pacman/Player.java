@@ -21,8 +21,8 @@ public class Player {
 
 		public Player() {
 			// assignment statements for attributes
-			x = 50;
-			y = 50;
+			x = 250;
+			y = 650;
 			vx = 0;
 			vy = 0;
 			width = 50;
