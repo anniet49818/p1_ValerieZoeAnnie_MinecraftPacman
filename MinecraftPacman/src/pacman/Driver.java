@@ -29,7 +29,9 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 	
 	Background background;
 	Player player;
-	Walls walls;
+	Walls[] upperWalls = new Walls[12];
+	Walls[] rightWalls = new Walls[14];
+	Walls[] leftWalls = new Walls[14];
 	Coin coin;
 	Fruit fruit;
 	ImmunityCoin immuneCoin;
@@ -41,11 +43,20 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 		
 		background.paint(g);
 		player.paint(g);
-		walls.paint(g);
 		coin.paint(g);
 		fruit.paint(g);
 		immuneCoin.paint(g);
 		ghost.paint(g);
+		
+		for(Walls temp: upperWalls) {
+			temp.paint(g);
+		}
+		for(Walls temp: rightWalls) {
+			temp.paint(g);
+		}
+		for(Walls temp: leftWalls) {
+			temp.paint(g);
+		}
 		
 	}
 	
@@ -57,11 +68,24 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 		
 		background = new Background();
 		player = new Player();
-		walls = new Walls();
 		coin = new Coin();
 		fruit = new Fruit();
 		immuneCoin = new ImmunityCoin();
 		ghost = new Ghost();
+		
+		for(int i = 0; i < upperWalls.length; i++) {
+			upperWalls[i] = new Walls();
+			upperWalls[i].setX(50*i);
+		}
+		
+		for(int i = 0; i < rightWalls.length; i++) {
+			rightWalls[i] = new Walls(550, 0);
+			rightWalls[i].setY(50*i);
+		}
+		for(int i = 0; i < leftWalls.length; i++) {
+			leftWalls[i] = new Walls();
+			leftWalls[i].setY(50*i);
+		}
 	
 		//set default action for x button
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
