@@ -1,8 +1,12 @@
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -10,15 +14,26 @@ import javax.swing.Timer;
 
 
 
-public class Driver extends JPanel implements ActionListener, KeyListener{
+public class Driver extends JPanel implements ActionListener, KeyListener, MouseListener{
 	//handles drawing animation
 	Timer animationTimer;
-	Background backImg;
+	Background startImg;
+	
+	
+	Font big = new Font("Courier New", 1, 50);
+	Font font2 = new Font("Courier New", 1, 30);
+	Font biggest = new Font("Courier New", 1, 80);
 	
 	public void paint(Graphics g) {
 		super.paintComponent(g);
 		
-		backImg.paint(g);
+		startImg.paint(g);
+		g.setColor(Color.gray);
+		g.fillRect(200, 270, 400, 50);
+		g.setColor(Color.white);
+		g.setFont(font2);
+		g.drawString("Press Space to Start", 220, 300);
+		
 		
 		//g.fillOval(0, 0, 200, 200);
 	}
@@ -33,8 +48,9 @@ public class Driver extends JPanel implements ActionListener, KeyListener{
 		//add this panel to the JFrame
 		//allows connection with "drawing"
 		f.add(this);
+		f.addKeyListener(this);
 		
-		backImg = new Background("startScreen.png", 0, 0);
+		startImg = new Background("startScreen.png", 0, 0);
 		
 		//setup animation timer
 		animationTimer = new Timer(16, this);
@@ -43,6 +59,9 @@ public class Driver extends JPanel implements ActionListener, KeyListener{
 		f.setVisible(true);
 	}
 
+	public void update() {
+
+	}
 	
 	//this method is invoked/called by the timer
 	@Override
@@ -50,6 +69,7 @@ public class Driver extends JPanel implements ActionListener, KeyListener{
 		// TODO Auto-generated method stub
 		
 		//call the frame to refresh
+		update();
 		repaint();
 	}
 
@@ -62,11 +82,48 @@ public class Driver extends JPanel implements ActionListener, KeyListener{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
+		System.out.println(e.getKeyCode());
+		
+		if(e.getKeyCode() == 32) {
+			startImg.setImg("MinecraftImg.jpeg");
+			
+		}
+		
 		
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}

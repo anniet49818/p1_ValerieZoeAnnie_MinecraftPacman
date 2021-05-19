@@ -48,7 +48,14 @@ public class Background {
 			}
 			return tempImage;
 		}
+		
+		public void hide() {
+			img = null;
+		}
 
+		public void setImg(String img) {
+			this.img = getImage(img);
+		}
 
 
 
