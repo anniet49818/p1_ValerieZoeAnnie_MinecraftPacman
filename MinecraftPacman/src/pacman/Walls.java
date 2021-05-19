@@ -29,6 +29,17 @@ public class Walls {
 
 	}
 	
+	public Walls (int x, int y) {
+		// assignment statements for attributes
+		this.x = x;
+		this.y = y;
+		width = 50;
+		height = 50;
+		img = getImage("walls.png");
+		init(x, y);
+
+	}
+	
 	/* if filename is provided */
 	public Walls(String fileName, int x, int y, int vx) {
 		// assignment statements for attributes
