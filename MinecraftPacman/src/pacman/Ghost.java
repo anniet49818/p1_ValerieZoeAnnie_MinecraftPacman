@@ -61,7 +61,7 @@ public class Ghost {
 		public void move() {
 			
 			y += vy;
-			x += vx;
+		x += vx;
 			tx.setToTranslation(x, y);
 
 		}
