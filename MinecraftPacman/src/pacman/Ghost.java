@@ -8,6 +8,16 @@ import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 import java.net.URL;
 
+
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.geom.AffineTransform;
+import java.net.URL;
+
+//import frog.Rudolph;
+
 public class Ghost {
 	
 	private int x, y; // Position of background
@@ -70,6 +80,11 @@ public class Ghost {
 		return tempImage;
 	}
 
+	public void reset() {
+		x = 400;	//reset position
+		y = 610;
+		vx = 0;
+	}
 	// setters and getters
 
 
@@ -139,6 +154,11 @@ public class Ghost {
 	public Rectangle getRect() {
 		Rectangle temp = new Rectangle(x + 5,y + 5,width,height);
 		return temp;
+	}
+	public boolean hitPlayer(Player p) {
+		Rectangle temp = this.getRect();
+		Rectangle player = new Rectangle(p.getX(),p.getY(),p.getWidth(),p.getHeight());
+		return temp.intersects(player);
 	}
 
 	

@@ -18,6 +18,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+//import frog.Squirrel;
+
 import java.awt.image.*;
 import java.awt.geom.AffineTransform;
 
@@ -57,6 +59,11 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 		for(Walls temp: leftWalls) {
 			temp.paint(g);
 		}
+		
+		
+			if(ghost.hitPlayer(player)) {
+				player.reset();
+			}
 		
 		if ( player.getY() > 650) {
 			player.setY(650);

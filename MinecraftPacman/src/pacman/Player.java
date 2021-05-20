@@ -167,10 +167,9 @@ public class Player {
 			x -= step;
 			tx.setToTranslation(x, y);
 		}
-		
-		/* Helper function for collision detection later */
+		//collison helper
 		public Rectangle getRect() {
-			Rectangle temp = new Rectangle(x,y,width,height);
+			Rectangle temp = new Rectangle(x + 5,y + 5,width,height);
 			return temp;
 		}
 
