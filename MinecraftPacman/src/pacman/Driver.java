@@ -58,6 +58,19 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 			temp.paint(g);
 		}
 		
+		if ( player.getY() > 650) {
+			player.setY(650);
+		}
+		if (player.getY() < 50) {
+			player.setY(50);
+		}
+		if (player.getX() > 500) {
+			player.setX(500);
+		}
+		if (player.getX() < 50) {
+			player.setX(50);
+		}
+		
 	}
 	
 	public Driver () {
@@ -101,7 +114,6 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 		
 		
 	}
-
 	
 	//this method is invoked/called by the timer
 	@Override
@@ -150,7 +162,17 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
+		//froggy.methodHop();
+		System.out.println(e.getKeyCode());
+		if(e.getKeyCode() == 38) {
+			player.moveUp();
+		} else if (e.getKeyCode() == 40) {
+			player.moveDown();
+		} else if (e.getKeyCode() == 37) {
+			player.moveLeft();
+		} else if (e.getKeyCode() == 39) {
+			player.moveRight();
+		}
 		
 	}
 

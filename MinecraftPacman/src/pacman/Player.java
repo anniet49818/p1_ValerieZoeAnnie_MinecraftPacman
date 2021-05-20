@@ -18,6 +18,7 @@ public class Player {
 		
 		private Image chicken; // image of the player
 		private Image img;
+		private int step =50;
 
 		public Player() {
 			// assignment statements for attributes
@@ -66,7 +67,6 @@ public class Player {
 
 		}
 
-		
 		
 		private AffineTransform tx = AffineTransform.getTranslateInstance(x, y);
 
@@ -147,6 +147,25 @@ public class Player {
 		
 		public void setWidth(int width) {
 			this.width = width;
+		}
+		public void moveUp() {
+			y -= step;
+			tx.setToTranslation(x, y);
+		}
+		
+		public void moveDown() {
+			y += step;
+			tx.setToTranslation(x, y);
+		}
+		
+		public void moveRight() {
+			x += step;
+			tx.setToTranslation(x, y);
+		}
+		
+		public void moveLeft() {
+			x -= step;
+			tx.setToTranslation(x, y);
 		}
 		
 		/* Helper function for collision detection later */

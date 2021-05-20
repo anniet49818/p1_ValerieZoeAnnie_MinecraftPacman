@@ -13,9 +13,10 @@ public class Ghost {
 	private int x, y; // Position of background
 	private int width; // the size of player
 	private int height;
-	
+	private int vx, vy;
 	private Image ghost; // image of the player
 	private Image img;
+	private int step = 50;
 	
 	public Ghost() {
 		// assignment statements for attributes
@@ -23,6 +24,8 @@ public class Ghost {
 		y = 300;
 		width = 50;
 		height = 50;
+		vx = 0;
+		vy = 0;
 		ghost = getImage("yellowghast.png");
 		img = ghost;
 		init(x, y); //call init every time x, y of image is being set
@@ -103,6 +106,41 @@ public class Ghost {
 	public void setWidth(int width) {
 		this.width = width;
 	}
+	public void move() {
+		x += vx;
+		y += vy;
+		tx.setToTranslation(x, y); //image must be moved according to x, y updates
+	}
+
+	public void moveUp() {
+		y -= step;
+		tx.setToTranslation(x, y);
+	}
+	
+	public void moveDown() {
+		y += step;
+		tx.setToTranslation(x, y);
+	}
+	
+	public void moveRight() {
+		x += step;
+		tx.setToTranslation(x, y);
+	}
+	
+	public void moveLeft() {
+		x -= step;
+		tx.setToTranslation(x, y);
+	}
+	
+	public void setVx(int vx) {
+		this.vx = vx;
+	}
+	/* Helper function for collision detection later */
+	public Rectangle getRect() {
+		Rectangle temp = new Rectangle(x + 5,y + 5,width,height);
+		return temp;
+	}
+
 	
 	
 }
