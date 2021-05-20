@@ -104,7 +104,15 @@ public class ImmuneGhost {
 		this.width = width;
 	}
 	
-	
+	public Rectangle getRect() {
+		Rectangle temp = new Rectangle(x,y,width,height);
+		return temp;
+	}
+	public boolean hitPlayer(Player p) {
+		Rectangle temp = this.getRect();
+		Rectangle player = p.getRect();
+		return temp.intersects(player);
+	}
 
 
 }
