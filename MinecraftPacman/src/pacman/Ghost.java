@@ -152,7 +152,7 @@ public class Ghost {
 	}
 	/* Helper function for collision detection later */
 	public Rectangle getRect() {
-		Rectangle temp = new Rectangle(x + 5,y + 5,width,height);
+		Rectangle temp = new Rectangle(x + 10,y,width,height);
 		return temp;
 	}
 	public boolean hitPlayer(Player p) {
