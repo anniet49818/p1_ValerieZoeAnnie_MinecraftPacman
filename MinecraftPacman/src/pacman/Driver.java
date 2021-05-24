@@ -27,6 +27,8 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 	//handles drawing animation
 	Timer animationTimer; //different
 	
+	int numImCoins = (int)Math.random()*3 + 1;
+	
 	Background background;
 	Player player;
 	Walls[] upperWalls = new Walls[12];
@@ -47,9 +49,11 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 	Walls[] barrier13 = new Walls[3];
 	Walls[] barrier14 = new Walls[3];
 	Walls[] barrier15 = new Walls[2];
-	Coin coin;
-	Fruit fruit;
-	ImmunityCoin immuneCoin;
+	RegCoin[] coins1 = new RegCoin[3];
+	Fruit fruit1;
+	Fruit fruit2;
+	ImmunityCoin[] immuneCoins = new ImmunityCoin[numImCoins];
+	
 	Ghost ghost;
 	
 	public void paint(Graphics g) {
@@ -59,9 +63,8 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 		
 		background.paint(g);
 		player.paint(g);
-		coin.paint(g);
-		fruit.paint(g);
-		immuneCoin.paint(g);
+		fruit1.paint(g);
+		fruit2.paint(g);
 		ghost.paint(g);
 		barrier1.paint(g);
 		barrier3.paint(g);
@@ -115,6 +118,12 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 		for(Walls temp: barrier15) {
 			temp.paint(g);
 		}
+		for(RegCoin temp: coins1) {
+			temp.paint(g);
+		}
+		for(ImmunityCoin temp: immuneCoins) {
+			temp.paint(g);
+		}
 		
 	}
 	
@@ -126,12 +135,21 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 		
 		background = new Background();
 		player = new Player();
-		coin = new Coin();
-		fruit = new Fruit();
-		immuneCoin = new ImmunityCoin();
+		fruit1 = new Fruit();
+		fruit2 = new Fruit(450, 550);
+		/*immuneCoin1 = new ImmunityCoin(100, 50);
+		immuneCoin2 = new ImmunityCoin(500, 250);
+		immuneCoin3 = new ImmunityCoin(200, 500);*/
 		ghost = new Ghost();
 		barrier1 = new Walls(100, 100);
 		barrier3 = new Walls(500,100);
+		
+		for(int i = 0; i < immuneCoins.length; i++) {
+			int x = (int)Math.random()*12 + 1;
+			int y = (int)Math.random()*12 + 1;
+			immuneCoins[i] = new ImmunityCoin(x*50, y*50);
+			//if(immuneCoins[i].getX())
+		}
 		
 		for(int i = 0; i < upperWalls.length; i++) {
 			upperWalls[i] = new Walls();
@@ -198,6 +216,11 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 			barrier15[i] = new Walls(300,450);
 			barrier15[i].setY(450 + 50*i);
 		}
+		for(int i = 0; i < coins1.length; i++) {
+			coins1[i] = new RegCoin(67,67);
+			coins1[i].setY(67 + 50*i);
+		}
+
 	
 		//set default action for x button
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
