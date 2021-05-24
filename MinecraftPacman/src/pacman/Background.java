@@ -19,7 +19,7 @@ public class Background {
 	
 	public Background() {
 		// assignment statements for attributes
-		x = 0;
+		x = 50;
 		y = 0;
 		width = 600;
 		height = 700;
@@ -30,7 +30,7 @@ public class Background {
 	}
 	
 	/* if filename is provided */
-	public Background(String fileName, int x, int y, int vx) {
+	public Background(String fileName, int x, int y) {
 		// assignment statements for attributes
 		this.x = x;
 		this.y = y;
