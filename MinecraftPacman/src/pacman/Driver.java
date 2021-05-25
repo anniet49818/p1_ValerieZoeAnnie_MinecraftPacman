@@ -27,7 +27,7 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 	//handles drawing animation
 	Timer animationTimer; //different
 	
-	int numImCoins = (int)Math.random()*3 + 1;
+	int numImCoins = (int)(Math.random()*4) + 2;
 	
 	Background background;
 	Player player;
@@ -49,12 +49,14 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 	Walls[] barrier13 = new Walls[3];
 	Walls[] barrier14 = new Walls[3];
 	Walls[] barrier15 = new Walls[2];
-	RegCoin[] coins1 = new RegCoin[3];
+	RegCoin[][] coins = new RegCoin[13][11];
 	Fruit fruit1;
 	Fruit fruit2;
 	ImmunityCoin[] immuneCoins = new ImmunityCoin[numImCoins];
-	
-	Ghost ghost;
+	Ghost yellowGhost;
+	Ghost blueGhost;
+	Ghost pinkGhost;
+	Ghost redGhost;
 	
 	public void paint(Graphics g) {
 		super.paintComponent(g);
@@ -62,14 +64,27 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 		
 		
 		background.paint(g);
+		for(RegCoin[] temp: coins) {
+			for(RegCoin temp1: temp) {
+				temp1.paint(g);
+			}
+		}
 		player.paint(g);
 		fruit1.paint(g);
 		fruit2.paint(g);
-		ghost.paint(g);
 		barrier1.paint(g);
 		barrier3.paint(g);
-		g.drawRect(250, 300, 150, 100);
 		
+		for(ImmunityCoin temp: immuneCoins) {
+			temp.paint(g);
+		}
+		g.fillRect(250, 300, 150, 100);
+		g.setColor(Color.PINK);
+		g.fillRect(300, 290, 50, 20);
+		yellowGhost.paint(g);
+		blueGhost.paint(g);
+		pinkGhost.paint(g);
+		redGhost.paint(g);
 		for(Walls temp: upperWalls) {
 			temp.paint(g);
 		}
@@ -118,12 +133,7 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 		for(Walls temp: barrier15) {
 			temp.paint(g);
 		}
-		for(RegCoin temp: coins1) {
-			temp.paint(g);
-		}
-		for(ImmunityCoin temp: immuneCoins) {
-			temp.paint(g);
-		}
+		
 		
 	}
 	
@@ -132,6 +142,7 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 		f.setSize(650, 728);
 		f.setResizable(false);
 		f.addKeyListener(this);
+		System.out.println(numImCoins);
 		
 		background = new Background();
 		player = new Player();
@@ -140,14 +151,22 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 		/*immuneCoin1 = new ImmunityCoin(100, 50);
 		immuneCoin2 = new ImmunityCoin(500, 250);
 		immuneCoin3 = new ImmunityCoin(200, 500);*/
-		ghost = new Ghost();
+		yellowGhost = new Ghost("yellowminecraftghost.png", 250, 300);
+		blueGhost = new Ghost("blueminecraftghost.png", 250, 350);
+		pinkGhost = new Ghost("pinkminecraftghost.png", 350, 300);
+		redGhost = new Ghost("redminecraftghost.png", 350, 350);
 		barrier1 = new Walls(100, 100);
 		barrier3 = new Walls(500,100);
 		
 		for(int i = 0; i < immuneCoins.length; i++) {
-			int x = (int)Math.random()*12 + 1;
-			int y = (int)Math.random()*12 + 1;
+			int x = 200;
+			int y = 200;
+			while((x == 200 && y == 200) || (x == 450 && y == 550) || (x > 250 && x < 400 && y > 300 && y < 400)) {
+				x = (int)(Math.random()*12) + 1;
+				y = (int)(Math.random()*13) + 1;
+			}
 			immuneCoins[i] = new ImmunityCoin(x*50, y*50);
+			
 			//if(immuneCoins[i].getX())
 		}
 		
@@ -216,10 +235,18 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 			barrier15[i] = new Walls(300,450);
 			barrier15[i].setY(450 + 50*i);
 		}
-		for(int i = 0; i < coins1.length; i++) {
-			coins1[i] = new RegCoin(67,67);
-			coins1[i].setY(67 + 50*i);
+		/*for(int i = 0; i < coins.length; i++) {
+			coins[i] = new RegCoin(67,67);
+			coins[i].setY(67 + 50*i);
+		}*/
+		for(int row = 0; row < coins.length; row++) {
+			for(int col = 0; col < coins[0].length; col++) {
+				coins[row][col] = new RegCoin(67, 67);
+				coins[row][col].setX(67 + 50*col);
+				coins[row][col].setY(67 + 50*row);
+			}
 		}
+		
 
 	
 		//set default action for x button
@@ -286,7 +313,19 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+		//System.out.println(e.getKeyCode());
+		if(e.getKeyCode() == 38) {
+			player.moveUp();
+		} 
+		else if (e.getKeyCode() == 40) {
+			player.moveDown();
+		} 
+		else if (e.getKeyCode() == 37) {
+			player.moveLeft();
+		} 
+		else if (e.getKeyCode() == 39) {
+			player.moveRight();
+		}
 	}
 
 	@Override
