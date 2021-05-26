@@ -29,13 +29,14 @@ public class ImmunityCoin {
 	}
 	
 	/* if filename is provided */
-	public ImmunityCoin(String fileName, int x, int y, int vx) {
+	public ImmunityCoin(int x, int y) {
 		// assignment statements for attributes
 		this.x = x;
 		this.y = y;
 		width = 50;
 		height = 50;
-		img = getImage(fileName);
+		imCoin = getImage("immunitycoin.png");
+		img = imCoin;
 		init(x, y);
 
 	}

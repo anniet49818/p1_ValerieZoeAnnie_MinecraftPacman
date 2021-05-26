@@ -29,13 +29,14 @@ public class RegCoin extends Coin {
 	}
 	
 	/* if filename is provided */
-	public RegCoin(String fileName, int x, int y, int vx) {
+	public RegCoin(int x, int y) {
 		// assignment statements for attributes
 		this.x = x;
 		this.y = y;
 		width = 50;
 		height = 50;
-		img = getImage(fileName);
+		coin = getImage("minecraftcoin.png");
+		img = coin;
 		init(x, y);
 
 	}

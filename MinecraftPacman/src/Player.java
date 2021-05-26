@@ -1,5 +1,3 @@
-
-
 import java.awt.Graphics;
 
 import java.awt.Graphics2D;
@@ -18,7 +16,7 @@ public class Player {
 		
 		private Image chicken; // image of the player
 		private Image img;
-		private int step =50;
+		private int step = 50;
 
 		public Player() {
 			// assignment statements for attributes
@@ -67,6 +65,7 @@ public class Player {
 
 		}
 
+		
 		
 		private AffineTransform tx = AffineTransform.getTranslateInstance(x, y);
 
@@ -148,24 +147,31 @@ public class Player {
 		public void setWidth(int width) {
 			this.width = width;
 		}
+		
 		public void moveUp() {
 			y -= step;
 			tx.setToTranslation(x, y);
+			img = getImage("forwardminecraftchicken.png");
+			
+			
 		}
 		
 		public void moveDown() {
 			y += step;
 			tx.setToTranslation(x, y);
+			img = getImage("backwardsminecraftchicken.png");
 		}
 		
 		public void moveRight() {
 			x += step;
 			tx.setToTranslation(x, y);
+			img = getImage("rightminecraftchicken.png");
 		}
 		
 		public void moveLeft() {
 			x -= step;
 			tx.setToTranslation(x, y);
+			img = getImage("leftminecraftchicken.png");
 		}
 		
 		/* Helper function for collision detection later */

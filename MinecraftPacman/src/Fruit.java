@@ -29,13 +29,14 @@ public class Fruit extends Coin {
 	}
 	
 	/* if filename is provided */
-	public Fruit(String fileName, int x, int y, int vx) {
+	public Fruit(int x, int y) {
 		// assignment statements for attributes
 		this.x = x;
 		this.y = y;
 		width = 50;
 		height = 50;
-		img = getImage(fileName);
+		fruit = getImage("minecraftapple.png");
+		img = fruit;
 		init(x, y);
 
 	}

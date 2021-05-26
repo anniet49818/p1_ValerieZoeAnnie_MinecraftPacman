@@ -114,5 +114,17 @@ public class Walls {
 		this.width = width;
 	}
 	
+	/* Helper function for collision detection later */
+	public Rectangle getRect() {
+		Rectangle temp = new Rectangle(x ,y,width,height);
+		return temp;
+	}
+	public boolean hitPlayer(Player p) {
+		Rectangle temp = this.getRect();
+		Rectangle player = new Rectangle(p.getX(),p.getY(),p.getWidth(),p.getHeight());
+		return temp.intersects(player);
+	}
+	
 	
 }
+

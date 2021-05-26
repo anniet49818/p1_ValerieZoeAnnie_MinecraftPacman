@@ -17,6 +17,10 @@ import javax.swing.Timer;
 public class Driver extends JPanel implements ActionListener, KeyListener, MouseListener{
 	//handles drawing animation
 	Timer animationTimer;
+	
+	int numImCoins = (int)(Math.random()*4) + 2;
+	
+	
 	Background background;
 	Player player;
 	
@@ -39,11 +43,14 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 	Walls[] barrier13 = new Walls[3];
 	Walls[] barrier14 = new Walls[3];
 	Walls[] barrier15 = new Walls[2];
-	Coin coin;
-	Fruit fruit;
-	ImmunityCoin immuneCoin;
-	Ghost ghost;
-	
+	RegCoin[][] coins = new RegCoin[13][11];
+	Fruit fruit1;
+	Fruit fruit2;
+	ImmunityCoin[] immuneCoins = new ImmunityCoin[numImCoins];
+	Ghost yellowGhost;
+	Ghost blueGhost;
+	Ghost pinkGhost;
+	Ghost redGhost;
 	
 	
 	Font big = new Font("Courier New", 1, 50);
@@ -61,15 +68,27 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		g.drawString("Press Space to Start", 220, 300);
 		
 		
+		for(RegCoin[] temp: coins) {
+			for(RegCoin temp1: temp) {
+				temp1.paint(g);
+			}
+		}
 		player.paint(g);
-		coin.paint(g);
-		fruit.paint(g);
-		immuneCoin.paint(g);
-		ghost.paint(g);
+		fruit1.paint(g);
+		fruit2.paint(g);
 		barrier1.paint(g);
 		barrier3.paint(g);
-		g.drawRect(250, 300, 150, 100);
 		
+		for(ImmunityCoin temp: immuneCoins) {
+			temp.paint(g);
+		}
+		g.fillRect(250, 300, 150, 100);
+		g.setColor(Color.PINK);
+		g.fillRect(300, 290, 50, 20);
+		yellowGhost.paint(g);
+		blueGhost.paint(g);
+		pinkGhost.paint(g);
+		redGhost.paint(g);
 		for(Walls temp: upperWalls) {
 			temp.paint(g);
 		}
@@ -139,13 +158,29 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		
 		background = new Background("startScreen.png", 0, 0);
 		player = new Player();
-		coin = new Coin();
-		fruit = new Fruit();
-		immuneCoin = new ImmunityCoin();
-		ghost = new Ghost();
+		fruit1 = new Fruit();
+		fruit2 = new Fruit(450, 550);
+		/*immuneCoin1 = new ImmunityCoin(100, 50);
+		immuneCoin2 = new ImmunityCoin(500, 250);
+		immuneCoin3 = new ImmunityCoin(200, 500);*/
+		yellowGhost = new Ghost("yellowminecraftghost.png", 250, 300);
+		blueGhost = new Ghost("blueminecraftghost.png", 250, 350);
+		pinkGhost = new Ghost("pinkminecraftghost.png", 350, 300);
+		redGhost = new Ghost("redminecraftghost.png", 350, 350);
 		barrier1 = new Walls(100, 100);
 		barrier3 = new Walls(500,100);
 		
+		for(int i = 0; i < immuneCoins.length; i++) {
+			int x = 200;
+			int y = 200;
+			while((x == 200 && y == 200) || (x == 450 && y == 550) || (x > 250 && x < 400 && y > 300 && y < 400)) {
+				x = (int)(Math.random()*12) + 1;
+				y = (int)(Math.random()*13) + 1;
+			}
+			immuneCoins[i] = new ImmunityCoin(x*50, y*50);
+			
+			//if(immuneCoins[i].getX())
+		}
 		
 		for(int i = 0; i < upperWalls.length; i++) {
 			upperWalls[i] = new Walls();
@@ -212,7 +247,17 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 			barrier15[i] = new Walls(300,450);
 			barrier15[i].setY(450 + 50*i);
 		}
-		
+		/*for(int i = 0; i < coins.length; i++) {
+			coins[i] = new RegCoin(67,67);
+			coins[i].setY(67 + 50*i);
+		}*/
+		for(int row = 0; row < coins.length; row++) {
+			for(int col = 0; col < coins[0].length; col++) {
+				coins[row][col] = new RegCoin(67, 67);
+				coins[row][col].setX(67 + 50*col);
+				coins[row][col].setY(67 + 50*row);
+			}
+		}
 		
 		
 		//setup animation timer
