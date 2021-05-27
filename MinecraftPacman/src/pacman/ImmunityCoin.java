@@ -67,6 +67,16 @@ public class ImmunityCoin {
 		}
 		return tempImage;
 	}
+	
+	public Rectangle getRect() {
+		Rectangle temp = new Rectangle(x+10,y+10,width-20,height-20);
+		return temp;
+	}
+	public boolean hitPlayer(Player p) {
+		Rectangle temp = this.getRect();
+		Rectangle player = new Rectangle(p.getX(),p.getY(),p.getWidth(),p.getHeight());
+		return temp.intersects(player);
+	}
 
 	// setters and getters
 

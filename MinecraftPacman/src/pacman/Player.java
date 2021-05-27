@@ -153,21 +153,25 @@ public class Player {
 		public void moveUp() {
 			y -= step;
 			tx.setToTranslation(x, y);
+			img = getImage("forwardminecraftchicken.png");
 		}
 		
 		public void moveDown() {
 			y += step;
 			tx.setToTranslation(x, y);
+			img = getImage("backwardsminecraftchicken.png");
 		}
 		
 		public void moveRight() {
 			x += step;
 			tx.setToTranslation(x, y);
+			img = getImage("rightminecraftchicken.png");
 		}
 		
 		public void moveLeft() {
 			x -= step;
 			tx.setToTranslation(x, y);
+			img = getImage("leftminecraftchicken.png");
 		}
 		
 		/* Helper function for collision detection later */

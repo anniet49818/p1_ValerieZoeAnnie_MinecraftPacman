@@ -30,7 +30,7 @@ public class Coin {
 	}
 	
 	/* if filename is provided */
-	public Coin(String fileName, int x, int y, int vx) {
+	public Coin(String fileName, int x, int y) {
 		// assignment statements for attributes
 		this.x = x;
 		this.y = y;

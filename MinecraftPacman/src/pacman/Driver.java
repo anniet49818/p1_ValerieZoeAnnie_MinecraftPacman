@@ -29,8 +29,13 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 	
 	int numImCoins = (int)(Math.random()*4) + 2;
 	
+	
 	Background background;
+	Background background2;
 	Player player;
+	
+	int score = 0;
+	
 	Walls[] upperWalls = new Walls[12];
 	Walls[] rightWalls = new Walls[14];
 	Walls[] leftWalls = new Walls[14];
@@ -58,15 +63,19 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 	Ghost pinkGhost;
 	Ghost redGhost;
 	
+	Font big = new Font("Courier New", 1, 50);
+	Font font2 = new Font("Courier New", 1, 30);
+	Font biggest = new Font("Courier New", 1, 80);
+	
 	public void paint(Graphics g) {
 		super.paintComponent(g);
 		//g.fillOval(0, 0, 200, 200);
 		
 		
-		background.paint(g);
+		background2.paint(g);
 		for(RegCoin[] temp: coins) {
 			for(RegCoin temp1: temp) {
-				temp1.paint(g);
+				temp1.paint(g);;
 			}
 		}
 		player.paint(g);
@@ -134,6 +143,90 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 			temp.paint(g);
 		}
 		
+		g.setColor(Color.white);
+		g.setFont(font2);
+
+		g.drawString("Score: " + score, 20, 30);
+		
+		background.paint(g);
+		g.setColor(Color.gray);
+		g.fillRect(200, 270, 400, 50);
+		g.setColor(Color.white);
+		g.setFont(font2);
+		g.drawString("Press Space to Start", 220, 300);
+		
+		for (int row = 0; row < coins.length; row++) {
+			for (int col = 0; col < coins[0].length; col++) {
+				if (coins[row][col].hitPlayer(player)) {
+					//score += 1;
+				}
+			}
+		}
+		
+		for (int row = 0; row < coins.length; row++) {
+			for (int col = 0; col < coins[0].length; col++) {
+				if (coins[row][col].hitPlayer(player)) {
+					//score += 10;
+				}
+			}
+		}
+		
+		for (int i = 0; i < immuneCoins.length; i++) {
+			if (immuneCoins[i].hitPlayer(player)) {
+				//score += 40;
+			}
+		}
+		
+		
+		if(yellowGhost.hitPlayer(player)) {
+			player.reset();
+		}
+		
+		if(pinkGhost.hitPlayer(player)) {
+			player.reset();
+		}
+		
+		if(blueGhost.hitPlayer(player)) {
+			player.reset();
+		}
+		
+		if(redGhost.hitPlayer(player)) {
+			player.reset();
+		}
+		if ( player.getY() > 650) {
+			player.setY(650);
+		}
+		if (player.getY() < 50) {
+			player.setY(50);
+		}
+		if (player.getX() > 550) {
+			player.setX(550);
+		}
+		if (player.getX() < 50) {
+			player.setX(500);
+		}
+		
+		
+		
+		//long top middle 
+		for(Walls two: barrier2) {
+			
+			if(two.hitPlayer(player)) {
+				
+				if(player.getY()<= 100) {
+					player.setY(player.getY()+50);
+				}
+				
+				
+				
+				
+			}
+		}
+		
+		
+		
+		
+		//g.fillOval(0, 0, 200, 200);
 		
 	}
 	
@@ -142,9 +235,9 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 		f.setSize(650, 728);
 		f.setResizable(false);
 		f.addKeyListener(this);
-		System.out.println(numImCoins);
 		
-		background = new Background();
+		background = new Background("startScreen.png", 0,0);
+		background2 = new Background("background.png",0,0);
 		player = new Player();
 		fruit1 = new Fruit();
 		fruit2 = new Fruit(450, 550);
@@ -246,6 +339,9 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 				coins[row][col].setY(67 + 50*row);
 			}
 		}
+	
+	
+		
 		
 
 	
@@ -263,6 +359,10 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 		
 		
 	}
+	
+	public void update() {
+		
+	}
 
 	
 	//this method is invoked/called by the timer
@@ -271,6 +371,7 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 		// TODO Auto-generated method stub
 		
 		//call the frame to refresh
+		update();
 		repaint();
 	}
 
@@ -325,6 +426,12 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 		} 
 		else if (e.getKeyCode() == 39) {
 			player.moveRight();
+		}
+		if(e.getKeyCode() == 32) {
+			background.hide();
+			
+			//setImg("background.png");
+			
 		}
 	}
 

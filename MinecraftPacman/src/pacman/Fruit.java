@@ -69,6 +69,16 @@ public class Fruit extends Coin {
 	}
 
 	// setters and getters
+	
+	public Rectangle getRect() {
+		Rectangle temp = new Rectangle(x+10,y+10,width-20,height-20);
+		return temp;
+	}
+	public boolean hitPlayer(Player p) {
+		Rectangle temp = this.getRect();
+		Rectangle player = new Rectangle(p.getX(),p.getY(),p.getWidth(),p.getHeight());
+		return temp.intersects(player);
+	}
 
 
 	public int getX() {
