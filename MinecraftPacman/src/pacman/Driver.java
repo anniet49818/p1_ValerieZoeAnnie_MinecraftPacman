@@ -1,35 +1,29 @@
 package pacman;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.Vector;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-//import frog.Squirrel;
 
-import java.awt.image.*;
-import java.awt.geom.AffineTransform;
 
-public class Driver extends JPanel implements ActionListener,KeyListener,MouseListener{
-	
-	
+public class Driver extends JPanel implements ActionListener, KeyListener, MouseListener{
 	//handles drawing animation
-	Timer animationTimer; //different
-	
+	Timer animationTimer;
+	int numImCoins = (int)(Math.random()*4) + 2;
 	Background background;
+	Background background2;
+	int score = 0;
 	Player player;
 	Walls[] upperWalls = new Walls[12];
 	Walls[] rightWalls = new Walls[14];
@@ -49,10 +43,14 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 	Walls[] barrier13 = new Walls[3];
 	Walls[] barrier14 = new Walls[3];
 	Walls[] barrier15 = new Walls[2];
-	Coin coin;
-	Fruit fruit;
-	ImmunityCoin immuneCoin;
-	Ghost ghost;
+	RegCoin[][] coins = new RegCoin[13][11];
+	Fruit fruit1;
+	Fruit fruit2;
+	ImmunityCoin[] immuneCoins = new ImmunityCoin[numImCoins];
+	Ghost yellowGhost;
+	Ghost blueGhost;
+	Ghost pinkGhost;
+	Ghost redGhost;
 	
 	public void paint(Graphics g) {
 		super.paintComponent(g);
@@ -60,14 +58,26 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 		
 		
 		background.paint(g);
+		for(RegCoin[] temp: coins) {
+			for(RegCoin temp1: temp) {
+				temp1.paint(g);
+			}
+		}
 		player.paint(g);
-		coin.paint(g);
-		fruit.paint(g);
-		immuneCoin.paint(g);
-		ghost.paint(g);
+		fruit1.paint(g);
+		fruit2.paint(g);
 		barrier1.paint(g);
 		barrier3.paint(g);
-		g.drawRect(250, 300, 150, 100);
+		for(ImmunityCoin temp: immuneCoins) {
+			temp.paint(g);
+		}
+		g.fillRect(250, 300, 150, 100);
+		g.setColor(Color.PINK);
+		g.fillRect(300, 290, 50, 20);
+		yellowGhost.paint(g);
+		blueGhost.paint(g);
+		pinkGhost.paint(g);
+		redGhost.paint(g);
 		
 		for(Walls temp: upperWalls) {
 			temp.paint(g);
@@ -117,7 +127,48 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 		for(Walls temp: barrier15) {
 			temp.paint(g);
 		}
-		if(ghost.hitPlayer(player)) {
+		g.setColor(Color.white);
+		g.setFont(font2);
+		g.drawString("Score: " + score, 20, 30);
+		
+		background.paint(g);
+		g.setColor(Color.gray);
+		g.fillRect(200, 270, 400, 50);
+		g.setColor(Color.white);
+		g.setFont(font2);
+		g.drawString("Press Space to Start", 220, 300);
+		for (int row = 0; row < coins.length; row++) {
+			for (int col = 0; col < coins[0].length; col++) {
+				if (coins[row][col].hitPlayer(player)) {
+					score += 1;
+				}
+			}
+		}
+		
+		for (int row = 0; row < coins.length; row++) {
+			for (int col = 0; col < coins[0].length; col++) {
+				if (coins[row][col].hitPlayer(player)) {
+					score += 10;
+				}
+			}
+		}
+		
+		for (int i = 0; i < immuneCoins.length; i++) {
+			if (immuneCoins[i].hitPlayer(player)) {
+				score += 40;
+			}
+		}
+		
+		if(yellowGhost.hitPlayer(player)) {
+			player.reset();
+		}
+		if(blueGhost.hitPlayer(player)) {
+			player.reset();
+		}
+		if(pinkGhost.hitPlayer(player)) {
+			player.reset();
+		}
+		if(redGhost.hitPlayer(player)) {
 			player.reset();
 		}
 		if ( player.getY() > 650) {
@@ -141,16 +192,32 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 		f.setSize(650, 728);
 		f.setResizable(false);
 		f.addKeyListener(this);
+		System.out.println(numImCoins);
 		
 		background = new Background();
 		player = new Player();
-		coin = new Coin();
-		fruit = new Fruit();
-		immuneCoin = new ImmunityCoin();
-		ghost = new Ghost();
+		fruit1 = new Fruit();
+		fruit2 = new Fruit(450, 550);
+		/*immuneCoin1 = new ImmunityCoin(100, 50);
+		immuneCoin2 = new ImmunityCoin(500, 250);
+		immuneCoin3 = new ImmunityCoin(200, 500);*/
+		yellowGhost = new Ghost("minecraftghast.png", 250, 300);
+		blueGhost = new Ghost("blueminecraftghost.png", 250, 350);
+		pinkGhost = new Ghost("pinkminecraftghost.png", 350, 300);
+		redGhost = new Ghost("redminecraftghost.png", 350, 350);
 		barrier1 = new Walls(100, 100);
 		barrier3 = new Walls(500,100);
-		
+		for(int i = 0; i < immuneCoins.length; i++) {
+			int x = 200;
+			int y = 200;
+			while((x == 200 && y == 200) || (x == 450 && y == 550) || (x > 250 && x < 400 && y > 300 && y < 400)) {
+				x = (int)(Math.random()*12) + 1;
+				y = (int)(Math.random()*13) + 1;
+			}
+			immuneCoins[i] = new ImmunityCoin(x*50, y*50);
+			
+			//if(immuneCoins[i].getX())
+		}
 		for(int i = 0; i < upperWalls.length; i++) {
 			upperWalls[i] = new Walls();
 			upperWalls[i].setX(50*i);
@@ -216,6 +283,13 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 			barrier15[i] = new Walls(300,450);
 			barrier15[i].setY(450 + 50*i);
 		}
+		for(int row = 0; row < coins.length; row++) {
+			for(int col = 0; col < coins[0].length; col++) {
+				coins[row][col] = new RegCoin(67, 67);
+				coins[row][col].setX(67 + 50*col);
+				coins[row][col].setY(67 + 50*row);
+			}
+		}
 	
 		//set default action for x button
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -231,6 +305,9 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 		
 		
 	}
+	public void update() {
+
+	}
 
 	
 	//this method is invoked/called by the timer
@@ -239,6 +316,7 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 		// TODO Auto-generated method stub
 		
 		//call the frame to refresh
+		//update();
 		repaint();
 	}
 
@@ -280,6 +358,13 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode() == 32) {
+			background.hide();
+			
+			//setImg("background.png");
+			
+		}
+		
 		//froggy.methodHop();
 		System.out.println(e.getKeyCode());
 		if(e.getKeyCode() == 38) {
