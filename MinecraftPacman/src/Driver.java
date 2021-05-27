@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -49,7 +50,7 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 	RegCoin[][] coins = new RegCoin[13][11];
 	Fruit fruit1;
 	Fruit fruit2;
-	ImmunityCoin[] immuneCoins = new ImmunityCoin[numImCoins];
+	ArrayList<ImmunityCoin> immuneCoins = new ArrayList<ImmunityCoin>();
 	Ghost yellowGhost;
 	Ghost blueGhost;
 	Ghost pinkGhost;
@@ -148,26 +149,18 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		g.drawString("Press Space to Start", 220, 300);
 		
 		
-		
 		for (int row = 0; row < coins.length; row++) {
 			for (int col = 0; col < coins[0].length; col++) {
 				if (coins[row][col].hitPlayer(player)) {
-					score += 1;
+					//score += 10;
 				}
 			}
 		}
 		
-		for (int row = 0; row < coins.length; row++) {
-			for (int col = 0; col < coins[0].length; col++) {
-				if (coins[row][col].hitPlayer(player)) {
-					score += 10;
-				}
-			}
-		}
-		
-		for (int i = 0; i < immuneCoins.length; i++) {
-			if (immuneCoins[i].hitPlayer(player)) {
+		for (int i = 0; i < immuneCoins.size(); i++) {
+			if (immuneCoins.get(i).hitPlayer(player)) {
 				score += 40;
+				immuneCoins.remove(i);
 			}
 		}
 		
@@ -252,14 +245,14 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		barrier1 = new Walls(100, 100);
 		barrier3 = new Walls(500,100);
 		
-		for(int i = 0; i < immuneCoins.length; i++) {
+		for(int i = 0; i < numImCoins; i++) {
 			int x = 200;
 			int y = 200;
 			while((x == 200 && y == 200) || (x == 450 && y == 550) || (x > 250 && x < 400 && y > 300 && y < 400)) {
 				x = (int)(Math.random()*12) + 1;
 				y = (int)(Math.random()*13) + 1;
 			}
-			immuneCoins[i] = new ImmunityCoin(x*50, y*50);
+			immuneCoins.add(new ImmunityCoin(x*50, y*50));
 			
 			//if(immuneCoins[i].getX())
 		}
@@ -388,10 +381,224 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		}
 		if(e.getKeyCode() == 32) {
 			background.hide();
-			
 			//setImg("background.png");
-			
 		}
+		
+		
+		
+		for(Walls two: barrier2) {
+			if(two.hitPlayer(player) && e.getKeyCode() == 39) {
+				player.moveLeft();
+			}
+			if(two.hitPlayer(player) && e.getKeyCode() == 40) {
+				player.moveUp();
+		}
+			if(two.hitPlayer(player) && e.getKeyCode() == 38) {
+				player.moveDown();
+			}
+			if(two.hitPlayer(player) && e.getKeyCode() == 37) {
+				player.moveRight();
+			}
+		}
+		for(Walls four: barrier4) {
+			if(four.hitPlayer(player) && e.getKeyCode() == 39) {
+				player.moveLeft();
+			}
+			if(four.hitPlayer(player) && e.getKeyCode() == 40) {
+				player.moveUp();
+		}
+			if(four.hitPlayer(player) && e.getKeyCode() == 38) {
+				player.moveDown();
+			}
+			if(four.hitPlayer(player) && e.getKeyCode() == 37) {
+				player.moveRight();
+			}
+		}
+		for(Walls five: barrier5) {
+			if(five.hitPlayer(player) && e.getKeyCode() == 39) {
+				player.moveLeft();
+			}
+			if(five.hitPlayer(player) && e.getKeyCode() == 40) {
+				player.moveUp();
+		}
+			if(five.hitPlayer(player) && e.getKeyCode() == 38) {
+				player.moveDown();
+			}
+			if(five.hitPlayer(player) && e.getKeyCode() == 37) {
+				player.moveRight();
+			}
+		}
+		for(Walls six: barrier6) {
+			if(six.hitPlayer(player) && e.getKeyCode() == 39) {
+				player.moveLeft();
+			}
+			if(six.hitPlayer(player) && e.getKeyCode() == 40) {
+				player.moveUp();
+		}
+			if(six.hitPlayer(player) && e.getKeyCode() == 38) {
+				player.moveDown();
+			}
+			if(six.hitPlayer(player) && e.getKeyCode() == 37) {
+				player.moveRight();
+			}
+		}
+		for(Walls seven: barrier7) {
+			if(seven.hitPlayer(player) && e.getKeyCode() == 39) {
+				player.moveLeft();
+			}
+			if(seven.hitPlayer(player) && e.getKeyCode() == 40) {
+				player.moveUp();
+		}
+			if(seven.hitPlayer(player) && e.getKeyCode() == 38) {
+				player.moveDown();
+			}
+			if(seven.hitPlayer(player) && e.getKeyCode() == 37) {
+				player.moveRight();
+			}
+		}
+		for(Walls eight: barrier8) {
+			if(eight.hitPlayer(player) && e.getKeyCode() == 39) {
+				player.moveLeft();
+			}
+			if(eight.hitPlayer(player) && e.getKeyCode() == 40) {
+				player.moveUp();
+		}
+			if(eight.hitPlayer(player) && e.getKeyCode() == 38) {
+				player.moveDown();
+			}
+			if(eight.hitPlayer(player) && e.getKeyCode() == 37) {
+				player.moveRight();
+			}
+		}
+		for(Walls nine: barrier9) {
+			if(nine.hitPlayer(player) && e.getKeyCode() == 39) {
+				player.moveLeft();
+			}
+			if(nine.hitPlayer(player) && e.getKeyCode() == 40) {
+				player.moveUp();
+		}
+			if(nine.hitPlayer(player) && e.getKeyCode() == 38) {
+				player.moveDown();
+			}
+			if(nine.hitPlayer(player) && e.getKeyCode() == 37) {
+				player.moveRight();
+			}
+		}
+		for(Walls ten: barrier10) {
+			if(ten.hitPlayer(player) && e.getKeyCode() == 39) {
+				player.moveLeft();
+			}
+			if(ten.hitPlayer(player) && e.getKeyCode() == 40) {
+				player.moveUp();
+		}
+			if(ten.hitPlayer(player) && e.getKeyCode() == 38) {
+				player.moveDown();
+			}
+			if(ten.hitPlayer(player) && e.getKeyCode() == 37) {
+				player.moveRight();
+			}
+		}
+		for(Walls eleven: barrier11) {
+			if(eleven.hitPlayer(player) && e.getKeyCode() == 39) {
+				player.moveLeft();
+			}
+			if(eleven.hitPlayer(player) && e.getKeyCode() == 40) {
+				player.moveUp();
+		}
+			if(eleven.hitPlayer(player) && e.getKeyCode() == 38) {
+				player.moveDown();
+			}
+			if(eleven.hitPlayer(player) && e.getKeyCode() == 37) {
+				player.moveRight();
+			}
+		}
+		for(Walls twelve: barrier12) {
+			if(twelve.hitPlayer(player) && e.getKeyCode() == 39) {
+				player.moveLeft();
+			}
+			if(twelve.hitPlayer(player) && e.getKeyCode() == 40) {
+				player.moveUp();
+		}
+			if(twelve.hitPlayer(player) && e.getKeyCode() == 38) {
+				player.moveDown();
+			}
+			if(twelve.hitPlayer(player) && e.getKeyCode() == 37) {
+				player.moveRight();
+			}
+		}
+		for(Walls thirteen: barrier13) {
+			if(thirteen.hitPlayer(player) && e.getKeyCode() == 39) {
+				player.moveLeft();
+			}
+			if(thirteen.hitPlayer(player) && e.getKeyCode() == 40) {
+				player.moveUp();
+		}
+			if(thirteen.hitPlayer(player) && e.getKeyCode() == 38) {
+				player.moveDown();
+			}
+			if(thirteen.hitPlayer(player) && e.getKeyCode() == 37) {
+				player.moveRight();
+			}
+		}
+		
+			
+		for(Walls fourteen: barrier14) {
+			if(fourteen.hitPlayer(player) && e.getKeyCode() == 39) {
+				player.moveLeft();
+			}
+			if(fourteen.hitPlayer(player) && e.getKeyCode() == 40) {
+				player.moveUp();
+		}
+			if(fourteen.hitPlayer(player) && e.getKeyCode() == 38) {
+				player.moveDown();
+			}
+			if(fourteen.hitPlayer(player) && e.getKeyCode() == 37) {
+				player.moveRight();
+			}
+		}
+		for(Walls fiveteen: barrier15) {
+			if(fiveteen.hitPlayer(player) && e.getKeyCode() == 39) {
+				player.moveLeft();
+			}
+			if(fiveteen.hitPlayer(player) && e.getKeyCode() == 40) {
+				player.moveUp();
+		}
+			if(fiveteen.hitPlayer(player) && e.getKeyCode() == 38) {
+				player.moveDown();
+			}
+			if(fiveteen.hitPlayer(player) && e.getKeyCode() == 37) {
+				player.moveRight();
+			}
+		}
+		
+		
+			if(barrier1.hitPlayer(player) && e.getKeyCode() == 39) {
+				player.moveLeft();
+			}
+			if(barrier1.hitPlayer(player) && e.getKeyCode() == 40) {
+				player.moveUp();
+		}
+			if(barrier1.hitPlayer(player) && e.getKeyCode() == 38) {
+				player.moveDown();
+			}
+			if(barrier1.hitPlayer(player) && e.getKeyCode() == 37) {
+				player.moveRight();
+			}
+		
+			if(barrier3.hitPlayer(player) && e.getKeyCode() == 39) {
+				player.moveLeft();
+			}
+			if(barrier3.hitPlayer(player) && e.getKeyCode() == 40) {
+				player.moveUp();
+		}
+			if(barrier3.hitPlayer(player) && e.getKeyCode() == 38) {
+				player.moveDown();
+			}
+			if(barrier3.hitPlayer(player) && e.getKeyCode() == 37) {
+				player.moveRight();
+			}
+	
+		
 		
 		
 	}
