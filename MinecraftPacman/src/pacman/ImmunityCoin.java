@@ -1,4 +1,5 @@
 package pacman;
+
 import java.awt.Graphics;
 
 import java.awt.Graphics2D;
@@ -30,13 +31,14 @@ public class ImmunityCoin {
 	}
 	
 	/* if filename is provided */
-	public ImmunityCoin(String fileName, int x, int y, int vx) {
+	public ImmunityCoin(int x, int y) {
 		// assignment statements for attributes
 		this.x = x;
 		this.y = y;
 		width = 50;
 		height = 50;
-		img = getImage(fileName);
+		imCoin = getImage("immunitycoin.png");
+		img = imCoin;
 		init(x, y);
 
 	}
@@ -67,6 +69,16 @@ public class ImmunityCoin {
 		return tempImage;
 	}
 
+	public Rectangle getRect() {
+		Rectangle temp = new Rectangle(x+10,y+10,width-20,height-20);
+		return temp;
+	}
+	public boolean hitPlayer(Player p) {
+		Rectangle temp = this.getRect();
+		Rectangle player = new Rectangle(p.getX(),p.getY(),p.getWidth(),p.getHeight());
+		return temp.intersects(player);
+	}
+	
 	// setters and getters
 
 

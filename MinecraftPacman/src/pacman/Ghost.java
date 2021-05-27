@@ -8,25 +8,16 @@ import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 import java.net.URL;
 
-
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
-import java.awt.geom.AffineTransform;
-import java.net.URL;
-
-//import frog.Rudolph;
-
 public class Ghost {
 	
 	private int x, y; // Position of background
 	private int width; // the size of player
 	private int height;
 	private int vx, vy;
+	private int step = 50;
+	
 	private Image ghost; // image of the player
 	private Image img;
-	private int step = 50;
 	
 	public Ghost() {
 		// assignment statements for attributes
@@ -36,14 +27,14 @@ public class Ghost {
 		height = 50;
 		vx = 0;
 		vy = 0;
-		ghost = getImage("yellowghast.png");
+		ghost = getImage("yellowminecraftghost.png");
 		img = ghost;
 		init(x, y); //call init every time x, y of image is being set
 
 	}
 	
 	/* if filename is provided */
-	public Ghost(String fileName, int x, int y, int vx) {
+	public Ghost(String fileName, int x, int y) {
 		// assignment statements for attributes
 		this.x = x;
 		this.y = y;
@@ -80,12 +71,12 @@ public class Ghost {
 		return tempImage;
 	}
 
+	// setters and getters
 	public void reset() {
-		x = 400;	//reset position
+		x = 400;
 		y = 610;
 		vx = 0;
 	}
-	// setters and getters
 
 
 	public int getX() {
@@ -121,6 +112,7 @@ public class Ghost {
 	public void setWidth(int width) {
 		this.width = width;
 	}
+	
 	public void move() {
 		x += vx;
 		y += vy;
@@ -160,7 +152,6 @@ public class Ghost {
 		Rectangle player = new Rectangle(p.getX(),p.getY(),p.getWidth(),p.getHeight());
 		return temp.intersects(player);
 	}
-
 	
 	
 }
