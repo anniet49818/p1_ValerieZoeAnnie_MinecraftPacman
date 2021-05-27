@@ -50,6 +50,8 @@ public class Background {
 
 		}
 		
+		
+		
 
 		
 		private AffineTransform tx = AffineTransform.getTranslateInstance(x, y);

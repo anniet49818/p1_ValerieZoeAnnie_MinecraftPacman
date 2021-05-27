@@ -22,7 +22,10 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 	
 	
 	Background background;
+	Background background2;
 	Player player;
+	
+	int score = 0;
 	
 	
 	Walls[] upperWalls = new Walls[12];
@@ -60,13 +63,8 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 	public void paint(Graphics g) {
 		super.paintComponent(g);
 		
-		background.paint(g);
-		g.setColor(Color.gray);
-		g.fillRect(200, 270, 400, 50);
-		g.setColor(Color.white);
-		g.setFont(font2);
-		g.drawString("Press Space to Start", 220, 300);
 		
+		background2.paint(g);
 		
 		for(RegCoin[] temp: coins) {
 			for(RegCoin temp1: temp) {
@@ -138,6 +136,89 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 			temp.paint(g);
 		}
 		
+		g.setColor(Color.white);
+		g.setFont(font2);
+		g.drawString("Score: " + score, 20, 30);
+		
+		background.paint(g);
+		g.setColor(Color.gray);
+		g.fillRect(200, 270, 400, 50);
+		g.setColor(Color.white);
+		g.setFont(font2);
+		g.drawString("Press Space to Start", 220, 300);
+		
+		
+		
+		for (int row = 0; row < coins.length; row++) {
+			for (int col = 0; col < coins[0].length; col++) {
+				if (coins[row][col].hitPlayer(player)) {
+					score += 1;
+				}
+			}
+		}
+		
+		for (int row = 0; row < coins.length; row++) {
+			for (int col = 0; col < coins[0].length; col++) {
+				if (coins[row][col].hitPlayer(player)) {
+					score += 10;
+				}
+			}
+		}
+		
+		for (int i = 0; i < immuneCoins.length; i++) {
+			if (immuneCoins[i].hitPlayer(player)) {
+				score += 40;
+			}
+		}
+		
+		
+		if(yellowGhost.hitPlayer(player)) {
+			player.reset();
+		}
+		
+		if(pinkGhost.hitPlayer(player)) {
+			player.reset();
+		}
+		
+		if(blueGhost.hitPlayer(player)) {
+			player.reset();
+		}
+		
+		if(redGhost.hitPlayer(player)) {
+			player.reset();
+		}
+		if ( player.getY() > 650) {
+			player.setY(650);
+		}
+		if (player.getY() < 50) {
+			player.setY(50);
+		}
+		if (player.getX() > 550) {
+			player.setX(550);
+		}
+		if (player.getX() < 50) {
+			player.setX(500);
+		}
+		
+		
+		
+		//long top middle 
+		for(Walls two: barrier2) {
+			
+			if(two.hitPlayer(player)) {
+				
+				if(player.getY()<= 100) {
+					player.setY(player.getY()+50);
+				}
+				
+				
+				
+				
+			}
+		}
+		
+		
+		
 		
 		//g.fillOval(0, 0, 200, 200);
 	}
@@ -157,6 +238,7 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		f.addKeyListener(this);
 		
 		background = new Background("startScreen.png", 0, 0);
+		background2 = new Background("background.png", 0, 0);
 		player = new Player();
 		fruit1 = new Fruit();
 		fruit2 = new Fruit(450, 550);
@@ -291,7 +373,7 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println(e.getKeyCode());
+		//System.out.println(e.getKeyCode());
 		if(e.getKeyCode() == 38){	//up
 			player.moveUp();
 		}
@@ -305,7 +387,9 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 			player.moveDown();
 		}
 		if(e.getKeyCode() == 32) {
-			background.setImg("background.png");
+			background.hide();
+			
+			//setImg("background.png");
 			
 		}
 		
