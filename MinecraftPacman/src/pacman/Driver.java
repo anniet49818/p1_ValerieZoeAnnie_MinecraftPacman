@@ -339,12 +339,7 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 				coins[row][col].setY(67 + 50*row);
 			}
 		}
-	
-	
 		
-		
-
-	
 		//set default action for x button
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//add this panel to the JFrame
