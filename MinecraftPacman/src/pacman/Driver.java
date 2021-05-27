@@ -20,11 +20,17 @@ import javax.swing.Timer;
 public class Driver extends JPanel implements ActionListener, KeyListener, MouseListener{
 	//handles drawing animation
 	Timer animationTimer;
+	
 	int numImCoins = (int)(Math.random()*4) + 2;
+	
+	
 	Background background;
 	Background background2;
-	int score = 0;
 	Player player;
+	
+	int score = 0;
+	
+	
 	Walls[] upperWalls = new Walls[12];
 	Walls[] rightWalls = new Walls[14];
 	Walls[] leftWalls = new Walls[14];
@@ -46,18 +52,23 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 	RegCoin[][] coins = new RegCoin[13][11];
 	Fruit fruit1;
 	Fruit fruit2;
-	ImmunityCoin[] immuneCoins = new ImmunityCoin[numImCoins];
+	ArrayList<ImmunityCoin> immuneCoins = new ArrayList<ImmunityCoin>();
 	Ghost yellowGhost;
 	Ghost blueGhost;
 	Ghost pinkGhost;
 	Ghost redGhost;
 	
+	
+	Font big = new Font("Courier New", 1, 50);
+	Font font2 = new Font("Courier New", 1, 30);
+	Font biggest = new Font("Courier New", 1, 80);
+	
 	public void paint(Graphics g) {
 		super.paintComponent(g);
-		//g.fillOval(0, 0, 200, 200);
 		
 		
-		background.paint(g);
+		background2.paint(g);
+		
 		for(RegCoin[] temp: coins) {
 			for(RegCoin temp1: temp) {
 				temp1.paint(g);
@@ -68,6 +79,7 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		fruit2.paint(g);
 		barrier1.paint(g);
 		barrier3.paint(g);
+		
 		for(ImmunityCoin temp: immuneCoins) {
 			temp.paint(g);
 		}
@@ -78,7 +90,6 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		blueGhost.paint(g);
 		pinkGhost.paint(g);
 		redGhost.paint(g);
-		
 		for(Walls temp: upperWalls) {
 			temp.paint(g);
 		}
@@ -127,6 +138,7 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		for(Walls temp: barrier15) {
 			temp.paint(g);
 		}
+		
 		g.setColor(Color.white);
 		g.setFont(font2);
 		g.drawString("Score: " + score, 20, 30);
@@ -137,37 +149,36 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		g.setColor(Color.white);
 		g.setFont(font2);
 		g.drawString("Press Space to Start", 220, 300);
-		for (int row = 0; row < coins.length; row++) {
-			for (int col = 0; col < coins[0].length; col++) {
-				if (coins[row][col].hitPlayer(player)) {
-					score += 1;
-				}
-			}
-		}
+		
 		
 		for (int row = 0; row < coins.length; row++) {
 			for (int col = 0; col < coins[0].length; col++) {
 				if (coins[row][col].hitPlayer(player)) {
-					score += 10;
+					//score += 10;
 				}
 			}
 		}
 		
-		for (int i = 0; i < immuneCoins.length; i++) {
-			if (immuneCoins[i].hitPlayer(player)) {
+		for (int i = 0; i < immuneCoins.size(); i++) {
+			if (immuneCoins.get(i).hitPlayer(player)) {
 				score += 40;
+				immuneCoins.remove(i);
 			}
 		}
+		
 		
 		if(yellowGhost.hitPlayer(player)) {
 			player.reset();
 		}
-		if(blueGhost.hitPlayer(player)) {
-			player.reset();
-		}
+		
 		if(pinkGhost.hitPlayer(player)) {
 			player.reset();
 		}
+		
+		if(blueGhost.hitPlayer(player)) {
+			player.reset();
+		}
+		
 		if(redGhost.hitPlayer(player)) {
 			player.reset();
 		}
@@ -181,43 +192,73 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 			player.setX(550);
 		}
 		if (player.getX() < 50) {
-			player.setX(50);
+			player.setX(500);
 		}
 		
- 	
+		
+		
+		//long top middle 
+		for(Walls two: barrier2) {
+			
+			if(two.hitPlayer(player)) {
+				
+				if(player.getY()<= 100) {
+					player.setY(player.getY()+50);
+				}
+				
+				
+				
+				
+			}
+		}
+		
+		
+		
+		
+		//g.fillOval(0, 0, 200, 200);
 	}
 	
 	public Driver () {
-		JFrame f = new JFrame("Example Drawing");
+		JFrame f = new JFrame("Minecraft Pacman");
 		f.setSize(650, 728);
 		f.setResizable(false);
-		f.addKeyListener(this);
-		System.out.println(numImCoins);
+
 		
-		background = new Background();
+		//set default action for x button
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		//add this panel to the JFrame
+		//allows connection with "drawing"
+		f.add(this);
+		f.addKeyListener(this);
+		
+		background = new Background("startScreen.png", 0, 0);
+		background2 = new Background("background.png", 0, 0);
 		player = new Player();
 		fruit1 = new Fruit();
 		fruit2 = new Fruit(450, 550);
 		/*immuneCoin1 = new ImmunityCoin(100, 50);
 		immuneCoin2 = new ImmunityCoin(500, 250);
 		immuneCoin3 = new ImmunityCoin(200, 500);*/
-		yellowGhost = new Ghost("minecraftghast.png", 250, 300);
+		yellowGhost = new Ghost("yellowminecraftghost.png", 250, 300);
 		blueGhost = new Ghost("blueminecraftghost.png", 250, 350);
 		pinkGhost = new Ghost("pinkminecraftghost.png", 350, 300);
 		redGhost = new Ghost("redminecraftghost.png", 350, 350);
 		barrier1 = new Walls(100, 100);
 		barrier3 = new Walls(500,100);
-		for(int i = 0; i < immuneCoins.length; i++) {
+		
+		for(int i = 0; i < numImCoins; i++) {
 			int x = 200;
 			int y = 200;
 			while((x == 200 && y == 200) || (x == 450 && y == 550) || (x > 250 && x < 400 && y > 300 && y < 400)) {
 				x = (int)(Math.random()*12) + 1;
 				y = (int)(Math.random()*13) + 1;
 			}
-			immuneCoins[i] = new ImmunityCoin(x*50, y*50);
+			immuneCoins.add(new ImmunityCoin(x*50, y*50));
 			
 			//if(immuneCoins[i].getX())
 		}
+		
 		for(int i = 0; i < upperWalls.length; i++) {
 			upperWalls[i] = new Walls();
 			upperWalls[i].setX(50*i);
@@ -283,6 +324,10 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 			barrier15[i] = new Walls(300,450);
 			barrier15[i].setY(450 + 50*i);
 		}
+		/*for(int i = 0; i < coins.length; i++) {
+			coins[i] = new RegCoin(67,67);
+			coins[i].setY(67 + 50*i);
+		}*/
 		for(int row = 0; row < coins.length; row++) {
 			for(int col = 0; col < coins[0].length; col++) {
 				coins[row][col] = new RegCoin(67, 67);
@@ -290,25 +335,19 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 				coins[row][col].setY(67 + 50*row);
 			}
 		}
-	
-		//set default action for x button
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//add this panel to the JFrame
-		//allows connection with "drawing"
-		f.add(this);
+		
+		
 		//setup animation timer
 		animationTimer = new Timer(16, this);
 		animationTimer.start();
 		f.addMouseListener(this);
 		
 		f.setVisible(true);
-		
-		
 	}
+
 	public void update() {
 
 	}
-
 	
 	//this method is invoked/called by the timer
 	@Override
@@ -316,38 +355,8 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		// TODO Auto-generated method stub
 		
 		//call the frame to refresh
-		//update();
+		update();
 		repaint();
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -358,24 +367,26 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if(e.getKeyCode() == 32) {
-			background.hide();
-			
-			//setImg("background.png");
-			
-		}
-		
-		//froggy.methodHop();
-		System.out.println(e.getKeyCode());
-		if(e.getKeyCode() == 38) {
+		// TODO Auto-generated method stub
+		//System.out.println(e.getKeyCode());
+		if(e.getKeyCode() == 38){	//up
 			player.moveUp();
-		} else if (e.getKeyCode() == 40) {
-			player.moveDown();
-		} else if (e.getKeyCode() == 37) {
-			player.moveLeft();
-		} else if (e.getKeyCode() == 39) {
+		}
+		if(e.getKeyCode() == 39){	//right
 			player.moveRight();
 		}
+		if(e.getKeyCode() == 37){	//left
+			player.moveLeft();
+		}
+		if(e.getKeyCode() == 40) {
+			player.moveDown();
+		}
+		if(e.getKeyCode() == 32) {
+			background.hide();
+			//setImg("background.png");
+		}
+		
+		
 		
 		for(Walls two: barrier2) {
 			if(two.hitPlayer(player) && e.getKeyCode() == 39) {
@@ -590,10 +601,42 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 			}
 	
 		
+		
+		
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
