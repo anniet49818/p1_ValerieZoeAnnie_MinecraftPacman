@@ -68,7 +68,7 @@ public class Fruit extends Coin {
 	}
 	
 	public Rectangle getRect() {
-		Rectangle temp = new Rectangle(x,y,width,height);
+		Rectangle temp = new Rectangle(x ,y,width-10,height-10);
 		return temp;
 	}
 	public boolean hitPlayer(Player p) {
