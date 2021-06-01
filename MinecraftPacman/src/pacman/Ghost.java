@@ -27,7 +27,7 @@ public class Ghost {
 		height = 50;
 		vx = 0;
 		vy = 0;
-		ghost = getImage("yellowminecraftghost.png");
+		ghost = getImage("yellowghast.png");
 		img = ghost;
 		init(x, y); //call init every time x, y of image is being set
 

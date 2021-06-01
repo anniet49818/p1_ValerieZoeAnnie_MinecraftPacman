@@ -15,8 +15,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import pacman.Music;
-
 
 
 public class Driver extends JPanel implements ActionListener, KeyListener, MouseListener{
@@ -147,17 +145,14 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		g.drawString("Score: " + score, 20, 30);
 		
 		background.paint(g);
-		g.setColor(Color.gray);
-		g.fillRect(200, 270, 400, 50);
-		g.setColor(Color.white);
-		g.setFont(font2);
-		g.drawString("Press Space to Start", 220, 300);
 		
 		
 		for (int row = 0; row < coins.length; row++) {
 			for (int col = 0; col < coins[0].length; col++) {
 				if (coins[row][col].hitPlayer(player)) {
-					//score += 10;
+					coins[row][col].setX(1000);
+					coins[row][col].setY(0);
+					score += 10;
 				}
 			}
 		}
@@ -168,19 +163,27 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 				immuneCoins.remove(i);
 			}
 		}
+	
+		
+		if (fruit1.hitPlayer(player)) {
+			score += 100;
+			fruit1.setX(1000);
+			fruit2.setY(0);
+		}
+		
+		if (fruit2.hitPlayer(player)) {
+			score += 100;
+			fruit2.setX(1000);
+			fruit2.setY(0);
+		}
 		
 		
 		if(yellowGhost.hitPlayer(player)) {
-			
 			player.reset();
-		
 		}
 		
-		//deadSound.stop();
 		if(pinkGhost.hitPlayer(player)) {
-			//deadSound.play();
 			player.reset();
-			
 		}
 		
 		if(blueGhost.hitPlayer(player)) {
@@ -230,8 +233,8 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		JFrame f = new JFrame("Minecraft Pacman");
 		f.setSize(650, 728);
 		f.setResizable(false);
-		//soundBackground.play();
-		
+
+		soundBackground.play();
 		//set default action for x button
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -239,7 +242,6 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		//allows connection with "drawing"
 		f.add(this);
 		f.addKeyListener(this);
-		
 		
 		background = new Background("startScreen.png", 0, 0);
 		background2 = new Background("background.png", 0, 0);
@@ -249,10 +251,10 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		/*immuneCoin1 = new ImmunityCoin(100, 50);
 		immuneCoin2 = new ImmunityCoin(500, 250);
 		immuneCoin3 = new ImmunityCoin(200, 500);*/
-		yellowGhost = new Ghost("yellowghast.png", 250, 300);
-		blueGhost = new Ghost("blueminecraftghast.png", 250, 350);
-		pinkGhost = new Ghost("pinkminecraftghast.png", 350, 300);
-		redGhost = new Ghost("redminecraftghast.png", 350, 350);
+		yellowGhost = new Ghost("yellowminecraftghost.png", 250, 300);
+		blueGhost = new Ghost("blueminecraftghost.png", 250, 350);
+		pinkGhost = new Ghost("pinkminecraftghost.png", 350, 300);
+		redGhost = new Ghost("redminecraftghost.png", 350, 350);
 		barrier1 = new Walls(100, 100);
 		barrier3 = new Walls(500,100);
 		
