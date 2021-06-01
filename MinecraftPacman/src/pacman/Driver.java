@@ -15,12 +15,15 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import pacman.Music;
+
 
 
 public class Driver extends JPanel implements ActionListener, KeyListener, MouseListener{
 	//handles drawing animation
 	Timer animationTimer;
-	
+	Music soundBackground = new Music("Map.wav", true);
+	Music deadSound = new Music("dead.wav", true);
 	int numImCoins = (int)(Math.random()*4) + 2;
 	
 	
@@ -168,11 +171,16 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		
 		
 		if(yellowGhost.hitPlayer(player)) {
+			
 			player.reset();
+		
 		}
 		
+		//deadSound.stop();
 		if(pinkGhost.hitPlayer(player)) {
+			//deadSound.play();
 			player.reset();
+			
 		}
 		
 		if(blueGhost.hitPlayer(player)) {
@@ -222,7 +230,7 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		JFrame f = new JFrame("Minecraft Pacman");
 		f.setSize(650, 728);
 		f.setResizable(false);
-
+		//soundBackground.play();
 		
 		//set default action for x button
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -232,6 +240,7 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		f.add(this);
 		f.addKeyListener(this);
 		
+		
 		background = new Background("startScreen.png", 0, 0);
 		background2 = new Background("background.png", 0, 0);
 		player = new Player();
@@ -240,10 +249,10 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		/*immuneCoin1 = new ImmunityCoin(100, 50);
 		immuneCoin2 = new ImmunityCoin(500, 250);
 		immuneCoin3 = new ImmunityCoin(200, 500);*/
-		yellowGhost = new Ghost("yellowminecraftghost.png", 250, 300);
-		blueGhost = new Ghost("blueminecraftghost.png", 250, 350);
-		pinkGhost = new Ghost("pinkminecraftghost.png", 350, 300);
-		redGhost = new Ghost("redminecraftghost.png", 350, 350);
+		yellowGhost = new Ghost("yellowghast.png", 250, 300);
+		blueGhost = new Ghost("blueminecraftghast.png", 250, 350);
+		pinkGhost = new Ghost("pinkminecraftghast.png", 350, 300);
+		redGhost = new Ghost("redminecraftghast.png", 350, 350);
 		barrier1 = new Walls(100, 100);
 		barrier3 = new Walls(500,100);
 		
