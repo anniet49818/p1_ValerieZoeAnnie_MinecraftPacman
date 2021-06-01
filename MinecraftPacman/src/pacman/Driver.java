@@ -81,12 +81,12 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 		player.paint(g);
 		fruit1.paint(g);
 		fruit2.paint(g);
-		barrier1.paint(g);
-		barrier3.paint(g);
-		
 		for(ImmunityCoin temp: immuneCoins) {
 			temp.paint(g);
 		}
+		barrier1.paint(g);
+		barrier3.paint(g);
+	
 		g.fillRect(250, 300, 150, 100);
 		g.setColor(Color.PINK);
 		g.fillRect(300, 290, 50, 20);
@@ -230,19 +230,412 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 			yellowGhost.setVx(0);
 		}*/
 		
+		boolean teleported = false;
+		
 		if(yellowGhost.getX() >= 250 && yellowGhost.getX() <= 350 && yellowGhost.getY() >= 300 && yellowGhost.getY() <= 350) {
 			yellowGhost.setVy(0);
 			yellowGhost.setVx(0);
 		}
 		
-		if(score == 20) {
+		yellowGhost.move();
+		
+		if(score == 20 && !teleported) {
 			yellowGhost.setX(300);
 			yellowGhost.setY(250);
-
+			yellowGhost.setVx(2);
+			teleported = true;
 		}
 		
+		for(Walls top: upperWalls) {
+			int possVelocity = (int)(Math.random()*4) + 1;
+			if(top.hitGhost(yellowGhost)) {
+				if(possVelocity == 1) {
+					yellowGhost.setVx(2);
+					yellowGhost.setVy(0);
+				}
+				else if(possVelocity == 2) {
+					yellowGhost.setVx(-2);
+					yellowGhost.setVy(0);
+				}
+				else if(possVelocity == 3) {
+					yellowGhost.setVx(0);
+					yellowGhost.setVy(2);
+				}
+				else if(possVelocity == 4) {
+					yellowGhost.setVx(0);
+					yellowGhost.setVy(-2);
+				}
+			}
+		}
 		
+		for(Walls left: leftWalls) {
+			int possVelocity = (int)(Math.random()*4) + 1;
+			if(left.hitGhost(yellowGhost)) {
+				if(possVelocity == 1) {
+					yellowGhost.setVx(2);
+					yellowGhost.setVy(0);
+				}
+				else if(possVelocity == 2) {
+					yellowGhost.setVx(-2);
+					yellowGhost.setVy(0);
+				}
+				else if(possVelocity == 3) {
+					yellowGhost.setVx(0);
+					yellowGhost.setVy(2);
+				}
+				else if(possVelocity == 4) {
+					yellowGhost.setVx(0);
+					yellowGhost.setVy(-2);
+				}
+			}
+		}
 		
+		for(Walls right: rightWalls) {
+			int possVelocity = (int)(Math.random()*4) + 1;
+			if(right.hitGhost(yellowGhost)) {
+				yellowGhost.setX(550);
+				if(possVelocity == 1) {
+					yellowGhost.setVx(2);
+					yellowGhost.setVy(0);
+				}
+				else if(possVelocity == 2) {
+					yellowGhost.setVx(-2);
+					yellowGhost.setVy(0);
+				}
+				else if(possVelocity == 3) {
+					yellowGhost.setVx(0);
+					yellowGhost.setVy(2);
+				}
+				else if(possVelocity == 4) {
+					yellowGhost.setVx(0);
+					yellowGhost.setVy(-2);
+				}
+			}
+		}
+		
+		if(barrier1.hitGhost(yellowGhost)) {
+			if(yellowGhost.getX() + 50 != barrier1.getX()) {
+				yellowGhost.setVx(2);
+				yellowGhost.setVy(0);
+			}
+			else if(yellowGhost.getX() - 50 != barrier1.getX()) {
+				yellowGhost.setVx(-2);
+				yellowGhost.setVy(0);
+			}
+			else if(yellowGhost.getY() + 50 != barrier1.getY()) {
+				yellowGhost.setVx(0);
+				yellowGhost.setVy(2);
+			}
+			else if(yellowGhost.getX() - 50 != barrier1.getY()) {
+				yellowGhost.setVx(0);
+				yellowGhost.setVy(-2);
+			}
+		}
+		
+		for(Walls two: barrier2) {
+			int possVelocity = (int)(Math.random()*4) + 1;
+			if(two.hitGhost(yellowGhost)) {
+				if(possVelocity == 1) {
+					yellowGhost.setVx(2);
+					yellowGhost.setVy(0);
+				}
+				else if(possVelocity == 2) {
+					yellowGhost.setVx(-2);
+					yellowGhost.setVy(0);
+				}
+				else if(possVelocity == 3) {
+					yellowGhost.setVx(0);
+					yellowGhost.setVy(2);
+				}
+				else if(possVelocity == 4) {
+					yellowGhost.setVx(0);
+					yellowGhost.setVy(-2);
+				}
+			}
+		}
+		
+		if(barrier3.hitGhost(yellowGhost)) {
+			if(yellowGhost.getX() + 50 != barrier3.getX()) {
+				yellowGhost.setVx(2);
+				yellowGhost.setVy(0);
+			}
+			else if(yellowGhost.getX() - 50 != barrier3.getX()) {
+				yellowGhost.setVx(-2);
+				yellowGhost.setVy(0);
+			}
+			else if(yellowGhost.getY() + 50 != barrier3.getY()) {
+				yellowGhost.setVx(0);
+				yellowGhost.setVy(2);
+			}
+			else if(yellowGhost.getX() - 50 != barrier3.getY()) {
+				yellowGhost.setVx(0);
+				yellowGhost.setVy(-2);
+			}
+		}
+		
+		for(Walls four: barrier4) {
+			int possVelocity = (int)(Math.random()*4) + 1;
+			if(four.hitGhost(yellowGhost)) {
+				if(possVelocity == 1) {
+					yellowGhost.setVx(2);
+					yellowGhost.setVy(0);
+				}
+				else if(possVelocity == 2) {
+					yellowGhost.setVx(-2);
+					yellowGhost.setVy(0);
+				}
+				else if(possVelocity == 3) {
+					yellowGhost.setVx(0);
+					yellowGhost.setVy(2);
+				}
+				else if(possVelocity == 4) {
+					yellowGhost.setVx(0);
+					yellowGhost.setVy(-2);
+				}
+			}
+		}
+		
+		for(Walls five: barrier5) {
+			int possVelocity = (int)(Math.random()*4) + 1;
+			if(five.hitGhost(yellowGhost)) {
+				if(possVelocity == 1) {
+					yellowGhost.setVx(2);
+					yellowGhost.setVy(0);
+				}
+				else if(possVelocity == 2) {
+					yellowGhost.setVx(-2);
+					yellowGhost.setVy(0);
+				}
+				else if(possVelocity == 3) {
+					yellowGhost.setVx(0);
+					yellowGhost.setVy(2);
+				}
+				else if(possVelocity == 4) {
+					yellowGhost.setVx(0);
+					yellowGhost.setVy(-2);
+				}
+			}
+		}
+		
+		for(Walls six: barrier6) {
+			int possVelocity = (int)(Math.random()*4) + 1;
+			if(six.hitGhost(yellowGhost)) {
+				if(possVelocity == 1) {
+					yellowGhost.setVx(2);
+					yellowGhost.setVy(0);
+				}
+				else if(possVelocity == 2) {
+					yellowGhost.setVx(-2);
+					yellowGhost.setVy(0);
+				}
+				else if(possVelocity == 3) {
+					yellowGhost.setVx(0);
+					yellowGhost.setVy(2);
+				}
+				else if(possVelocity == 4) {
+					yellowGhost.setVx(0);
+					yellowGhost.setVy(-2);
+				}
+			}
+		}
+		
+		for(Walls seven: barrier7) {
+			int possVelocity = (int)(Math.random()*4) + 1;
+			if(seven.hitGhost(yellowGhost)) {
+				if(possVelocity == 1) {
+					yellowGhost.setVx(2);
+					yellowGhost.setVy(0);
+				}
+				else if(possVelocity == 2) {
+					yellowGhost.setVx(-2);
+					yellowGhost.setVy(0);
+				}
+				else if(possVelocity == 3) {
+					yellowGhost.setVx(0);
+					yellowGhost.setVy(2);
+				}
+				else if(possVelocity == 4) {
+					yellowGhost.setVx(0);
+					yellowGhost.setVy(-2);
+				}
+			}
+		}
+		
+		for(Walls eight: barrier8) {
+			int possVelocity = (int)(Math.random()*4) + 1;
+			if(eight.hitGhost(yellowGhost)) {
+				if(possVelocity == 1) {
+					yellowGhost.setVx(2);
+					yellowGhost.setVy(0);
+				}
+				else if(possVelocity == 2) {
+					yellowGhost.setVx(-2);
+					yellowGhost.setVy(0);
+				}
+				else if(possVelocity == 3) {
+					yellowGhost.setVx(0);
+					yellowGhost.setVy(2);
+				}
+				else if(possVelocity == 4) {
+					yellowGhost.setVx(0);
+					yellowGhost.setVy(-2);
+				}
+			}
+		}
+		
+		for(Walls nine: barrier9) {
+			int possVelocity = (int)(Math.random()*4) + 1;
+			if(nine.hitGhost(yellowGhost)) {
+				if(possVelocity == 1) {
+					yellowGhost.setVx(2);
+					yellowGhost.setVy(0);
+				}
+				else if(possVelocity == 2) {
+					yellowGhost.setVx(-2);
+					yellowGhost.setVy(0);
+				}
+				else if(possVelocity == 3) {
+					yellowGhost.setVx(0);
+					yellowGhost.setVy(2);
+				}
+				else if(possVelocity == 4) {
+					yellowGhost.setVx(0);
+					yellowGhost.setVy(-2);
+				}
+			}
+		}
+		
+		for(Walls ten: barrier10) {
+			int possVelocity = (int)(Math.random()*4) + 1;
+			if(ten.hitGhost(yellowGhost)) {
+				if(possVelocity == 1) {
+					yellowGhost.setVx(2);
+					yellowGhost.setVy(0);
+				}
+				else if(possVelocity == 2) {
+					yellowGhost.setVx(-2);
+					yellowGhost.setVy(0);
+				}
+				else if(possVelocity == 3) {
+					yellowGhost.setVx(0);
+					yellowGhost.setVy(2);
+				}
+				else if(possVelocity == 4) {
+					yellowGhost.setVx(0);
+					yellowGhost.setVy(-2);
+				}
+			}
+		}
+		
+		for(Walls eleven: barrier11) {
+			int possVelocity = (int)(Math.random()*4) + 1;
+			if(eleven.hitGhost(yellowGhost)) {
+				if(possVelocity == 1) {
+					yellowGhost.setVx(2);
+					yellowGhost.setVy(0);
+				}
+				else if(possVelocity == 2) {
+					yellowGhost.setVx(-2);
+					yellowGhost.setVy(0);
+				}
+				else if(possVelocity == 3) {
+					yellowGhost.setVx(0);
+					yellowGhost.setVy(2);
+				}
+				else if(possVelocity == 4) {
+					yellowGhost.setVx(0);
+					yellowGhost.setVy(-2);
+				}
+			}
+		}
+		
+		for(Walls twelve: barrier12) {
+			int possVelocity = (int)(Math.random()*4) + 1;
+			if(twelve.hitGhost(yellowGhost)) {
+				if(possVelocity == 1) {
+					yellowGhost.setVx(2);
+					yellowGhost.setVy(0);
+				}
+				else if(possVelocity == 2) {
+					yellowGhost.setVx(-2);
+					yellowGhost.setVy(0);
+				}
+				else if(possVelocity == 3) {
+					yellowGhost.setVx(0);
+					yellowGhost.setVy(2);
+				}
+				else if(possVelocity == 4) {
+					yellowGhost.setVx(0);
+					yellowGhost.setVy(-2);
+				}
+			}
+		}
+		
+		for(Walls thirteen: barrier13) {
+			int possVelocity = (int)(Math.random()*4) + 1;
+			if(thirteen.hitGhost(yellowGhost)) {
+				if(possVelocity == 1) {
+					yellowGhost.setVx(2);
+					yellowGhost.setVy(0);
+				}
+				else if(possVelocity == 2) {
+					yellowGhost.setVx(-2);
+					yellowGhost.setVy(0);
+				}
+				else if(possVelocity == 3) {
+					yellowGhost.setVx(0);
+					yellowGhost.setVy(2);
+				}
+				else if(possVelocity == 4) {
+					yellowGhost.setVx(0);
+					yellowGhost.setVy(-2);
+				}
+			}
+		}
+		
+		for(Walls fourteen: barrier14) {
+			int possVelocity = (int)(Math.random()*4) + 1;
+			if(fourteen.hitGhost(yellowGhost)) {
+				if(possVelocity == 1) {
+					yellowGhost.setVx(2);
+					yellowGhost.setVy(0);
+				}
+				else if(possVelocity == 2) {
+					yellowGhost.setVx(-2);
+					yellowGhost.setVy(0);
+				}
+				else if(possVelocity == 3) {
+					yellowGhost.setVx(0);
+					yellowGhost.setVy(2);
+				}
+				else if(possVelocity == 4) {
+					yellowGhost.setVx(0);
+					yellowGhost.setVy(-2);
+				}
+			}
+		}
+		
+		for(Walls fifteen: barrier15) {
+			int possVelocity = (int)(Math.random()*4) + 1;
+			if(fifteen.hitGhost(yellowGhost)) {
+				if(possVelocity == 1) {
+					yellowGhost.setVx(2);
+					yellowGhost.setVy(0);
+				}
+				else if(possVelocity == 2) {
+					yellowGhost.setVx(-2);
+					yellowGhost.setVy(0);
+				}
+				else if(possVelocity == 3) {
+					yellowGhost.setVx(0);
+					yellowGhost.setVy(2);
+				}
+				else if(possVelocity == 4) {
+					yellowGhost.setVx(0);
+					yellowGhost.setVy(-2);
+				}
+			}
+		}
 		
 		//g.fillOval(0, 0, 200, 200);
 		

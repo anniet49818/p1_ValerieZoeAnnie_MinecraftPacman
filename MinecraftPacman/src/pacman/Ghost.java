@@ -122,26 +122,30 @@ public class Ghost {
 	}
 
 	public void moveUp() {
-		y -= step;
+		//y -= step;
 		vy = -1;
+		move();
 		tx.setToTranslation(x, y);
 	}
 	
 	public void moveDown() {
-		y += step;
+		//y += step;
 		vy = 1;
+		move();
 		tx.setToTranslation(x, y);
 	}
 	
 	public void moveRight() {
-		x += step;
+		//x += step;
 		vx = 1;
+		move();
 		tx.setToTranslation(x, y);
 	}
 	
 	public void moveLeft() {
-		x -= step;
+		//x -= step;
 		vy = -1;
+		move();
 		tx.setToTranslation(x, y);
 	}
 	
