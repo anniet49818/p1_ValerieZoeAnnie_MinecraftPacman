@@ -123,21 +123,25 @@ public class Ghost {
 
 	public void moveUp() {
 		y -= step;
+		vy = -1;
 		tx.setToTranslation(x, y);
 	}
 	
 	public void moveDown() {
 		y += step;
+		vy = 1;
 		tx.setToTranslation(x, y);
 	}
 	
 	public void moveRight() {
 		x += step;
+		vx = 1;
 		tx.setToTranslation(x, y);
 	}
 	
 	public void moveLeft() {
 		x -= step;
+		vy = -1;
 		tx.setToTranslation(x, y);
 	}
 	

@@ -209,29 +209,26 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 		}
 		
 		
-		int possVelocity = (int)(Math.random()*4) + 1;
+		/*int possVelocity = (int)(Math.random()*4) + 1;
+		System.out.println(possVelocity);
 		if(possVelocity == 1) {
 			yellowGhost.setVx(1);
-			yellowGhost.move();
 		}
 		else if(possVelocity == 2) {
 			yellowGhost.setVx(-1);
-			yellowGhost.move();
 		}
 		else if(possVelocity == 3) {
 			yellowGhost.setVy(1);
-			yellowGhost.move();
 		}
 		else if(possVelocity == 4) {
 			yellowGhost.setVy(-1);
-			yellowGhost.move();
 		}
 		if(yellowGhost.getVx() != 0) {
 			yellowGhost.setVy(0);
 		}
 		else if(yellowGhost.getVy() != 0) {
 			yellowGhost.setVx(0);
-		}
+		}*/
 		
 		if(yellowGhost.getX() >= 250 && yellowGhost.getX() <= 350 && yellowGhost.getY() >= 300 && yellowGhost.getY() <= 350) {
 			yellowGhost.setVy(0);
@@ -241,8 +238,7 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 		if(score == 20) {
 			yellowGhost.setX(300);
 			yellowGhost.setY(250);
-			
-			
+
 		}
 		
 		

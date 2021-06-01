@@ -125,6 +125,11 @@ public class Walls {
 		Rectangle player = new Rectangle(p.getX(),p.getY(),p.getWidth(),p.getHeight());
 		return temp.intersects(player);
 	}
+	public boolean hitGhost(Ghost g) {
+		Rectangle temp = this.getRect();
+		Rectangle ghost = new Rectangle(g.getX(),g.getY(),g.getWidth(),g.getHeight());
+		return temp.intersects(ghost);
+	}
 	
 	
 }
