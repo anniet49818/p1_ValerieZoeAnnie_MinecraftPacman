@@ -69,7 +69,7 @@ public class ImmunityCoin {
 	}
 	
 	public Rectangle getRect() {
-		Rectangle temp = new Rectangle(x+10,y+10,width-20,height-20);
+		Rectangle temp = new Rectangle(x,y,width,height);
 		return temp;
 	}
 	public boolean hitPlayer(Player p) {

@@ -57,7 +57,7 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 	RegCoin[][] coins = new RegCoin[13][11];
 	Fruit fruit1;
 	Fruit fruit2;
-	ImmunityCoin[] immuneCoins = new ImmunityCoin[numImCoins];
+	ArrayList<ImmunityCoin> immuneCoins = new ArrayList<ImmunityCoin>();
 	Ghost yellowGhost;
 	Ghost blueGhost;
 	Ghost pinkGhost;
@@ -149,32 +149,34 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 		g.drawString("Score: " + score, 20, 30);
 		
 		background.paint(g);
-		g.setColor(Color.gray);
-		g.fillRect(200, 270, 400, 50);
-		g.setColor(Color.white);
-		g.setFont(font2);
-		g.drawString("Press Space to Start", 220, 300);
 		
 		for (int row = 0; row < coins.length; row++) {
 			for (int col = 0; col < coins[0].length; col++) {
 				if (coins[row][col].hitPlayer(player)) {
-					//score += 1;
+					coins[row][col].setX(1000);
+					coins[row][col].setY(0);
+					score += 10;
 				}
 			}
 		}
 		
-		for (int row = 0; row < coins.length; row++) {
-			for (int col = 0; col < coins[0].length; col++) {
-				if (coins[row][col].hitPlayer(player)) {
-					//score += 10;
-				}
+		for (int i = 0; i < immuneCoins.size(); i++) {
+			if (immuneCoins.get(i).hitPlayer(player)) {
+				score += 40;
+				immuneCoins.remove(i);
 			}
 		}
 		
-		for (int i = 0; i < immuneCoins.length; i++) {
-			if (immuneCoins[i].hitPlayer(player)) {
-				//score += 40;
-			}
+		if (fruit1.hitPlayer(player)) {
+			score += 100;
+			fruit1.setX(1000);
+			fruit2.setY(0);
+		}
+
+		if (fruit2.hitPlayer(player)) {
+			score += 100;
+			fruit2.setX(1000);
+			fruit2.setY(0);
 		}
 		
 		
@@ -207,6 +209,42 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 		}
 		
 		
+		int possVelocity = (int)(Math.random()*4) + 1;
+		if(possVelocity == 1) {
+			yellowGhost.setVx(1);
+			yellowGhost.move();
+		}
+		else if(possVelocity == 2) {
+			yellowGhost.setVx(-1);
+			yellowGhost.move();
+		}
+		else if(possVelocity == 3) {
+			yellowGhost.setVy(1);
+			yellowGhost.move();
+		}
+		else if(possVelocity == 4) {
+			yellowGhost.setVy(-1);
+			yellowGhost.move();
+		}
+		if(yellowGhost.getVx() != 0) {
+			yellowGhost.setVy(0);
+		}
+		else if(yellowGhost.getVy() != 0) {
+			yellowGhost.setVx(0);
+		}
+		
+		if(yellowGhost.getX() >= 250 && yellowGhost.getX() <= 350 && yellowGhost.getY() >= 300 && yellowGhost.getY() <= 350) {
+			yellowGhost.setVy(0);
+			yellowGhost.setVx(0);
+		}
+		
+		if(score == 20) {
+			yellowGhost.setX(300);
+			yellowGhost.setY(250);
+			
+			
+		}
+		
 		
 		
 		
@@ -235,14 +273,14 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 		barrier1 = new Walls(100, 100);
 		barrier3 = new Walls(500,100);
 		
-		for(int i = 0; i < immuneCoins.length; i++) {
+		for(int i = 0; i < numImCoins; i++) {
 			int x = 200;
 			int y = 200;
 			while((x == 200 && y == 200) || (x == 450 && y == 550) || (x > 250 && x < 400 && y > 300 && y < 400)) {
 				x = (int)(Math.random()*12) + 1;
 				y = (int)(Math.random()*13) + 1;
 			}
-			immuneCoins[i] = new ImmunityCoin(x*50, y*50);
+			immuneCoins.add(new ImmunityCoin(x*50, y*50));
 			
 			//if(immuneCoins[i].getX())
 		}

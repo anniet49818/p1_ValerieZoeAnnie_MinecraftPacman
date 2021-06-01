@@ -58,6 +58,8 @@ public class Ghost {
 		tx.setToTranslation(a, b);
 		tx.scale(1, 1);
 	}
+	
+	
 
 	// converts image to make it drawable in paint
 	private Image getImage(String path) {
@@ -70,7 +72,7 @@ public class Ghost {
 		}
 		return tempImage;
 	}
-
+	
 	// setters and getters
 	public void reset() {
 		x = 400;
@@ -139,8 +141,17 @@ public class Ghost {
 		tx.setToTranslation(x, y);
 	}
 	
+	public int getVx() {
+		return vx;
+	}
+	public int getVy() {
+		return vy;
+	}
 	public void setVx(int vx) {
 		this.vx = vx;
+	}
+	public void setVy(int vy) {
+		this.vy = vy;
 	}
 	/* Helper function for collision detection later */
 	public Rectangle getRect() {
