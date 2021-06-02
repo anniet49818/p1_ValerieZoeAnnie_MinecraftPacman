@@ -21,7 +21,10 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 	//handles drawing animation
 	Timer animationTimer;
 	Music soundBackground = new Music("Map.wav", true);
-	Music deadSound = new Music("dead.wav", true);
+	Music deadSound = new Music("dead.wav", false);
+	Music coinSound = new Music("coin.wav", false);
+	Music immuneSound = new Music("immune.wav", false);
+	Music fruitSound = new Music("fruit.wav", false);
 	int numImCoins = (int)(Math.random()*4) + 2;
 	
 	
@@ -153,6 +156,8 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 					coins[row][col].setX(1000);
 					coins[row][col].setY(0);
 					score += 10;
+					coinSound.play();
+					
 				}
 			}
 		}
@@ -161,6 +166,7 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 			if (immuneCoins.get(i).hitPlayer(player)) {
 				score += 40;
 				immuneCoins.remove(i);
+				immuneSound.play();
 			}
 		}
 	
@@ -169,29 +175,36 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 			score += 100;
 			fruit1.setX(1000);
 			fruit2.setY(0);
+			fruitSound.play();
 		}
 		
 		if (fruit2.hitPlayer(player)) {
 			score += 100;
 			fruit2.setX(1000);
 			fruit2.setY(0);
+			fruitSound.play();
 		}
 		
 		
 		if(yellowGhost.hitPlayer(player)) {
 			player.reset();
+			deadSound.play();
+			
 		}
 		
 		if(pinkGhost.hitPlayer(player)) {
 			player.reset();
+			deadSound.play();
 		}
 		
 		if(blueGhost.hitPlayer(player)) {
 			player.reset();
+			deadSound.play();
 		}
 		
 		if(redGhost.hitPlayer(player)) {
 			player.reset();
+			deadSound.play();
 		}
 		if ( player.getY() > 650) {
 			player.setY(650);
@@ -209,7 +222,7 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		
 		
 		//long top middle 
-		for(Walls two: barrier2) {
+		/*for(Walls two: barrier2) {
 			
 			if(two.hitPlayer(player)) {
 				
@@ -225,7 +238,7 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		
 		
 		
-		
+	*/	
 		//g.fillOval(0, 0, 200, 200);
 	}
 	
@@ -234,7 +247,7 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		f.setSize(650, 728);
 		f.setResizable(false);
 
-		soundBackground.play();
+		//soundBackground.play();
 		//set default action for x button
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
