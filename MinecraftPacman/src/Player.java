@@ -148,6 +148,7 @@ public class Player {
 			this.width = width;
 		}
 		
+		//movement methods
 		public void moveUp() {
 			y -= step;
 			tx.setToTranslation(x, y);

@@ -27,7 +27,8 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 	Player player;
 	
 	int score = 0;
-	
+	int lives = 3;
+
 	
 	Walls[] upperWalls = new Walls[12];
 	Walls[] rightWalls = new Walls[14];
@@ -212,16 +213,44 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 				
 				if(player.getY()<= 100) {
 					player.setY(player.getY()+50);
-				}
-				
-				
-				
-				
+				}	
 			}
 		}
+	
+	// THIS IS NOT DONE YET	
 		
+		int win = 0;
+		int count = 0;
+		for (int i = 0; i < coins.length; i++) {
+			for (int col = 0; i < coins[0].length; col++) {
+				if (coins[i][col].getX() != 1000 || coins[i][col].getY() != 0) {
+					count++;
+				}
+			}
+		}
+		if (count <= 46) {
+			win++;
+		}
+		if (immuneCoins.size() == 0) {
+			win++;
+		}
+		if (fruit1.getX() == 1000 && fruit1.getY() == 0) {
+			win++;
+		}
+		if (fruit2.getX() == 1000 && fruit2.getY() == 0) {
+			win++;
+		}
 		
-		
+		if (win == 4) {
+			g.setColor(Color.black);
+			g.fillRect(0, 0, 650, 728);
+			g.setColor(Color.white);
+			g.setFont(biggest);
+			g.drawString("You Win! :)", 40, 300);
+			g.setFont(font2);
+			g.drawString("Rerun to Play Again", 85, 350);
+		}
+	
 		
 		//g.fillOval(0, 0, 200, 200);
 	}
