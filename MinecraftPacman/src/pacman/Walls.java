@@ -125,6 +125,26 @@ public class Walls {
 		Rectangle player = new Rectangle(p.getX(),p.getY(),p.getWidth(),p.getHeight());
 		return temp.intersects(player);
 	}
+	public boolean goingToHitGhostRight(Ghost p) {
+		Rectangle temp = this.getRect();
+		Rectangle player = new Rectangle(p.getX() + 50, p.getY(), p.getWidth(), p.getHeight()) ;
+		return temp.intersects(player);
+	}
+	public boolean goingToHitGhostLeft(Ghost p) {
+		Rectangle temp = this.getRect();
+		Rectangle player = new Rectangle(p.getX() - 50, p.getY(), p.getWidth(), p.getHeight()) ;
+		return temp.intersects(player);
+	}
+	public boolean goingToHitGhostUp(Ghost p) {
+		Rectangle temp = this.getRect();
+		Rectangle player = new Rectangle(p.getX(), p.getY() - 50, p.getWidth(), p.getHeight()) ;
+		return temp.intersects(player);
+	}
+	public boolean goingToHitGhostDown(Ghost p) {
+		Rectangle temp = this.getRect();
+		Rectangle player = new Rectangle(p.getX() + 50, p.getY() + 50, p.getWidth(), p.getHeight()) ;
+		return temp.intersects(player);
+	}
 	public boolean hitGhost(Ghost g) {
 		Rectangle temp = this.getRect();
 		Rectangle ghost = new Rectangle(g.getX(),g.getY(),g.getWidth(),g.getHeight());

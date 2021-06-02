@@ -293,7 +293,8 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 		for(Walls right: rightWalls) {
 			int possVelocity = (int)(Math.random()*4) + 1;
 			if(right.hitGhost(yellowGhost)) {
-				yellowGhost.setX(550);
+				System.out.println("right");
+				//yellowGhost.setX(550);
 				if(possVelocity == 1) {
 					yellowGhost.setVx(2);
 					yellowGhost.setVy(0);
@@ -420,6 +421,7 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 		for(Walls six: barrier6) {
 			int possVelocity = (int)(Math.random()*4) + 1;
 			if(six.hitGhost(yellowGhost)) {
+				System.out.println(6);
 				if(possVelocity == 1) {
 					yellowGhost.setVx(2);
 					yellowGhost.setVy(0);

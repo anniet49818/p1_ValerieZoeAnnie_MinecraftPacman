@@ -171,6 +171,44 @@ public class Ghost {
 		Rectangle player = new Rectangle(p.getX(),p.getY(),p.getWidth(),p.getHeight());
 		return temp.intersects(player);
 	}
+	public boolean canMove(int direction, Walls w) {
+		if(direction == 1) { //1 is right
+			if(w.goingToHitGhostRight(this)) {
+				return false;
+			}
+			else {
+				return true;
+			}
+		}
+		else if(direction == 2) { //2 is left
+			if(w.goingToHitGhostLeft(this)) {
+				return false;
+			}
+			else {
+				return true;
+			}
+		}
+		else if(direction == 3) { //3 is up
+			if(w.goingToHitGhostUp(this)) {
+				return false;
+			}
+			else {
+				return true;
+			}
+		}
+		else if(direction == 4) { //4 is down
+			if(w.goingToHitGhostDown(this)) {
+				return false;
+			}
+			else {
+				return true;
+			}
+		}
+		else {
+			return false;
+		}
+	}
+	
 	
 	
 }
