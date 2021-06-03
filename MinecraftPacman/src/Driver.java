@@ -77,12 +77,15 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		player.paint(g);
 		fruit1.paint(g);
 		fruit2.paint(g);
-		barrier1.paint(g);
-		barrier3.paint(g);
 		
 		for(ImmunityCoin temp: immuneCoins) {
 			temp.paint(g);
 		}
+		
+		barrier1.paint(g);
+		barrier3.paint(g);
+		
+	
 		g.fillRect(250, 300, 150, 100);
 		g.setColor(Color.PINK);
 		g.fillRect(300, 290, 50, 20);
@@ -143,6 +146,8 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		g.setFont(font2);
 		g.drawString("Score: " + score, 20, 30);
 		
+		g.drawString("Lives: " + lives, 300, 30);
+		
 		background.paint(g);
 		
 		
@@ -168,7 +173,7 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		if (fruit1.hitPlayer(player)) {
 			score += 100;
 			fruit1.setX(1000);
-			fruit2.setY(0);
+			fruit1.setY(0);
 		}
 		
 		if (fruit2.hitPlayer(player)) {
@@ -179,18 +184,22 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		
 		
 		if(yellowGhost.hitPlayer(player)) {
+			lives--;
 			player.reset();
 		}
 		
 		if(pinkGhost.hitPlayer(player)) {
+			lives--;
 			player.reset();
 		}
 		
 		if(blueGhost.hitPlayer(player)) {
+			lives--;
 			player.reset();
 		}
 		
 		if(redGhost.hitPlayer(player)) {
+			lives--;
 			player.reset();
 		}
 		if ( player.getY() > 650) {
@@ -222,34 +231,10 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 	// THIS IS NOT DONE YET	
 		
 		int win = 0;
-	/*
-	
-		for (int i = 0; i < coins.length; i++) {
-			for (int col = 0; i < coins[0].length; col++) {
-				if (coins[i][col].getX() == 1000 && coins[i][col].getY() == 0) {
-					count++;
-				}
-			}
-		}
-		
-		*/
 
 		if (count >= 97) {
 			win = 1;
 		}
-	 
-	/*
-		if (immuneCoins.size() == 0) {
-			win++;
-		}
-		if (fruit1.getX() == 1000 && fruit1.getY() == 0) {
-			win++;
-		}
-		if (fruit2.getX() == 1000 && fruit2.getY() == 0) {
-			win++;
-		}
-	*/	
-		System.out.println(win);
 		
 		if (win == 1) {
 			g.setColor(Color.black);
@@ -259,6 +244,16 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 			g.drawString("You Win! :)", 40, 300);
 			g.setFont(font2);
 			g.drawString("Rerun to Play Again", 85, 350);
+		}
+		
+		if (lives == 0) {
+			g.setColor(Color.black);
+			g.fillRect(0, 0, 650, 728);
+			g.setColor(Color.white);
+			g.setFont(biggest);
+			g.drawString("You Lose", 90, 320);
+			g.setFont(font2);
+			g.drawString("Rerun to Play Again", 110, 350);
 		}
 	
 		
