@@ -49,6 +49,8 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 	Walls[] barrier13 = new Walls[3];
 	Walls[] barrier14 = new Walls[3];
 	Walls[] barrier15 = new Walls[2];
+	Walls[] barrier16 = new Walls[3];
+	Walls[] barrier17 = new Walls[3];
 	RegCoin[][] coins = new RegCoin[13][11];
 	Fruit fruit1;
 	Fruit fruit2;
@@ -57,6 +59,7 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 	Ghost blueGhost;
 	Ghost pinkGhost;
 	Ghost redGhost;
+	Ghost purpleGhost;
 	
 	
 	Font big = new Font("Courier New", 1, 50);
@@ -86,9 +89,6 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		barrier3.paint(g);
 		
 	
-		g.fillRect(250, 300, 150, 100);
-		g.setColor(Color.PINK);
-		g.fillRect(300, 290, 50, 20);
 		yellowGhost.paint(g);
 		blueGhost.paint(g);
 		pinkGhost.paint(g);
@@ -139,6 +139,12 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 			temp.paint(g);
 		}
 		for(Walls temp: barrier15) {
+			temp.paint(g);
+		}
+		for(Walls temp: barrier16) {
+			temp.paint(g);
+		}
+		for(Walls temp: barrier17) {
 			temp.paint(g);
 		}
 		
@@ -215,18 +221,37 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 			player.setX(500);
 		}
 		
+		boolean moving = false;
+		
+		yellowGhost.move();
 		
 		
-		//long top middle 
-		for(Walls two: barrier2) {
-			
-			if(two.hitPlayer(player)) {
-				
-				if(player.getY()<= 100) {
-					player.setY(player.getY()+50);
-				}	
+		for(Walls right: rightWalls) {
+			if(right.hitGhost(yellowGhost)) {
+				yellowGhost.setVx(0);
+				yellowGhost.setVy(2);
 			}
 		}
+		for(Walls boundary: barrier6) {
+			if(boundary.hitGhost(yellowGhost)) {
+				yellowGhost.setVx(-2);
+				yellowGhost.setVy(0);
+			}
+		}
+		for(Walls left: leftWalls) {
+			if(left.hitGhost(yellowGhost)) {
+				yellowGhost.setVx(0);
+				yellowGhost.setVy(-2);
+			}
+		}
+		for(Walls top: upperWalls) {
+			if(top.hitGhost(yellowGhost)) {
+				yellowGhost.setVx(2);
+				yellowGhost.setVy(0);
+				yellowGhost.setY(50);
+			}
+		}
+		
 	
 	// THIS IS NOT DONE YET	
 		
@@ -282,10 +307,11 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		/*immuneCoin1 = new ImmunityCoin(100, 50);
 		immuneCoin2 = new ImmunityCoin(500, 250);
 		immuneCoin3 = new ImmunityCoin(200, 500);*/
-		yellowGhost = new Ghost("yellowminecraftghost.png", 250, 300);
-		blueGhost = new Ghost("blueminecraftghost.png", 250, 350);
-		pinkGhost = new Ghost("pinkminecraftghost.png", 350, 300);
-		redGhost = new Ghost("redminecraftghost.png", 350, 350);
+		yellowGhost = new Ghost("yellowminecraftghost.png", 300, 50, 2);
+		blueGhost = new Ghost("blueminecraftghost.png", 300, 250, 2);
+		pinkGhost = new Ghost("pinkminecraftghost.png", 100, 250, -2);
+		redGhost = new Ghost("redminecraftghost.png", 500, 250, 2);
+		purpleGhost = new Ghost("purpleminecraftghost.png", 300, 550, 2);
 		barrier1 = new Walls(100, 100);
 		barrier3 = new Walls(500,100);
 		
@@ -365,6 +391,14 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		for(int i = 0; i < barrier15.length; i++) {
 			barrier15[i] = new Walls(300,450);
 			barrier15[i].setY(450 + 50*i);
+		}
+		for(int i = 0; i < barrier16.length; i++) {
+			barrier16[i] = new Walls(250,300);
+			barrier16[i].setX(250 + 50*i);
+		}
+		for(int i = 0; i < barrier17.length; i++) {
+			barrier17[i] = new Walls(250,350);
+			barrier17[i].setX(250 + 50*i);
 		}
 		/*for(int i = 0; i < coins.length; i++) {
 			coins[i] = new RegCoin(67,67);
@@ -614,6 +648,37 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 				player.moveRight();
 			}
 		}
+		
+		for(Walls sixteen: barrier16) {
+			if(sixteen.hitPlayer(player) && e.getKeyCode() == 39) {
+				player.moveLeft();
+			}
+			if(sixteen.hitPlayer(player) && e.getKeyCode() == 40) {
+				player.moveUp();
+			}
+			if(sixteen.hitPlayer(player) && e.getKeyCode() == 38) {
+				player.moveDown();
+			}
+			if(sixteen.hitPlayer(player) && e.getKeyCode() == 37) {
+				player.moveRight();
+			}
+		}
+		for(Walls seventeen: barrier17) {
+			if(seventeen.hitPlayer(player) && e.getKeyCode() == 39) {
+				player.moveLeft();
+			}
+			if(seventeen.hitPlayer(player) && e.getKeyCode() == 40) {
+				player.moveUp();
+			}
+			if(seventeen.hitPlayer(player) && e.getKeyCode() == 38) {
+				player.moveDown();
+			}
+			if(seventeen.hitPlayer(player) && e.getKeyCode() == 37) {
+				player.moveRight();
+			}
+		}
+		
+		
 		
 		
 			if(barrier1.hitPlayer(player) && e.getKeyCode() == 39) {
