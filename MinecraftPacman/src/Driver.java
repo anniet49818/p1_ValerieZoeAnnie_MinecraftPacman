@@ -28,6 +28,7 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 	
 	int score = 0;
 	int lives = 3;
+	int count = 0;
 
 	
 	Walls[] upperWalls = new Walls[12];
@@ -151,6 +152,7 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 					coins[row][col].setX(1000);
 					coins[row][col].setY(0);
 					score += 10;
+					count++;
 				}
 			}
 		}
@@ -220,17 +222,23 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 	// THIS IS NOT DONE YET	
 		
 		int win = 0;
-		int count = 0;
+	/*
+	
 		for (int i = 0; i < coins.length; i++) {
 			for (int col = 0; i < coins[0].length; col++) {
-				if (coins[i][col].getX() != 1000 || coins[i][col].getY() != 0) {
+				if (coins[i][col].getX() == 1000 && coins[i][col].getY() == 0) {
 					count++;
 				}
 			}
 		}
-		if (count <= 46) {
-			win++;
+		
+		*/
+
+		if (count >= 97) {
+			win = 1;
 		}
+	 
+	/*
 		if (immuneCoins.size() == 0) {
 			win++;
 		}
@@ -240,8 +248,10 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		if (fruit2.getX() == 1000 && fruit2.getY() == 0) {
 			win++;
 		}
+	*/	
+		System.out.println(win);
 		
-		if (win == 4) {
+		if (win == 1) {
 			g.setColor(Color.black);
 			g.fillRect(0, 0, 650, 728);
 			g.setColor(Color.white);

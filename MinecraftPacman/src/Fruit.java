@@ -66,7 +66,7 @@ public class Fruit extends Coin {
 		}
 		return tempImage;
 	}
-	
+	//collision
 	public Rectangle getRect() {
 		Rectangle temp = new Rectangle(x ,y,width-10,height-10);
 		return temp;
