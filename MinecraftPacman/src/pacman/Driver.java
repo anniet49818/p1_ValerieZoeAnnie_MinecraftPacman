@@ -213,6 +213,9 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 		if(redGhost.hitPlayer(player)) {
 			player.reset();
 		}
+		if(purpleGhost.hitPlayer(player)) {
+			player.reset();
+		}
 		if ( player.getY() > 650) {
 			player.setY(650);
 		}
