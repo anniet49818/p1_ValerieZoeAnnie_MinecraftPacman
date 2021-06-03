@@ -210,6 +210,13 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 			player.reset();
 			deadSound.play();
 		}
+		
+		if(purpleGhost.hitPlayer(player)) {
+			player.reset();
+			deadSound.play();
+		}
+		
+		
 		if ( player.getY() > 650) {
 			player.setY(650);
 		}
@@ -311,7 +318,7 @@ boolean moving = false;
 		f.setSize(650, 728);
 		f.setResizable(false);
 
-		
+		soundBackground.play();
 		//set default action for x button
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
