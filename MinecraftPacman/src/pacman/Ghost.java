@@ -34,10 +34,12 @@ public class Ghost {
 	}
 	
 	/* if filename is provided */
-	public Ghost(String fileName, int x, int y) {
+	public Ghost(String fileName, int x, int y, int vx) {
 		// assignment statements for attributes
 		this.x = x;
 		this.y = y;
+		vy = 0;
+		this.vx = vx;
 		width = 50;
 		height = 50;
 		img = getImage(fileName);

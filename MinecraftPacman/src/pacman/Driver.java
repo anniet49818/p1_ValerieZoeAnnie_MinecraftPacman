@@ -54,6 +54,8 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 	Walls[] barrier13 = new Walls[3];
 	Walls[] barrier14 = new Walls[3];
 	Walls[] barrier15 = new Walls[2];
+	Walls[] barrier16 = new Walls[3];
+	Walls[] barrier17 = new Walls[3];
 	RegCoin[][] coins = new RegCoin[13][11];
 	Fruit fruit1;
 	Fruit fruit2;
@@ -62,6 +64,7 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 	Ghost blueGhost;
 	Ghost pinkGhost;
 	Ghost redGhost;
+	Ghost purpleGhost;
 	
 	Font big = new Font("Courier New", 1, 50);
 	Font font2 = new Font("Courier New", 1, 30);
@@ -87,13 +90,11 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 		barrier1.paint(g);
 		barrier3.paint(g);
 	
-		g.fillRect(250, 300, 150, 100);
-		g.setColor(Color.PINK);
-		g.fillRect(300, 290, 50, 20);
 		yellowGhost.paint(g);
 		blueGhost.paint(g);
 		pinkGhost.paint(g);
 		redGhost.paint(g);
+		purpleGhost.paint(g);
 		for(Walls temp: upperWalls) {
 			temp.paint(g);
 		}
@@ -140,6 +141,12 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 			temp.paint(g);
 		}
 		for(Walls temp: barrier15) {
+			temp.paint(g);
+		}
+		for(Walls temp: barrier16) {
+			temp.paint(g);
+		}
+		for(Walls temp: barrier17) {
 			temp.paint(g);
 		}
 		
@@ -209,435 +216,40 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 		}
 		
 		
-		/*int possVelocity = (int)(Math.random()*4) + 1;
-		System.out.println(possVelocity);
-		if(possVelocity == 1) {
-			yellowGhost.setVx(1);
-		}
-		else if(possVelocity == 2) {
-			yellowGhost.setVx(-1);
-		}
-		else if(possVelocity == 3) {
-			yellowGhost.setVy(1);
-		}
-		else if(possVelocity == 4) {
-			yellowGhost.setVy(-1);
-		}
-		if(yellowGhost.getVx() != 0) {
-			yellowGhost.setVy(0);
-		}
-		else if(yellowGhost.getVy() != 0) {
-			yellowGhost.setVx(0);
-		}*/
-		
-		boolean teleported = false;
-		
-		if(yellowGhost.getX() >= 250 && yellowGhost.getX() <= 350 && yellowGhost.getY() >= 300 && yellowGhost.getY() <= 350) {
-			yellowGhost.setVy(0);
-			yellowGhost.setVx(0);
-		}
+		boolean moving = false;
 		
 		yellowGhost.move();
 		
-		if(score == 20 && !teleported) {
-			yellowGhost.setX(300);
-			yellowGhost.setY(250);
+		/*if(!moving) {
 			yellowGhost.setVx(2);
-			teleported = true;
-		}
-		
-		for(Walls top: upperWalls) {
-			int possVelocity = (int)(Math.random()*4) + 1;
-			if(top.hitGhost(yellowGhost)) {
-				if(possVelocity == 1) {
-					yellowGhost.setVx(2);
-					yellowGhost.setVy(0);
-				}
-				else if(possVelocity == 2) {
-					yellowGhost.setVx(-2);
-					yellowGhost.setVy(0);
-				}
-				else if(possVelocity == 3) {
-					yellowGhost.setVx(0);
-					yellowGhost.setVy(2);
-				}
-				else if(possVelocity == 4) {
-					yellowGhost.setVx(0);
-					yellowGhost.setVy(-2);
-				}
-			}
-		}
-		
-		for(Walls left: leftWalls) {
-			int possVelocity = (int)(Math.random()*4) + 1;
-			if(left.hitGhost(yellowGhost)) {
-				if(possVelocity == 1) {
-					yellowGhost.setVx(2);
-					yellowGhost.setVy(0);
-				}
-				else if(possVelocity == 2) {
-					yellowGhost.setVx(-2);
-					yellowGhost.setVy(0);
-				}
-				else if(possVelocity == 3) {
-					yellowGhost.setVx(0);
-					yellowGhost.setVy(2);
-				}
-				else if(possVelocity == 4) {
-					yellowGhost.setVx(0);
-					yellowGhost.setVy(-2);
-				}
-			}
-		}
-		
+			moving = true;
+		}*/
 		for(Walls right: rightWalls) {
-			int possVelocity = (int)(Math.random()*4) + 1;
 			if(right.hitGhost(yellowGhost)) {
-				System.out.println("right");
-				//yellowGhost.setX(550);
-				if(possVelocity == 1) {
-					yellowGhost.setVx(2);
-					yellowGhost.setVy(0);
-				}
-				else if(possVelocity == 2) {
-					yellowGhost.setVx(-2);
-					yellowGhost.setVy(0);
-				}
-				else if(possVelocity == 3) {
-					yellowGhost.setVx(0);
-					yellowGhost.setVy(2);
-				}
-				else if(possVelocity == 4) {
-					yellowGhost.setVx(0);
-					yellowGhost.setVy(-2);
-				}
-			}
-		}
-		
-		if(barrier1.hitGhost(yellowGhost)) {
-			if(yellowGhost.getX() + 50 != barrier1.getX()) {
-				yellowGhost.setVx(2);
-				yellowGhost.setVy(0);
-			}
-			else if(yellowGhost.getX() - 50 != barrier1.getX()) {
-				yellowGhost.setVx(-2);
-				yellowGhost.setVy(0);
-			}
-			else if(yellowGhost.getY() + 50 != barrier1.getY()) {
 				yellowGhost.setVx(0);
 				yellowGhost.setVy(2);
 			}
-			else if(yellowGhost.getX() - 50 != barrier1.getY()) {
+		}
+		for(Walls boundary: barrier6) {
+			if(boundary.hitGhost(yellowGhost)) {
+				yellowGhost.setVx(-2);
+				yellowGhost.setVy(0);
+			}
+		}
+		for(Walls left: leftWalls) {
+			if(left.hitGhost(yellowGhost)) {
 				yellowGhost.setVx(0);
 				yellowGhost.setVy(-2);
 			}
 		}
-		
-		for(Walls two: barrier2) {
-			int possVelocity = (int)(Math.random()*4) + 1;
-			if(two.hitGhost(yellowGhost)) {
-				if(possVelocity == 1) {
-					yellowGhost.setVx(2);
-					yellowGhost.setVy(0);
-				}
-				else if(possVelocity == 2) {
-					yellowGhost.setVx(-2);
-					yellowGhost.setVy(0);
-				}
-				else if(possVelocity == 3) {
-					yellowGhost.setVx(0);
-					yellowGhost.setVy(2);
-				}
-				else if(possVelocity == 4) {
-					yellowGhost.setVx(0);
-					yellowGhost.setVy(-2);
-				}
-			}
-		}
-		
-		if(barrier3.hitGhost(yellowGhost)) {
-			if(yellowGhost.getX() + 50 != barrier3.getX()) {
+		for(Walls top: upperWalls) {
+			if(top.hitGhost(yellowGhost)) {
 				yellowGhost.setVx(2);
 				yellowGhost.setVy(0);
-			}
-			else if(yellowGhost.getX() - 50 != barrier3.getX()) {
-				yellowGhost.setVx(-2);
-				yellowGhost.setVy(0);
-			}
-			else if(yellowGhost.getY() + 50 != barrier3.getY()) {
-				yellowGhost.setVx(0);
-				yellowGhost.setVy(2);
-			}
-			else if(yellowGhost.getX() - 50 != barrier3.getY()) {
-				yellowGhost.setVx(0);
-				yellowGhost.setVy(-2);
+				yellowGhost.setY(50);
 			}
 		}
 		
-		for(Walls four: barrier4) {
-			int possVelocity = (int)(Math.random()*4) + 1;
-			if(four.hitGhost(yellowGhost)) {
-				if(possVelocity == 1) {
-					yellowGhost.setVx(2);
-					yellowGhost.setVy(0);
-				}
-				else if(possVelocity == 2) {
-					yellowGhost.setVx(-2);
-					yellowGhost.setVy(0);
-				}
-				else if(possVelocity == 3) {
-					yellowGhost.setVx(0);
-					yellowGhost.setVy(2);
-				}
-				else if(possVelocity == 4) {
-					yellowGhost.setVx(0);
-					yellowGhost.setVy(-2);
-				}
-			}
-		}
-		
-		for(Walls five: barrier5) {
-			int possVelocity = (int)(Math.random()*4) + 1;
-			if(five.hitGhost(yellowGhost)) {
-				if(possVelocity == 1) {
-					yellowGhost.setVx(2);
-					yellowGhost.setVy(0);
-				}
-				else if(possVelocity == 2) {
-					yellowGhost.setVx(-2);
-					yellowGhost.setVy(0);
-				}
-				else if(possVelocity == 3) {
-					yellowGhost.setVx(0);
-					yellowGhost.setVy(2);
-				}
-				else if(possVelocity == 4) {
-					yellowGhost.setVx(0);
-					yellowGhost.setVy(-2);
-				}
-			}
-		}
-		
-		for(Walls six: barrier6) {
-			int possVelocity = (int)(Math.random()*4) + 1;
-			if(six.hitGhost(yellowGhost)) {
-				System.out.println(6);
-				if(possVelocity == 1) {
-					yellowGhost.setVx(2);
-					yellowGhost.setVy(0);
-				}
-				else if(possVelocity == 2) {
-					yellowGhost.setVx(-2);
-					yellowGhost.setVy(0);
-				}
-				else if(possVelocity == 3) {
-					yellowGhost.setVx(0);
-					yellowGhost.setVy(2);
-				}
-				else if(possVelocity == 4) {
-					yellowGhost.setVx(0);
-					yellowGhost.setVy(-2);
-				}
-			}
-		}
-		
-		for(Walls seven: barrier7) {
-			int possVelocity = (int)(Math.random()*4) + 1;
-			if(seven.hitGhost(yellowGhost)) {
-				if(possVelocity == 1) {
-					yellowGhost.setVx(2);
-					yellowGhost.setVy(0);
-				}
-				else if(possVelocity == 2) {
-					yellowGhost.setVx(-2);
-					yellowGhost.setVy(0);
-				}
-				else if(possVelocity == 3) {
-					yellowGhost.setVx(0);
-					yellowGhost.setVy(2);
-				}
-				else if(possVelocity == 4) {
-					yellowGhost.setVx(0);
-					yellowGhost.setVy(-2);
-				}
-			}
-		}
-		
-		for(Walls eight: barrier8) {
-			int possVelocity = (int)(Math.random()*4) + 1;
-			if(eight.hitGhost(yellowGhost)) {
-				if(possVelocity == 1) {
-					yellowGhost.setVx(2);
-					yellowGhost.setVy(0);
-				}
-				else if(possVelocity == 2) {
-					yellowGhost.setVx(-2);
-					yellowGhost.setVy(0);
-				}
-				else if(possVelocity == 3) {
-					yellowGhost.setVx(0);
-					yellowGhost.setVy(2);
-				}
-				else if(possVelocity == 4) {
-					yellowGhost.setVx(0);
-					yellowGhost.setVy(-2);
-				}
-			}
-		}
-		
-		for(Walls nine: barrier9) {
-			int possVelocity = (int)(Math.random()*4) + 1;
-			if(nine.hitGhost(yellowGhost)) {
-				if(possVelocity == 1) {
-					yellowGhost.setVx(2);
-					yellowGhost.setVy(0);
-				}
-				else if(possVelocity == 2) {
-					yellowGhost.setVx(-2);
-					yellowGhost.setVy(0);
-				}
-				else if(possVelocity == 3) {
-					yellowGhost.setVx(0);
-					yellowGhost.setVy(2);
-				}
-				else if(possVelocity == 4) {
-					yellowGhost.setVx(0);
-					yellowGhost.setVy(-2);
-				}
-			}
-		}
-		
-		for(Walls ten: barrier10) {
-			int possVelocity = (int)(Math.random()*4) + 1;
-			if(ten.hitGhost(yellowGhost)) {
-				if(possVelocity == 1) {
-					yellowGhost.setVx(2);
-					yellowGhost.setVy(0);
-				}
-				else if(possVelocity == 2) {
-					yellowGhost.setVx(-2);
-					yellowGhost.setVy(0);
-				}
-				else if(possVelocity == 3) {
-					yellowGhost.setVx(0);
-					yellowGhost.setVy(2);
-				}
-				else if(possVelocity == 4) {
-					yellowGhost.setVx(0);
-					yellowGhost.setVy(-2);
-				}
-			}
-		}
-		
-		for(Walls eleven: barrier11) {
-			int possVelocity = (int)(Math.random()*4) + 1;
-			if(eleven.hitGhost(yellowGhost)) {
-				if(possVelocity == 1) {
-					yellowGhost.setVx(2);
-					yellowGhost.setVy(0);
-				}
-				else if(possVelocity == 2) {
-					yellowGhost.setVx(-2);
-					yellowGhost.setVy(0);
-				}
-				else if(possVelocity == 3) {
-					yellowGhost.setVx(0);
-					yellowGhost.setVy(2);
-				}
-				else if(possVelocity == 4) {
-					yellowGhost.setVx(0);
-					yellowGhost.setVy(-2);
-				}
-			}
-		}
-		
-		for(Walls twelve: barrier12) {
-			int possVelocity = (int)(Math.random()*4) + 1;
-			if(twelve.hitGhost(yellowGhost)) {
-				if(possVelocity == 1) {
-					yellowGhost.setVx(2);
-					yellowGhost.setVy(0);
-				}
-				else if(possVelocity == 2) {
-					yellowGhost.setVx(-2);
-					yellowGhost.setVy(0);
-				}
-				else if(possVelocity == 3) {
-					yellowGhost.setVx(0);
-					yellowGhost.setVy(2);
-				}
-				else if(possVelocity == 4) {
-					yellowGhost.setVx(0);
-					yellowGhost.setVy(-2);
-				}
-			}
-		}
-		
-		for(Walls thirteen: barrier13) {
-			int possVelocity = (int)(Math.random()*4) + 1;
-			if(thirteen.hitGhost(yellowGhost)) {
-				if(possVelocity == 1) {
-					yellowGhost.setVx(2);
-					yellowGhost.setVy(0);
-				}
-				else if(possVelocity == 2) {
-					yellowGhost.setVx(-2);
-					yellowGhost.setVy(0);
-				}
-				else if(possVelocity == 3) {
-					yellowGhost.setVx(0);
-					yellowGhost.setVy(2);
-				}
-				else if(possVelocity == 4) {
-					yellowGhost.setVx(0);
-					yellowGhost.setVy(-2);
-				}
-			}
-		}
-		
-		for(Walls fourteen: barrier14) {
-			int possVelocity = (int)(Math.random()*4) + 1;
-			if(fourteen.hitGhost(yellowGhost)) {
-				if(possVelocity == 1) {
-					yellowGhost.setVx(2);
-					yellowGhost.setVy(0);
-				}
-				else if(possVelocity == 2) {
-					yellowGhost.setVx(-2);
-					yellowGhost.setVy(0);
-				}
-				else if(possVelocity == 3) {
-					yellowGhost.setVx(0);
-					yellowGhost.setVy(2);
-				}
-				else if(possVelocity == 4) {
-					yellowGhost.setVx(0);
-					yellowGhost.setVy(-2);
-				}
-			}
-		}
-		
-		for(Walls fifteen: barrier15) {
-			int possVelocity = (int)(Math.random()*4) + 1;
-			if(fifteen.hitGhost(yellowGhost)) {
-				if(possVelocity == 1) {
-					yellowGhost.setVx(2);
-					yellowGhost.setVy(0);
-				}
-				else if(possVelocity == 2) {
-					yellowGhost.setVx(-2);
-					yellowGhost.setVy(0);
-				}
-				else if(possVelocity == 3) {
-					yellowGhost.setVx(0);
-					yellowGhost.setVy(2);
-				}
-				else if(possVelocity == 4) {
-					yellowGhost.setVx(0);
-					yellowGhost.setVy(-2);
-				}
-			}
-		}
 		
 		//g.fillOval(0, 0, 200, 200);
 		
@@ -657,10 +269,11 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 		/*immuneCoin1 = new ImmunityCoin(100, 50);
 		immuneCoin2 = new ImmunityCoin(500, 250);
 		immuneCoin3 = new ImmunityCoin(200, 500);*/
-		yellowGhost = new Ghost("yellowminecraftghost.png", 250, 300);
-		blueGhost = new Ghost("blueminecraftghost.png", 250, 350);
-		pinkGhost = new Ghost("pinkminecraftghost.png", 350, 300);
-		redGhost = new Ghost("redminecraftghost.png", 350, 350);
+		yellowGhost = new Ghost("yellowminecraftghost.png", 300, 50, 2);
+		blueGhost = new Ghost("blueminecraftghost.png", 300, 250, 2);
+		pinkGhost = new Ghost("pinkminecraftghost.png", 100, 250, -2);
+		redGhost = new Ghost("redminecraftghost.png", 500, 250, 2);
+		purpleGhost = new Ghost("purpleminecraftghost.png", 300, 550, 2);
 		barrier1 = new Walls(100, 100);
 		barrier3 = new Walls(500,100);
 		
@@ -740,6 +353,14 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 		for(int i = 0; i < barrier15.length; i++) {
 			barrier15[i] = new Walls(300,450);
 			barrier15[i].setY(450 + 50*i);
+		}
+		for(int i = 0; i < barrier16.length; i++) {
+			barrier16[i] = new Walls(250,300);
+			barrier16[i].setX(250 + 50*i);
+		}
+		for(int i = 0; i < barrier17.length; i++) {
+			barrier17[i] = new Walls(250,350);
+			barrier17[i].setX(250 + 50*i);
 		}
 		/*for(int i = 0; i < coins.length; i++) {
 			coins[i] = new RegCoin(67,67);
@@ -1018,11 +639,39 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 			}
 			if(fiveteen.hitPlayer(player) && e.getKeyCode() == 40) {
 				player.moveUp();
-		}
+			}
 			if(fiveteen.hitPlayer(player) && e.getKeyCode() == 38) {
 				player.moveDown();
 			}
 			if(fiveteen.hitPlayer(player) && e.getKeyCode() == 37) {
+				player.moveRight();
+			}
+		}
+		for(Walls sixteen: barrier16) {
+			if(sixteen.hitPlayer(player) && e.getKeyCode() == 39) {
+				player.moveLeft();
+			}
+			if(sixteen.hitPlayer(player) && e.getKeyCode() == 40) {
+				player.moveUp();
+			}
+			if(sixteen.hitPlayer(player) && e.getKeyCode() == 38) {
+				player.moveDown();
+			}
+			if(sixteen.hitPlayer(player) && e.getKeyCode() == 37) {
+				player.moveRight();
+			}
+		}
+		for(Walls seventeen: barrier17) {
+			if(seventeen.hitPlayer(player) && e.getKeyCode() == 39) {
+				player.moveLeft();
+			}
+			if(seventeen.hitPlayer(player) && e.getKeyCode() == 40) {
+				player.moveUp();
+			}
+			if(seventeen.hitPlayer(player) && e.getKeyCode() == 38) {
+				player.moveDown();
+			}
+			if(seventeen.hitPlayer(player) && e.getKeyCode() == 37) {
 				player.moveRight();
 			}
 		}
