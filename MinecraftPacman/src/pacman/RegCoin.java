@@ -80,6 +80,8 @@ public class RegCoin extends Coin {
 	}
 
 	// setters and getters
+	
+
 
 
 	public int getX() {
