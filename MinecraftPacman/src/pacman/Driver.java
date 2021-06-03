@@ -25,6 +25,7 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 	Music coinSound = new Music("coin.wav", false);
 	Music immuneSound = new Music("immune.wav", false);
 	Music fruitSound = new Music("fruit.wav", false);
+
 	int numImCoins = (int)(Math.random()*4) + 2;
 	
 	
@@ -33,7 +34,9 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 	Player player;
 	
 	int score = 0;
-	
+	int lives = 3;
+	int count = 0;
+
 	
 	Walls[] upperWalls = new Walls[12];
 	Walls[] rightWalls = new Walls[14];
@@ -156,8 +159,8 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 					coins[row][col].setX(1000);
 					coins[row][col].setY(0);
 					score += 10;
+					count++;
 					coinSound.play();
-					
 				}
 			}
 		}
@@ -189,7 +192,6 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		if(yellowGhost.hitPlayer(player)) {
 			player.reset();
 			deadSound.play();
-			
 		}
 		
 		if(pinkGhost.hitPlayer(player)) {
@@ -221,24 +223,52 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		
 		
 		
-		//long top middle 
-		/*for(Walls two: barrier2) {
-			
-			if(two.hitPlayer(player)) {
-				
-				if(player.getY()<= 100) {
-					player.setY(player.getY()+50);
+	
+		
+	
+	// THIS IS NOT DONE YET	
+		
+		int win = 0;
+	/*
+	
+		for (int i = 0; i < coins.length; i++) {
+			for (int col = 0; i < coins[0].length; col++) {
+				if (coins[i][col].getX() == 1000 && coins[i][col].getY() == 0) {
+					count++;
 				}
-				
-				
-				
-				
 			}
 		}
 		
-		
-		
+		*/
+
+		if (count >= 97) {
+			win = 1;
+		}
+	 
+	/*
+		if (immuneCoins.size() == 0) {
+			win++;
+		}
+		if (fruit1.getX() == 1000 && fruit1.getY() == 0) {
+			win++;
+		}
+		if (fruit2.getX() == 1000 && fruit2.getY() == 0) {
+			win++;
+		}
 	*/	
+		System.out.println(win);
+		
+		if (win == 1) {
+			g.setColor(Color.black);
+			g.fillRect(0, 0, 650, 728);
+			g.setColor(Color.white);
+			g.setFont(biggest);
+			g.drawString("You Win! :)", 40, 300);
+			g.setFont(font2);
+			g.drawString("Rerun to Play Again", 85, 350);
+		}
+	
+		
 		//g.fillOval(0, 0, 200, 200);
 	}
 	
@@ -247,7 +277,7 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		f.setSize(650, 728);
 		f.setResizable(false);
 
-		//soundBackground.play();
+		
 		//set default action for x button
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -410,8 +440,50 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 			//setImg("background.png");
 		}
 		
+		for(Walls left: leftWalls) {
+			if(left.hitPlayer(player) && e.getKeyCode() == 39) {
+				player.moveLeft();
+			}
+			if(left.hitPlayer(player) && e.getKeyCode() == 40) {
+				player.moveUp();
+		}
+			if(left.hitPlayer(player) && e.getKeyCode() == 38) {
+				player.moveDown();
+			}
+			if(left.hitPlayer(player) && e.getKeyCode() == 37) {
+				player.moveRight();
+			}
+		}
 		
+		for(Walls up: upperWalls) {
+			if(up.hitPlayer(player) && e.getKeyCode() == 39) {
+				player.moveLeft();
+			}
+			if(up.hitPlayer(player) && e.getKeyCode() == 40) {
+				player.moveUp();
+		}
+			if(up.hitPlayer(player) && e.getKeyCode() == 38) {
+				player.moveDown();
+			}
+			if(up.hitPlayer(player) && e.getKeyCode() == 37) {
+				player.moveRight();
+			}
+		}
 		
+		for(Walls right: rightWalls) {
+			if(right.hitPlayer(player) && e.getKeyCode() == 39) {
+				player.moveLeft();
+			}
+			if(right.hitPlayer(player) && e.getKeyCode() == 40) {
+				player.moveUp();
+		}
+			if(right.hitPlayer(player) && e.getKeyCode() == 38) {
+				player.moveDown();
+			}
+			if(right.hitPlayer(player) && e.getKeyCode() == 37) {
+				player.moveRight();
+			}
+		}
 		for(Walls two: barrier2) {
 			if(two.hitPlayer(player) && e.getKeyCode() == 39) {
 				player.moveLeft();
