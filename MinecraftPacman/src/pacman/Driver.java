@@ -56,6 +56,12 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 	Walls[] barrier15 = new Walls[2];
 	Walls[] barrier16 = new Walls[3];
 	Walls[] barrier17 = new Walls[3];
+	Walls invisibleBarrier1;
+	Walls invisibleBarrier2;
+	Walls invisibleBarrier3;
+	Walls invisibleBarrier4;
+	Walls invisibleBarrier5;
+	Walls invisibleBarrier6;
 	RegCoin[][] coins = new RegCoin[13][11];
 	Fruit fruit1;
 	Fruit fruit2;
@@ -74,7 +80,12 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 		super.paintComponent(g);
 		//g.fillOval(0, 0, 200, 200);
 		
-		
+		invisibleBarrier1.paint(g);
+		invisibleBarrier2.paint(g);
+		invisibleBarrier3.paint(g);
+		invisibleBarrier4.paint(g);
+		invisibleBarrier5.paint(g);
+		invisibleBarrier6.paint(g);
 		background2.paint(g);
 		for(RegCoin[] temp: coins) {
 			for(RegCoin temp1: temp) {
@@ -216,14 +227,12 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 		}
 		
 		
-		boolean moving = false;
-		
 		yellowGhost.move();
+		pinkGhost.move();
+		blueGhost.move();
+		redGhost.move();
+		purpleGhost.move();
 		
-		/*if(!moving) {
-			yellowGhost.setVx(2);
-			moving = true;
-		}*/
 		for(Walls right: rightWalls) {
 			if(right.hitGhost(yellowGhost)) {
 				yellowGhost.setVx(0);
@@ -250,6 +259,95 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 			}
 		}
 		
+		for(Walls left: leftWalls) {
+			if(left.hitGhost(pinkGhost)) {
+				pinkGhost.setVx(0);
+				pinkGhost.setVy(2);
+			}
+		}
+		for(Walls boundary: barrier9) {
+			if(boundary.hitGhost(pinkGhost)) {
+				pinkGhost.setVx(2);
+				pinkGhost.setVy(0);
+			}
+		}
+		if(invisibleBarrier1.hitGhost(pinkGhost)) {
+			pinkGhost.setVx(0);
+			pinkGhost.setVy(-2);
+		}
+		for(Walls boundary: barrier4) {
+			if(boundary.hitGhost(pinkGhost)) {
+				pinkGhost.setVx(-2);
+				pinkGhost.setVy(0);
+				pinkGhost.setY(250);
+			}
+		}
+		
+		if(invisibleBarrier2.hitGhost(blueGhost)) {
+			blueGhost.setVx(0);
+			blueGhost.setVy(2);
+		}
+		if(invisibleBarrier3.hitGhost(blueGhost)) {
+			blueGhost.setVx(-2);
+			blueGhost.setVy(0);
+		}
+		if(invisibleBarrier4.hitGhost(blueGhost)) {
+			blueGhost.setVx(0);
+			blueGhost.setVy(-2);
+		}
+		if(invisibleBarrier5.hitGhost(blueGhost)) {
+			blueGhost.setVx(2);
+			blueGhost.setVy(0);
+			blueGhost.setY(250);
+		}
+		
+		for(Walls right: rightWalls) {
+			if(right.hitGhost(redGhost)) {
+				redGhost.setVx(0);
+				redGhost.setVy(2);
+			}
+		}
+		for(Walls boundary: barrier11) {
+			if(boundary.hitGhost(redGhost)) {
+				redGhost.setVx(-2);
+				redGhost.setVy(0);
+			}
+		}
+		if(invisibleBarrier6.hitGhost(redGhost)) {
+			redGhost.setVx(0);
+			redGhost.setVy(-2);
+		}
+		for(Walls boundary: barrier6) {
+			if(boundary.hitGhost(redGhost)) {
+				redGhost.setVx(2);
+				redGhost.setVy(0);
+				redGhost.setY(250);
+			}
+		}
+		
+		for(Walls right: rightWalls) {
+			if(right.hitGhost(purpleGhost)) {
+				purpleGhost.setVx(0);
+				purpleGhost.setVy(2);
+			}
+		}
+		if(purpleGhost.getY() >= 650 && purpleGhost.getX() >= 550) {
+			purpleGhost.setVx(-2);
+			purpleGhost.setVy(0);
+		}
+		for(Walls left: leftWalls) {
+			if(left.hitGhost(purpleGhost)) {
+				purpleGhost.setVx(0);
+				purpleGhost.setVy(-2);
+			}
+		}
+		for(Walls boundary: barrier10) {
+			if(boundary.hitGhost(purpleGhost)) {
+				purpleGhost.setVx(2);
+				purpleGhost.setVy(0);
+				purpleGhost.setY(550);
+			}
+		}
 		
 		//g.fillOval(0, 0, 200, 200);
 		
@@ -276,6 +374,12 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 		purpleGhost = new Ghost("purpleminecraftghost.png", 300, 550, 2);
 		barrier1 = new Walls(100, 100);
 		barrier3 = new Walls(500,100);
+		invisibleBarrier1 = new Walls(200,400);
+		invisibleBarrier2 = new Walls(450,250);
+		invisibleBarrier3 = new Walls(400,450);
+		invisibleBarrier4 = new Walls(150,400);
+		invisibleBarrier5 = new Walls(200,200);
+		invisibleBarrier6 = new Walls(400,400);
 		
 		for(int i = 0; i < numImCoins; i++) {
 			int x = 200;
