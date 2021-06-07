@@ -76,6 +76,10 @@ public class Ghost {
 		return tempImage;
 	}
 	
+	public void changeImg(String image) {
+		img = getImage(image);
+	}
+	
 	// setters and getters
 	public void reset() {
 		x = 450;

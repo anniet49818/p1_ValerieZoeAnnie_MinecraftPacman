@@ -28,7 +28,8 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 	Timer animationTimer; //different
 	
 	int numImCoins = (int)(Math.random()*4) + 2;
-	
+	boolean isImmune = false;
+	int startImmune = (int)System.currentTimeMillis();
 	
 	Background background;
 	Background background2;
@@ -131,8 +132,30 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 			if (immuneCoins.get(i).hitPlayer(player)) {
 				score += 40;
 				immuneCoins.remove(i);
+				yellowGhost.changeImg("immuneminecraftghost.png");
+				redGhost.changeImg("immuneminecraftghost.png");
+				blueGhost.changeImg("immuneminecraftghost.png");
+				pinkGhost.changeImg("immuneminecraftghost.png");
+				isImmune = true;
 			}
 		}
+		
+		if(isImmune) {
+			int startImmune = (int)System.currentTimeMillis();
+			int endImmune = startImmune + 2000;
+			if((int)(System.currentTimeMillis()) >= endImmune) {
+				isImmune = false;
+			}
+		}
+		if(!isImmune) {
+			yellowGhost.changeImg("yellowminecraftghost.png");
+			redGhost.changeImg("redminecraftghost.png");
+			blueGhost.changeImg("blueminecraftghost.png");
+			pinkGhost.changeImg("pinkminecraftghost.png");
+		}
+		
+		
+		
 		
 		if (fruit1.hitPlayer(player)) {
 			score += 100;
@@ -148,23 +171,55 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 		
 		
 		if(yellowGhost.hitPlayer(player)) {
-			lives--;
-			player.reset();
+			if(!isImmune) {
+				lives--;
+				player.reset();
+			}
+			else {
+				score += 50;
+				yellowGhost.setX(10000);
+				yellowGhost.setVx(0);
+				yellowGhost.setVy(0);
+			}
 		}
 		
 		if(pinkGhost.hitPlayer(player)) {
-			lives--;
-			player.reset();
+			if(!isImmune) {
+				lives--;
+				player.reset();
+			}
+			else {
+				score += 50;
+				pinkGhost.setX(10000);
+				pinkGhost.setVx(0);
+				pinkGhost.setVy(0);
+			}
 		}
 		
 		if(blueGhost.hitPlayer(player)) {
-			lives--;
-			player.reset();
+			if(!isImmune) {
+				lives--;
+				player.reset();
+			}
+			else {
+				score += 50;
+				blueGhost.setX(10000);
+				blueGhost.setVx(0);
+				blueGhost.setVy(0);
+			}
 		}
 		
 		if(redGhost.hitPlayer(player)) {
-			lives--;
-			player.reset();
+			if(!isImmune) {
+				lives--;
+				player.reset();
+			}
+			else {
+				score += 50;
+				redGhost.setX(10000);
+				redGhost.setVx(0);
+				redGhost.setVy(0);
+			}
 		}
 		
 		if ( player.getY() > 650) {
