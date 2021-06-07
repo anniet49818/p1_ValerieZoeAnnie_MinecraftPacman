@@ -30,6 +30,9 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 	int lives = 3;
 	int count = 0;
 	int num = 0;
+	int num2 = 0;
+	int num3 = 0;
+	int num4 = 0;
 	
 	
 	ArrayList<Walls[]> wallNames = new ArrayList<Walls[]>();
@@ -63,7 +66,6 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 	Ghost blueGhost;
 	Ghost pinkGhost;
 	Ghost redGhost;
-	Ghost purpleGhost;
 	
 	
 	Font big = new Font("Courier New", 1, 50);
@@ -215,13 +217,96 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 
 			int rand = (int)(Math.random()*4) + 1;
 			yellowGhost.move1(rand, canMove);
-			//yellowGhost.moveLeft();
 			
-			System.out.println(rand);
 			num = 0;
 
 		}
 		num++;
+		
+		if (num2 == 15) {
+			ArrayList<Integer> check = new ArrayList<Integer>();
+			
+			for (int i = 0; i < wallNames.size(); i++) {
+					check.add(redGhost.checkMove(wallNames.get(i)));
+			}
+			
+			ArrayList<Integer> canMove = new ArrayList<Integer>();
+			for (int i = 1; i < 5; i++) {
+				boolean hasNum = false;
+				for (int j = 0; j < check.size(); j++) {
+					if (check.get(j) == i) {
+						hasNum = true;
+					}
+				}
+				if (hasNum == false) {
+					canMove.add(i);
+				}
+			}
+
+			int rand = (int)(Math.random()*4) + 1;
+			redGhost.move1(rand, canMove);
+			
+			num2 = 0;
+
+		}
+		num2++;
+		
+		if (num3 == 15) {
+			ArrayList<Integer> check = new ArrayList<Integer>();
+			
+			for (int i = 0; i < wallNames.size(); i++) {
+					check.add(pinkGhost.checkMove(wallNames.get(i)));
+			}
+			
+			ArrayList<Integer> canMove = new ArrayList<Integer>();
+			for (int i = 1; i < 5; i++) {
+				boolean hasNum = false;
+				for (int j = 0; j < check.size(); j++) {
+					if (check.get(j) == i) {
+						hasNum = true;
+					}
+				}
+				if (hasNum == false) {
+					canMove.add(i);
+				}
+			}
+
+			int rand = (int)(Math.random()*4) + 1;
+			pinkGhost.move1(rand, canMove);
+			
+			num3 = 0;
+
+		}
+		num3++;
+		
+		
+		if (num4 == 15) {
+			ArrayList<Integer> check = new ArrayList<Integer>();
+			
+			for (int i = 0; i < wallNames.size(); i++) {
+					check.add(blueGhost.checkMove(wallNames.get(i)));
+			}
+			
+			ArrayList<Integer> canMove = new ArrayList<Integer>();
+			for (int i = 1; i < 5; i++) {
+				boolean hasNum = false;
+				for (int j = 0; j < check.size(); j++) {
+					if (check.get(j) == i) {
+						hasNum = true;
+					}
+				}
+				if (hasNum == false) {
+					canMove.add(i);
+				}
+			}
+
+			int rand = (int)(Math.random()*4) + 1;
+			blueGhost.move1(rand, canMove);
+			
+			num4 = 0;
+
+		}
+		num4++;
 		
 		int win = 0;
 
@@ -276,10 +361,9 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		immuneCoin2 = new ImmunityCoin(500, 250);
 		immuneCoin3 = new ImmunityCoin(200, 500);*/
 		yellowGhost = new Ghost("yellowminecraftghost.png", 250, 250, 0);
-		blueGhost = new Ghost("blueminecraftghost.png", 300, 250, 2);
-		pinkGhost = new Ghost("pinkminecraftghost.png", 100, 250, -2);
-		redGhost = new Ghost("redminecraftghost.png", 500, 250, 2);
-		purpleGhost = new Ghost("purpleminecraftghost.png", 300, 550, 2);
+		blueGhost = new Ghost("blueminecraftghost.png", 350, 250, 0);
+		pinkGhost = new Ghost("pinkminecraftghost.png", 350, 400, 0);
+		redGhost = new Ghost("redminecraftghost.png", 250, 400, 0);
 		barrier1 = new Walls(100, 100);
 		barrier3 = new Walls(500,100);
 		
