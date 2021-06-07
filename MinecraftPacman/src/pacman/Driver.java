@@ -25,7 +25,6 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 	Music coinSound = new Music("coin.wav", false);
 	Music immuneSound = new Music("immune.wav", false);
 	Music fruitSound = new Music("fruit.wav", false);
-
 	int numImCoins = (int)(Math.random()*4) + 2;
 	
 	
@@ -36,6 +35,13 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 	int score = 0;
 	int lives = 3;
 	int count = 0;
+	int num = 0;
+	int num2 = 0;
+	int num3 = 0;
+	int num4 = 0;
+	
+	
+	ArrayList<Walls[]> wallNames = new ArrayList<Walls[]>();
 
 	
 	Walls[] upperWalls = new Walls[12];
@@ -56,6 +62,8 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 	Walls[] barrier13 = new Walls[3];
 	Walls[] barrier14 = new Walls[3];
 	Walls[] barrier15 = new Walls[2];
+	Walls[] barrier16 = new Walls[3];
+	Walls[] barrier17 = new Walls[3];
 	RegCoin[][] coins = new RegCoin[13][11];
 	Fruit fruit1;
 	Fruit fruit2;
@@ -64,7 +72,6 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 	Ghost blueGhost;
 	Ghost pinkGhost;
 	Ghost redGhost;
-	Ghost purpleGhost;
 	
 	
 	Font big = new Font("Courier New", 1, 50);
@@ -85,72 +92,32 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		player.paint(g);
 		fruit1.paint(g);
 		fruit2.paint(g);
-		barrier1.paint(g);
-		barrier3.paint(g);
 		
 		for(ImmunityCoin temp: immuneCoins) {
 			temp.paint(g);
 		}
-		g.fillRect(250, 300, 150, 100);
-		g.setColor(Color.PINK);
-		g.fillRect(300, 290, 50, 20);
+		
+		barrier1.paint(g);
+		barrier3.paint(g);
+		
+	
 		yellowGhost.paint(g);
 		blueGhost.paint(g);
 		pinkGhost.paint(g);
 		redGhost.paint(g);
-		purpleGhost.paint(g);
-		for(Walls temp: upperWalls) {
-			temp.paint(g);
-		}
-		for(Walls temp: rightWalls) {
-			temp.paint(g);
-		}
-		for(Walls temp: leftWalls) {
-			temp.paint(g);
-		}
-		for(Walls temp: barrier2) {
-			temp.paint(g);
-		}
-		for(Walls temp: barrier4) {
-			temp.paint(g);
-		}
-		for(Walls temp: barrier5) {
-			temp.paint(g);
-		}
-		for(Walls temp: barrier6) {
-			temp.paint(g);
-		}
-		for(Walls temp: barrier7) {
-			temp.paint(g);
-		}
-		for(Walls temp: barrier8) {
-			temp.paint(g);
-		}
-		for(Walls temp: barrier9) {
-			temp.paint(g);
-		}
-		for(Walls temp: barrier10) {
-			temp.paint(g);
-		}
-		for(Walls temp: barrier11) {
-			temp.paint(g);
-		}
-		for(Walls temp: barrier12) {
-			temp.paint(g);
-		}
-		for(Walls temp: barrier13) {
-			temp.paint(g);
-		}
-		for(Walls temp: barrier14) {
-			temp.paint(g);
-		}
-		for(Walls temp: barrier15) {
-			temp.paint(g);
+		
+		
+		for (int i = 0; i < wallNames.size(); i++) {
+			for (Walls temp: wallNames.get(i)) {
+				temp.paint(g);
+			}
 		}
 		
 		g.setColor(Color.white);
 		g.setFont(font2);
 		g.drawString("Score: " + score, 20, 30);
+		
+		g.drawString("Lives: " + lives, 300, 30);
 		
 		background.paint(g);
 		
@@ -179,7 +146,7 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		if (fruit1.hitPlayer(player)) {
 			score += 100;
 			fruit1.setX(1000);
-			fruit2.setY(0);
+			fruit1.setY(0);
 			fruitSound.play();
 		}
 		
@@ -192,31 +159,32 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		
 		
 		if(yellowGhost.hitPlayer(player)) {
+			lives--;
 			player.reset();
 			deadSound.play();
+
 		}
 		
 		if(pinkGhost.hitPlayer(player)) {
+			lives--;
 			player.reset();
 			deadSound.play();
+
 		}
 		
 		if(blueGhost.hitPlayer(player)) {
+			lives--;
 			player.reset();
 			deadSound.play();
+
 		}
 		
 		if(redGhost.hitPlayer(player)) {
+			lives--;
 			player.reset();
 			deadSound.play();
+
 		}
-		
-		if(purpleGhost.hitPlayer(player)) {
-			player.reset();
-			deadSound.play();
-		}
-		
-		
 		if ( player.getY() > 650) {
 			player.setY(650);
 		}
@@ -231,73 +199,138 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		}
 		
 		
-boolean moving = false;
 		
-		yellowGhost.move();
 		
-		/*if(!moving) {
-			yellowGhost.setVx(2);
-			moving = true;
-		}*/
-		for(Walls right: rightWalls) {
-			if(right.hitGhost(yellowGhost)) {
-				yellowGhost.setVx(0);
-				yellowGhost.setVy(2);
+/*	
+		for (int i = 0; i < wallNames.size(); i++) {
+			for (Walls temp: wallNames.get(i)) {
+				if(temp.hitGhost(yellowGhost)) {
+					rand = (int)(Math.random()*3) + 1;	
+				}
+				
 			}
 		}
-		for(Walls boundary: barrier6) {
-			if(boundary.hitGhost(yellowGhost)) {
-				yellowGhost.setVx(-2);
-				yellowGhost.setVy(0);
-			}
-		}
-		for(Walls left: leftWalls) {
-			if(left.hitGhost(yellowGhost)) {
-				yellowGhost.setVx(0);
-				yellowGhost.setVy(-2);
-			}
-		}
-		for(Walls top: upperWalls) {
-			if(top.hitGhost(yellowGhost)) {
-				yellowGhost.setVx(2);
-				yellowGhost.setVy(0);
-				yellowGhost.setY(50);
-			}
-		}
-	
 		
-	
-	// THIS IS NOT DONE YET	
+*/
 		
-		int win = 0;
-	/*
-	
-		for (int i = 0; i < coins.length; i++) {
-			for (int col = 0; i < coins[0].length; col++) {
-				if (coins[i][col].getX() == 1000 && coins[i][col].getY() == 0) {
-					count++;
+		if (num == 15) {
+			ArrayList<Integer> check = new ArrayList<Integer>();
+			
+			for (int i = 0; i < wallNames.size(); i++) {
+					check.add(yellowGhost.checkMove(wallNames.get(i)));
+			}
+			
+			ArrayList<Integer> canMove = new ArrayList<Integer>();
+			for (int i = 1; i < 5; i++) {
+				boolean hasNum = false;
+				for (int j = 0; j < check.size(); j++) {
+					if (check.get(j) == i) {
+						hasNum = true;
+					}
+				}
+				if (hasNum == false) {
+					canMove.add(i);
 				}
 			}
+
+			int rand = (int)(Math.random()*4) + 1;
+			yellowGhost.move1(rand, canMove);
+			
+			num = 0;
+
 		}
+		num++;
 		
-		*/
+		if (num2 == 15) {
+			ArrayList<Integer> check = new ArrayList<Integer>();
+			
+			for (int i = 0; i < wallNames.size(); i++) {
+					check.add(redGhost.checkMove(wallNames.get(i)));
+			}
+			
+			ArrayList<Integer> canMove = new ArrayList<Integer>();
+			for (int i = 1; i < 5; i++) {
+				boolean hasNum = false;
+				for (int j = 0; j < check.size(); j++) {
+					if (check.get(j) == i) {
+						hasNum = true;
+					}
+				}
+				if (hasNum == false) {
+					canMove.add(i);
+				}
+			}
+
+			int rand = (int)(Math.random()*4) + 1;
+			redGhost.move1(rand, canMove);
+			
+			num2 = 0;
+
+		}
+		num2++;
+		
+		if (num3 == 15) {
+			ArrayList<Integer> check = new ArrayList<Integer>();
+			
+			for (int i = 0; i < wallNames.size(); i++) {
+					check.add(pinkGhost.checkMove(wallNames.get(i)));
+			}
+			
+			ArrayList<Integer> canMove = new ArrayList<Integer>();
+			for (int i = 1; i < 5; i++) {
+				boolean hasNum = false;
+				for (int j = 0; j < check.size(); j++) {
+					if (check.get(j) == i) {
+						hasNum = true;
+					}
+				}
+				if (hasNum == false) {
+					canMove.add(i);
+				}
+			}
+
+			int rand = (int)(Math.random()*4) + 1;
+			pinkGhost.move1(rand, canMove);
+			
+			num3 = 0;
+
+		}
+		num3++;
+		
+		
+		if (num4 == 15) {
+			ArrayList<Integer> check = new ArrayList<Integer>();
+			
+			for (int i = 0; i < wallNames.size(); i++) {
+					check.add(blueGhost.checkMove(wallNames.get(i)));
+			}
+			
+			ArrayList<Integer> canMove = new ArrayList<Integer>();
+			for (int i = 1; i < 5; i++) {
+				boolean hasNum = false;
+				for (int j = 0; j < check.size(); j++) {
+					if (check.get(j) == i) {
+						hasNum = true;
+					}
+				}
+				if (hasNum == false) {
+					canMove.add(i);
+				}
+			}
+
+			int rand = (int)(Math.random()*4) + 1;
+			blueGhost.move1(rand, canMove);
+			
+			num4 = 0;
+
+		}
+		num4++;
+		
+		int win = 0;
 
 		if (count >= 97) {
 			win = 1;
 		}
-	 
-	/*
-		if (immuneCoins.size() == 0) {
-			win++;
-		}
-		if (fruit1.getX() == 1000 && fruit1.getY() == 0) {
-			win++;
-		}
-		if (fruit2.getX() == 1000 && fruit2.getY() == 0) {
-			win++;
-		}
-	*/	
-		System.out.println(win);
 		
 		if (win == 1) {
 			g.setColor(Color.black);
@@ -307,6 +340,16 @@ boolean moving = false;
 			g.drawString("You Win! :)", 40, 300);
 			g.setFont(font2);
 			g.drawString("Rerun to Play Again", 85, 350);
+		}
+		
+		if (lives == 0) {
+			g.setColor(Color.black);
+			g.fillRect(0, 0, 650, 728);
+			g.setColor(Color.white);
+			g.setFont(biggest);
+			g.drawString("You Lose", 90, 320);
+			g.setFont(font2);
+			g.drawString("Rerun to Play Again", 110, 350);
 		}
 	
 		
@@ -335,11 +378,10 @@ boolean moving = false;
 		/*immuneCoin1 = new ImmunityCoin(100, 50);
 		immuneCoin2 = new ImmunityCoin(500, 250);
 		immuneCoin3 = new ImmunityCoin(200, 500);*/
-		yellowGhost = new Ghost("yellowminecraftghost.png", 300, 50, 2);
-		blueGhost = new Ghost("blueminecraftghost.png", 300, 250, 2);
-		pinkGhost = new Ghost("pinkminecraftghost.png", 100, 250, -2);
-		redGhost = new Ghost("redminecraftghost.png", 500, 250, 2);
-		purpleGhost = new Ghost("purpleminecraftghost.png", 300, 550, 2);
+		yellowGhost = new Ghost("yellowminecraftghost.png", 250, 250, 0);
+		blueGhost = new Ghost("blueminecraftghost.png", 350, 250, 0);
+		pinkGhost = new Ghost("pinkminecraftghost.png", 350, 400, 0);
+		redGhost = new Ghost("redminecraftghost.png", 250, 400, 0);
 		barrier1 = new Walls(100, 100);
 		barrier3 = new Walls(500,100);
 		
@@ -354,6 +396,26 @@ boolean moving = false;
 			
 			//if(immuneCoins[i].getX())
 		}
+		
+		wallNames.add(upperWalls);
+		wallNames.add(rightWalls);
+		wallNames.add(leftWalls);
+		wallNames.add(barrier2);
+		wallNames.add(barrier4);
+		wallNames.add(barrier5);
+		wallNames.add(barrier6);
+		wallNames.add(barrier7);
+		wallNames.add(barrier8);
+		wallNames.add(barrier9);
+		wallNames.add(barrier10);
+		wallNames.add(barrier11);
+		wallNames.add(barrier12);
+		wallNames.add(barrier13);
+		wallNames.add(barrier14);
+		wallNames.add(barrier15);
+		wallNames.add(barrier16);
+		wallNames.add(barrier17);
+		
 		
 		for(int i = 0; i < upperWalls.length; i++) {
 			upperWalls[i] = new Walls();
@@ -420,6 +482,14 @@ boolean moving = false;
 			barrier15[i] = new Walls(300,450);
 			barrier15[i].setY(450 + 50*i);
 		}
+		for(int i = 0; i < barrier16.length; i++) {
+			barrier16[i] = new Walls(250,300);
+			barrier16[i].setX(250 + 50*i);
+		}
+		for(int i = 0; i < barrier17.length; i++) {
+			barrier17[i] = new Walls(250,350);
+			barrier17[i].setX(250 + 50*i);
+		}
 		/*for(int i = 0; i < coins.length; i++) {
 			coins[i] = new RegCoin(67,67);
 			coins[i].setY(67 + 50*i);
@@ -482,232 +552,21 @@ boolean moving = false;
 			//setImg("background.png");
 		}
 		
-		for(Walls left: leftWalls) {
-			if(left.hitPlayer(player) && e.getKeyCode() == 39) {
-				player.moveLeft();
+		for (int i = 0; i < wallNames.size(); i++) {
+			for (Walls temp: wallNames.get(i)) {
+				if(temp.hitPlayer(player) && e.getKeyCode() == 39) {
+					player.moveLeft();
+				}
+				if(temp.hitPlayer(player) && e.getKeyCode() == 40) {
+					player.moveUp();
 			}
-			if(left.hitPlayer(player) && e.getKeyCode() == 40) {
-				player.moveUp();
-		}
-			if(left.hitPlayer(player) && e.getKeyCode() == 38) {
-				player.moveDown();
-			}
-			if(left.hitPlayer(player) && e.getKeyCode() == 37) {
-				player.moveRight();
-			}
-		}
-		
-		for(Walls up: upperWalls) {
-			if(up.hitPlayer(player) && e.getKeyCode() == 39) {
-				player.moveLeft();
-			}
-			if(up.hitPlayer(player) && e.getKeyCode() == 40) {
-				player.moveUp();
-		}
-			if(up.hitPlayer(player) && e.getKeyCode() == 38) {
-				player.moveDown();
-			}
-			if(up.hitPlayer(player) && e.getKeyCode() == 37) {
-				player.moveRight();
-			}
-		}
-		
-		for(Walls right: rightWalls) {
-			if(right.hitPlayer(player) && e.getKeyCode() == 39) {
-				player.moveLeft();
-			}
-			if(right.hitPlayer(player) && e.getKeyCode() == 40) {
-				player.moveUp();
-		}
-			if(right.hitPlayer(player) && e.getKeyCode() == 38) {
-				player.moveDown();
-			}
-			if(right.hitPlayer(player) && e.getKeyCode() == 37) {
-				player.moveRight();
-			}
-		}
-		for(Walls two: barrier2) {
-			if(two.hitPlayer(player) && e.getKeyCode() == 39) {
-				player.moveLeft();
-			}
-			if(two.hitPlayer(player) && e.getKeyCode() == 40) {
-				player.moveUp();
-		}
-			if(two.hitPlayer(player) && e.getKeyCode() == 38) {
-				player.moveDown();
-			}
-			if(two.hitPlayer(player) && e.getKeyCode() == 37) {
-				player.moveRight();
-			}
-		}
-		for(Walls four: barrier4) {
-			if(four.hitPlayer(player) && e.getKeyCode() == 39) {
-				player.moveLeft();
-			}
-			if(four.hitPlayer(player) && e.getKeyCode() == 40) {
-				player.moveUp();
-		}
-			if(four.hitPlayer(player) && e.getKeyCode() == 38) {
-				player.moveDown();
-			}
-			if(four.hitPlayer(player) && e.getKeyCode() == 37) {
-				player.moveRight();
-			}
-		}
-		for(Walls five: barrier5) {
-			if(five.hitPlayer(player) && e.getKeyCode() == 39) {
-				player.moveLeft();
-			}
-			if(five.hitPlayer(player) && e.getKeyCode() == 40) {
-				player.moveUp();
-		}
-			if(five.hitPlayer(player) && e.getKeyCode() == 38) {
-				player.moveDown();
-			}
-			if(five.hitPlayer(player) && e.getKeyCode() == 37) {
-				player.moveRight();
-			}
-		}
-		for(Walls six: barrier6) {
-			if(six.hitPlayer(player) && e.getKeyCode() == 39) {
-				player.moveLeft();
-			}
-			if(six.hitPlayer(player) && e.getKeyCode() == 40) {
-				player.moveUp();
-		}
-			if(six.hitPlayer(player) && e.getKeyCode() == 38) {
-				player.moveDown();
-			}
-			if(six.hitPlayer(player) && e.getKeyCode() == 37) {
-				player.moveRight();
-			}
-		}
-		for(Walls seven: barrier7) {
-			if(seven.hitPlayer(player) && e.getKeyCode() == 39) {
-				player.moveLeft();
-			}
-			if(seven.hitPlayer(player) && e.getKeyCode() == 40) {
-				player.moveUp();
-		}
-			if(seven.hitPlayer(player) && e.getKeyCode() == 38) {
-				player.moveDown();
-			}
-			if(seven.hitPlayer(player) && e.getKeyCode() == 37) {
-				player.moveRight();
-			}
-		}
-		for(Walls eight: barrier8) {
-			if(eight.hitPlayer(player) && e.getKeyCode() == 39) {
-				player.moveLeft();
-			}
-			if(eight.hitPlayer(player) && e.getKeyCode() == 40) {
-				player.moveUp();
-		}
-			if(eight.hitPlayer(player) && e.getKeyCode() == 38) {
-				player.moveDown();
-			}
-			if(eight.hitPlayer(player) && e.getKeyCode() == 37) {
-				player.moveRight();
-			}
-		}
-		for(Walls nine: barrier9) {
-			if(nine.hitPlayer(player) && e.getKeyCode() == 39) {
-				player.moveLeft();
-			}
-			if(nine.hitPlayer(player) && e.getKeyCode() == 40) {
-				player.moveUp();
-		}
-			if(nine.hitPlayer(player) && e.getKeyCode() == 38) {
-				player.moveDown();
-			}
-			if(nine.hitPlayer(player) && e.getKeyCode() == 37) {
-				player.moveRight();
-			}
-		}
-		for(Walls ten: barrier10) {
-			if(ten.hitPlayer(player) && e.getKeyCode() == 39) {
-				player.moveLeft();
-			}
-			if(ten.hitPlayer(player) && e.getKeyCode() == 40) {
-				player.moveUp();
-		}
-			if(ten.hitPlayer(player) && e.getKeyCode() == 38) {
-				player.moveDown();
-			}
-			if(ten.hitPlayer(player) && e.getKeyCode() == 37) {
-				player.moveRight();
-			}
-		}
-		for(Walls eleven: barrier11) {
-			if(eleven.hitPlayer(player) && e.getKeyCode() == 39) {
-				player.moveLeft();
-			}
-			if(eleven.hitPlayer(player) && e.getKeyCode() == 40) {
-				player.moveUp();
-		}
-			if(eleven.hitPlayer(player) && e.getKeyCode() == 38) {
-				player.moveDown();
-			}
-			if(eleven.hitPlayer(player) && e.getKeyCode() == 37) {
-				player.moveRight();
-			}
-		}
-		for(Walls twelve: barrier12) {
-			if(twelve.hitPlayer(player) && e.getKeyCode() == 39) {
-				player.moveLeft();
-			}
-			if(twelve.hitPlayer(player) && e.getKeyCode() == 40) {
-				player.moveUp();
-		}
-			if(twelve.hitPlayer(player) && e.getKeyCode() == 38) {
-				player.moveDown();
-			}
-			if(twelve.hitPlayer(player) && e.getKeyCode() == 37) {
-				player.moveRight();
-			}
-		}
-		for(Walls thirteen: barrier13) {
-			if(thirteen.hitPlayer(player) && e.getKeyCode() == 39) {
-				player.moveLeft();
-			}
-			if(thirteen.hitPlayer(player) && e.getKeyCode() == 40) {
-				player.moveUp();
-		}
-			if(thirteen.hitPlayer(player) && e.getKeyCode() == 38) {
-				player.moveDown();
-			}
-			if(thirteen.hitPlayer(player) && e.getKeyCode() == 37) {
-				player.moveRight();
-			}
-		}
-		
-			
-		for(Walls fourteen: barrier14) {
-			if(fourteen.hitPlayer(player) && e.getKeyCode() == 39) {
-				player.moveLeft();
-			}
-			if(fourteen.hitPlayer(player) && e.getKeyCode() == 40) {
-				player.moveUp();
-		}
-			if(fourteen.hitPlayer(player) && e.getKeyCode() == 38) {
-				player.moveDown();
-			}
-			if(fourteen.hitPlayer(player) && e.getKeyCode() == 37) {
-				player.moveRight();
-			}
-		}
-		for(Walls fiveteen: barrier15) {
-			if(fiveteen.hitPlayer(player) && e.getKeyCode() == 39) {
-				player.moveLeft();
-			}
-			if(fiveteen.hitPlayer(player) && e.getKeyCode() == 40) {
-				player.moveUp();
-		}
-			if(fiveteen.hitPlayer(player) && e.getKeyCode() == 38) {
-				player.moveDown();
-			}
-			if(fiveteen.hitPlayer(player) && e.getKeyCode() == 37) {
-				player.moveRight();
+				if(temp.hitPlayer(player) && e.getKeyCode() == 38) {
+					player.moveDown();
+				}
+				if(temp.hitPlayer(player) && e.getKeyCode() == 37) {
+					player.moveRight();
+				}
+				
 			}
 		}
 		
