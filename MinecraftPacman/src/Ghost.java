@@ -1,4 +1,3 @@
-
 import java.awt.Graphics;
 
 import java.awt.Graphics2D;
@@ -7,6 +6,7 @@ import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class Ghost {
 	
@@ -25,7 +25,7 @@ public class Ghost {
 		y = 300;
 		width = 50;
 		height = 50;
-		vx = 0;
+		vx = 1;
 		vy = 0;
 		ghost = getImage("yellowminecraftghost.png");
 		img = ghost;
@@ -84,6 +84,13 @@ public class Ghost {
 	public int getX() {
 		return x;
 	}
+	
+	public int getVx() {
+		return vx;
+	}
+	public int getVy() {
+		return vy;
+	}
 
 	public void setX(int x) {
 		this.x = x;
@@ -122,27 +129,28 @@ public class Ghost {
 	}
 
 	public void moveUp() {
-		vy = -1;
-		move();
+		y -= 50;
 		tx.setToTranslation(x, y);
 	}
 	
 	public void moveDown() {
-		vy = 1;
-		move();
+		y += 50;
 		tx.setToTranslation(x, y);
 	}
 	
 	public void moveRight() {
-		vx = 1;
-		move();
+		x += 50;
 		tx.setToTranslation(x, y);
 	}
 	
 	public void moveLeft() {
-		x = -1;
-		move();
+		x -= 50;
 		tx.setToTranslation(x, y);
+	}
+	
+	public void stop() {
+		vx = 0;
+		vy = 0;
 	}
 	
 	public void setVx(int vx) {
@@ -161,44 +169,48 @@ public class Ghost {
 		Rectangle player = new Rectangle(p.getX(),p.getY(),p.getWidth(),p.getHeight());
 		return temp.intersects(player);
 	}
-	public boolean canMove(int direction, Walls w) {
-		if(direction == 1) { //1 is right
-			if(w.goingToHitGhostRight(this)) {
-				return false;
+	
+
+	public int checkMove(Walls[] temp) {
+		int result = 0;
+		for (Walls check: temp) {
+			if (this.x == check.getX()) {
+				if(this.y == check.getY()+50) { //top wall
+					result = 3;
+				}
+				if(this.y == check.getY()-50) { //bottom wall
+					result = 4;
+				}
 			}
-			else {
-				return true;
-			}
-		}
-		else if(direction == 2) { //2 is left
-			if(w.goingToHitGhostLeft(this)) {
-				return false;
-			}
-			else {
-				return true;
-			}
-		}
-		else if(direction == 3) { //3 is up
-			if(w.goingToHitGhostUp(this)) {
-				return false;
-			}
-			else {
-				return true;
+			if (this.y == check.getY()) {
+				if (this.x + 50 == check.getX()) { //right wall
+					result = 1;
+				}
+				if(this.x - 50 == check.getX()) { //left wall
+					result = 2;
+				}
 			}
 		}
-		else if(direction == 4) { //4 is down
-			if(w.goingToHitGhostDown(this)) {
-				return false;
+		return result;
+	}
+
+	
+	public void move1(int rand, ArrayList<Integer> temp) {
+		if (temp.contains(rand)) {
+			if (rand == 1) {
+					this.moveRight();
 			}
-			else {
-				return true;
+			else if (rand == 2) {
+					this.moveLeft();
 			}
-		}
-		else {
-			return false;
+			else if (rand == 3) {
+					this.moveUp();
+			}
+			else if (rand == 4 ){
+					this.moveDown();
+			}
 		}
 	}
-	
 	
 	
 }
