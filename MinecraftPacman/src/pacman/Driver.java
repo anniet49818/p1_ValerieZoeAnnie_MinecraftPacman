@@ -25,6 +25,7 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 	Music coinSound = new Music("coin.wav", false);
 	Music immuneSound = new Music("immune.wav", false);
 	Music fruitSound = new Music("fruit.wav", false);
+	
 	int numImCoins = (int)(Math.random()*4) + 2;
 	
 	
@@ -64,6 +65,7 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 	Walls[] barrier15 = new Walls[2];
 	Walls[] barrier16 = new Walls[3];
 	Walls[] barrier17 = new Walls[3];
+	Walls[] bottomWalls= new Walls[12];
 	RegCoin[][] coins = new RegCoin[13][11];
 	Fruit fruit1;
 	Fruit fruit2;
@@ -162,28 +164,24 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 			lives--;
 			player.reset();
 			deadSound.play();
-
 		}
 		
 		if(pinkGhost.hitPlayer(player)) {
 			lives--;
 			player.reset();
 			deadSound.play();
-
 		}
 		
 		if(blueGhost.hitPlayer(player)) {
 			lives--;
 			player.reset();
 			deadSound.play();
-
 		}
 		
 		if(redGhost.hitPlayer(player)) {
 			lives--;
 			player.reset();
 			deadSound.play();
-
 		}
 		if ( player.getY() > 650) {
 			player.setY(650);
@@ -210,15 +208,20 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 				
 			}
 		}
-		
 */
+		
+		
 		
 		if (num == 15) {
 			ArrayList<Integer> check = new ArrayList<Integer>();
 			
+			
 			for (int i = 0; i < wallNames.size(); i++) {
 					check.add(yellowGhost.checkMove(wallNames.get(i)));
 			}
+			
+			check.add(yellowGhost.checkMoveSingle(barrier1));
+			check.add(yellowGhost.checkMoveSingle(barrier3));
 			
 			ArrayList<Integer> canMove = new ArrayList<Integer>();
 			for (int i = 1; i < 5; i++) {
@@ -247,6 +250,8 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 			for (int i = 0; i < wallNames.size(); i++) {
 					check.add(redGhost.checkMove(wallNames.get(i)));
 			}
+			check.add(redGhost.checkMoveSingle(barrier1));
+			check.add(redGhost.checkMoveSingle(barrier3));
 			
 			ArrayList<Integer> canMove = new ArrayList<Integer>();
 			for (int i = 1; i < 5; i++) {
@@ -276,6 +281,9 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 					check.add(pinkGhost.checkMove(wallNames.get(i)));
 			}
 			
+			check.add(pinkGhost.checkMoveSingle(barrier1));
+			check.add(pinkGhost.checkMoveSingle(barrier3));
+			
 			ArrayList<Integer> canMove = new ArrayList<Integer>();
 			for (int i = 1; i < 5; i++) {
 				boolean hasNum = false;
@@ -304,6 +312,9 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 			for (int i = 0; i < wallNames.size(); i++) {
 					check.add(blueGhost.checkMove(wallNames.get(i)));
 			}
+			
+			check.add(blueGhost.checkMoveSingle(barrier1));
+			check.add(blueGhost.checkMoveSingle(barrier3));
 			
 			ArrayList<Integer> canMove = new ArrayList<Integer>();
 			for (int i = 1; i < 5; i++) {
@@ -351,7 +362,7 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 			g.setFont(font2);
 			g.drawString("Rerun to Play Again", 110, 350);
 		}
-	
+		System.out.println(player.getY());	
 		
 		//g.fillOval(0, 0, 200, 200);
 	}
@@ -415,6 +426,7 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		wallNames.add(barrier15);
 		wallNames.add(barrier16);
 		wallNames.add(barrier17);
+		wallNames.add(bottomWalls);
 		
 		
 		for(int i = 0; i < upperWalls.length; i++) {
@@ -490,6 +502,12 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 			barrier17[i] = new Walls(250,350);
 			barrier17[i].setX(250 + 50*i);
 		}
+		for(int i = 0; i < bottomWalls.length; i++) {
+			bottomWalls[i] = new Walls(0, 700);
+			bottomWalls[i].setX(50*i);
+		}
+		
+		
 		/*for(int i = 0; i < coins.length; i++) {
 			coins[i] = new RegCoin(67,67);
 			coins[i].setY(67 + 50*i);

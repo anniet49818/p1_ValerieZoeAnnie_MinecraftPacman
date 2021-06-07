@@ -18,12 +18,12 @@ public class Player {
 		
 		private Image chicken; // image of the player
 		private Image img;
-		private int step =50;
+		private int step = 50;
 
 		public Player() {
 			// assignment statements for attributes
-			x = 50;
-			y = 50;
+			x = 300;
+			y = 650;
 			vx = 0;
 			vy = 0;
 			width = 50;
@@ -51,7 +51,7 @@ public class Player {
 		
 
 		public void reset() {
-			x = 250;	//reset position
+			x = 300;	//reset position
 			y = 650;
 			img = chicken;	//reset img
 			vx = 0;
@@ -67,6 +67,7 @@ public class Player {
 
 		}
 
+		
 		
 		private AffineTransform tx = AffineTransform.getTranslateInstance(x, y);
 
@@ -148,28 +149,37 @@ public class Player {
 		public void setWidth(int width) {
 			this.width = width;
 		}
+		
+		//movement methods
 		public void moveUp() {
 			y -= step;
 			tx.setToTranslation(x, y);
+			img = getImage("forwardminecraftchicken.png");
+			
+			
 		}
 		
 		public void moveDown() {
 			y += step;
 			tx.setToTranslation(x, y);
+			img = getImage("backwardsminecraftchicken.png");
 		}
 		
 		public void moveRight() {
 			x += step;
 			tx.setToTranslation(x, y);
+			img = getImage("rightminecraftchicken.png");
 		}
 		
 		public void moveLeft() {
 			x -= step;
 			tx.setToTranslation(x, y);
+			img = getImage("leftminecraftchicken.png");
 		}
-		//collison helper
+		
+		/* Helper function for collision detection later */
 		public Rectangle getRect() {
-			Rectangle temp = new Rectangle(x + 5,y + 5,width,height);
+			Rectangle temp = new Rectangle(x,y,width,height);
 			return temp;
 		}
 

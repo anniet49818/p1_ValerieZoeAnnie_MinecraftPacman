@@ -194,6 +194,29 @@ public class Ghost {
 		}
 		return result;
 	}
+	
+	public int checkMoveSingle(Walls temp) {
+		int result = 0;
+			if (this.x == temp.getX()) {
+				if(this.y == temp.getY()+50) { //top wall
+					result = 3;
+				}
+				if(this.y == temp.getY()-50) { //bottom wall
+					result = 4;
+				}
+			}
+			if (this.y == temp.getY()) {
+				if (this.x + 50 == temp.getX()) { //right wall
+					result = 1;
+				}
+				if(this.x - 50 == temp.getX()) { //left wall
+					result = 2;
+				}
+			}
+			return result;
+		}
+
+	
 
 	
 	public void move1(int rand, ArrayList<Integer> temp) {
