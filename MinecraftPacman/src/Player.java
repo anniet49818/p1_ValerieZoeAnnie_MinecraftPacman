@@ -49,7 +49,7 @@ public class Player {
 		
 
 		public void reset() {
-			x = 250;	//reset position
+			x = 300;	//reset position
 			y = 650;
 			img = chicken;	//reset img
 			vx = 0;
