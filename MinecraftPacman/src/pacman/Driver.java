@@ -27,9 +27,11 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 	//handles drawing animation
 	Timer animationTimer; //different
 	
-	int numImCoins = (int)(Math.random()*4) + 2;
+	int numImCoins = (int)(Math.random()*4) + 3;
 	boolean isImmune = false;
-	int startImmune = (int)System.currentTimeMillis();
+	boolean stopImmune = false;
+	long beginningImmune = 0;
+	long endImmune = 0;
 	
 	Background background;
 	Background background2;
@@ -128,33 +130,50 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 			}
 		}
 		
+		
 		for (int i = 0; i < immuneCoins.size(); i++) {
 			if (immuneCoins.get(i).hitPlayer(player)) {
+				beginningImmune = System.currentTimeMillis();
+				System.out.println("hit");
 				score += 40;
 				immuneCoins.remove(i);
 				yellowGhost.changeImg("immuneminecraftghost.png");
 				redGhost.changeImg("immuneminecraftghost.png");
 				blueGhost.changeImg("immuneminecraftghost.png");
 				pinkGhost.changeImg("immuneminecraftghost.png");
-				isImmune = true;
+				if(!isImmune) {
+					isImmune = true;
+				}
+				else {
+					endImmune += 10000;
+				}
 			}
 		}
 		
 		if(isImmune) {
-			int startImmune = (int)System.currentTimeMillis();
-			int endImmune = startImmune + 2000;
-			if((int)(System.currentTimeMillis()) >= endImmune) {
+			endImmune = beginningImmune + 10000;
+			if(System.currentTimeMillis() >= endImmune && isImmune) {
+				stopImmune = true;
+				System.out.println("hi");
 				isImmune = false;
 			}
 		}
-		if(!isImmune) {
+		
+		if(stopImmune) {
 			yellowGhost.changeImg("yellowminecraftghost.png");
+			yellowGhost.setX(250);
+			yellowGhost.setY(250);
 			redGhost.changeImg("redminecraftghost.png");
+			redGhost.setX(250);
+			redGhost.setY(400);
 			blueGhost.changeImg("blueminecraftghost.png");
+			blueGhost.setX(350);
+			blueGhost.setY(250);
 			pinkGhost.changeImg("pinkminecraftghost.png");
+			pinkGhost.setX(350);
+			pinkGhost.setY(400);
+			stopImmune = false;
 		}
-		
-		
 		
 		
 		if (fruit1.hitPlayer(player)) {
@@ -178,8 +197,6 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 			else {
 				score += 50;
 				yellowGhost.setX(10000);
-				yellowGhost.setVx(0);
-				yellowGhost.setVy(0);
 			}
 		}
 		
@@ -191,8 +208,6 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 			else {
 				score += 50;
 				pinkGhost.setX(10000);
-				pinkGhost.setVx(0);
-				pinkGhost.setVy(0);
 			}
 		}
 		
@@ -204,8 +219,6 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 			else {
 				score += 50;
 				blueGhost.setX(10000);
-				blueGhost.setVx(0);
-				blueGhost.setVy(0);
 			}
 		}
 		
@@ -217,8 +230,6 @@ public class Driver extends JPanel implements ActionListener,KeyListener,MouseLi
 			else {
 				score += 50;
 				redGhost.setX(10000);
-				redGhost.setVx(0);
-				redGhost.setVy(0);
 			}
 		}
 		
