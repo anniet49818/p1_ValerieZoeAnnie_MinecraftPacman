@@ -1,33 +1,45 @@
 package pacman;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import java.awt.image.*;
+import java.awt.geom.AffineTransform;
 
-
-public class Driver extends JPanel implements ActionListener, KeyListener, MouseListener{
+public class Driver extends JPanel implements ActionListener,KeyListener,MouseListener{
+	
+	
 	//handles drawing animation
-	Timer animationTimer;
+	Timer animationTimer; //different
 	Music soundBackground = new Music("Map.wav", true);
 	Music deadSound = new Music("dead.wav", false);
+	Music deadSound2 = new Music("dead.wav", false);
+	Music deadSound3 = new Music("dead.wav", false);
+	Music deadSound4 = new Music("dead.wav", false);
 	Music coinSound = new Music("coin.wav", false);
 	Music immuneSound = new Music("immune.wav", false);
 	Music fruitSound = new Music("fruit.wav", false);
-	
-	int numImCoins = (int)(Math.random()*4) + 2;
-	
+	Music fruitSound2 = new Music("fruit.wav", false);
+	int numImCoins = (int)(Math.random()*4) + 3;
+	boolean isImmune = false;
+	boolean stopImmune = false;
+	long beginningImmune = 0;
+	long endImmune = 0;
 	
 	Background background;
 	Background background2;
@@ -41,9 +53,7 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 	int num3 = 0;
 	int num4 = 0;
 	
-	
 	ArrayList<Walls[]> wallNames = new ArrayList<Walls[]>();
-
 	
 	Walls[] upperWalls = new Walls[12];
 	Walls[] rightWalls = new Walls[14];
@@ -75,54 +85,47 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 	Ghost pinkGhost;
 	Ghost redGhost;
 	
-	
 	Font big = new Font("Courier New", 1, 50);
 	Font font2 = new Font("Courier New", 1, 30);
 	Font biggest = new Font("Courier New", 1, 80);
 	
 	public void paint(Graphics g) {
 		super.paintComponent(g);
+		//g.fillOval(0, 0, 200, 200);
 		
 		
 		background2.paint(g);
-		
 		for(RegCoin[] temp: coins) {
 			for(RegCoin temp1: temp) {
-				temp1.paint(g);
+				temp1.paint(g);;
 			}
 		}
 		player.paint(g);
 		fruit1.paint(g);
 		fruit2.paint(g);
-		
 		for(ImmunityCoin temp: immuneCoins) {
 			temp.paint(g);
 		}
-		
 		barrier1.paint(g);
 		barrier3.paint(g);
-		
 	
 		yellowGhost.paint(g);
 		blueGhost.paint(g);
 		pinkGhost.paint(g);
 		redGhost.paint(g);
-		
-		
-		for (int i = 0; i < wallNames.size(); i++) {
-			for (Walls temp: wallNames.get(i)) {
+		for(int i = 0; i < wallNames.size(); i++) {
+			for(Walls temp: wallNames.get(i)) {
 				temp.paint(g);
 			}
 		}
 		
 		g.setColor(Color.white);
 		g.setFont(font2);
+
 		g.drawString("Score: " + score, 20, 30);
-		
 		g.drawString("Lives: " + lives, 300, 30);
 		
 		background.paint(g);
-		
 		
 		for (int row = 0; row < coins.length; row++) {
 			for (int col = 0; col < coins[0].length; col++) {
@@ -136,53 +139,116 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 			}
 		}
 		
+		
 		for (int i = 0; i < immuneCoins.size(); i++) {
 			if (immuneCoins.get(i).hitPlayer(player)) {
+				immuneSound.play();
+				beginningImmune = System.currentTimeMillis();
+				System.out.println("hit");
 				score += 40;
 				immuneCoins.remove(i);
-				immuneSound.play();
+				yellowGhost.changeImg("immuneminecraftghost.png");
+				redGhost.changeImg("immuneminecraftghost.png");
+				blueGhost.changeImg("immuneminecraftghost.png");
+				pinkGhost.changeImg("immuneminecraftghost.png");
+				if(!isImmune) {
+					isImmune = true;
+				}
+				else {
+					endImmune += 10000;
+				}
 			}
 		}
-	
+		
+		if(isImmune) {
+			endImmune = beginningImmune + 10000;
+			if(System.currentTimeMillis() >= endImmune && isImmune) {
+				stopImmune = true;
+				System.out.println("hi");
+				isImmune = false;
+			}
+		}
+		
+		if(stopImmune) {
+			yellowGhost.changeImg("yellowminecraftghost.png");
+			yellowGhost.setX(250);
+			yellowGhost.setY(250);
+			redGhost.changeImg("redminecraftghost.png");
+			redGhost.setX(250);
+			redGhost.setY(400);
+			blueGhost.changeImg("blueminecraftghost.png");
+			blueGhost.setX(350);
+			blueGhost.setY(250);
+			pinkGhost.changeImg("pinkminecraftghost.png");
+			pinkGhost.setX(350);
+			pinkGhost.setY(400);
+			stopImmune = false;
+		}
+		
 		
 		if (fruit1.hitPlayer(player)) {
 			score += 100;
 			fruit1.setX(1000);
-			fruit1.setY(0);
+			fruit2.setY(0);
 			fruitSound.play();
 		}
-		
+
 		if (fruit2.hitPlayer(player)) {
 			score += 100;
 			fruit2.setX(1000);
 			fruit2.setY(0);
-			fruitSound.play();
+			fruitSound2.play();
 		}
 		
 		
 		if(yellowGhost.hitPlayer(player)) {
-			lives--;
-			player.reset();
-			deadSound.play();
+			if(!isImmune) {
+				lives--;
+				player.reset();
+				deadSound.play();
+			}
+			else {
+				score += 50;
+				yellowGhost.setX(10000);
+			}
 		}
 		
 		if(pinkGhost.hitPlayer(player)) {
-			lives--;
-			player.reset();
-			deadSound.play();
+			if(!isImmune) {
+				lives--;
+				player.reset();
+				deadSound2.play();
+			}
+			else {
+				score += 50;
+				pinkGhost.setX(10000);
+			}
 		}
 		
 		if(blueGhost.hitPlayer(player)) {
-			lives--;
-			player.reset();
-			deadSound.play();
+			if(!isImmune) {
+				lives--;
+				player.reset();
+				deadSound3.play();
+			}
+			else {
+				score += 50;
+				blueGhost.setX(10000);
+			}
 		}
 		
 		if(redGhost.hitPlayer(player)) {
-			lives--;
-			player.reset();
-			deadSound.play();
+			if(!isImmune) {
+				lives--;
+				player.reset();
+				deadSound4.play();
+			}
+			else {
+				score += 50;
+				redGhost.setX(10000);
+			}
 		}
+		
 		if ( player.getY() > 650) {
 			player.setY(650);
 		}
@@ -196,28 +262,18 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 			player.setX(500);
 		}
 		
-		
-		
-		
-/*	
-		for (int i = 0; i < wallNames.size(); i++) {
-			for (Walls temp: wallNames.get(i)) {
+		/*for(int i = 0; i < wallNames.size(); i++) {
+			for(Walls temp: wallNames.get(i)) {
 				if(temp.hitGhost(yellowGhost)) {
-					rand = (int)(Math.random()*3) + 1;	
+					rand = (int)(Math.random()*3) + 1;
 				}
-				
 			}
-		}
-*/
+		}*/
 		
-		
-		
-		if (num == 15) {
+		if(num == 15) {
 			ArrayList<Integer> check = new ArrayList<Integer>();
-			
-			
-			for (int i = 0; i < wallNames.size(); i++) {
-					check.add(yellowGhost.checkMove(wallNames.get(i)));
+			for(int i = 0; i < wallNames.size(); i++) {
+				check.add(yellowGhost.checkMove(wallNames.get(i)));
 			}
 			
 			check.add(yellowGhost.checkMoveSingle(barrier1));
@@ -235,13 +291,14 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 					canMove.add(i);
 				}
 			}
-
+			
 			int rand = (int)(Math.random()*4) + 1;
 			yellowGhost.move1(rand, canMove);
+			//yellowGhost.moveLeft();
 			
 			num = 0;
-
 		}
+		
 		num++;
 		
 		if (num2 == 15) {
@@ -252,7 +309,6 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 			}
 			check.add(redGhost.checkMoveSingle(barrier1));
 			check.add(redGhost.checkMoveSingle(barrier3));
-			
 			ArrayList<Integer> canMove = new ArrayList<Integer>();
 			for (int i = 1; i < 5; i++) {
 				boolean hasNum = false;
@@ -273,6 +329,7 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 
 		}
 		num2++;
+		
 		
 		if (num3 == 15) {
 			ArrayList<Integer> check = new ArrayList<Integer>();
@@ -305,7 +362,6 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		}
 		num3++;
 		
-		
 		if (num4 == 15) {
 			ArrayList<Integer> check = new ArrayList<Integer>();
 			
@@ -337,13 +393,15 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		}
 		num4++;
 		
+		
+		//g.fillOval(0, 0, 200, 200);
+		
 		int win = 0;
-
-		if (count >= 97) {
+		if(count >= 97) {
 			win = 1;
 		}
 		
-		if (win == 1) {
+		if(win == 1) {
 			g.setColor(Color.black);
 			g.fillRect(0, 0, 650, 728);
 			g.setColor(Color.white);
@@ -353,7 +411,7 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 			g.drawString("Rerun to Play Again", 85, 350);
 		}
 		
-		if (lives == 0) {
+		if(lives <= 0) {
 			g.setColor(Color.black);
 			g.fillRect(0, 0, 650, 728);
 			g.setColor(Color.white);
@@ -362,27 +420,21 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 			g.setFont(font2);
 			g.drawString("Rerun to Play Again", 110, 350);
 		}
-		System.out.println(player.getY());	
 		
-		//g.fillOval(0, 0, 200, 200);
 	}
 	
 	public Driver () {
-		JFrame f = new JFrame("Minecraft Pacman");
+		JFrame f = new JFrame("Example Drawing");
 		f.setSize(650, 728);
 		f.setResizable(false);
-
 		soundBackground.play();
-		//set default action for x button
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		//add this panel to the JFrame
-		//allows connection with "drawing"
 		f.add(this);
 		f.addKeyListener(this);
 		
-		background = new Background("startScreen.png", 0, 0);
-		background2 = new Background("background.png", 0, 0);
+		background = new Background("startScreen.png", 0,0);
+		background2 = new Background("background.png",0,0);
 		player = new Player();
 		fruit1 = new Fruit();
 		fruit2 = new Fruit(450, 550);
@@ -427,7 +479,6 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		wallNames.add(barrier16);
 		wallNames.add(barrier17);
 		wallNames.add(bottomWalls);
-		
 		
 		for(int i = 0; i < upperWalls.length; i++) {
 			upperWalls[i] = new Walls();
@@ -506,8 +557,6 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 			bottomWalls[i] = new Walls(0, 700);
 			bottomWalls[i].setX(50*i);
 		}
-		
-		
 		/*for(int i = 0; i < coins.length; i++) {
 			coins[i] = new RegCoin(67,67);
 			coins[i].setY(67 + 50*i);
@@ -520,6 +569,10 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 			}
 		}
 		
+		//set default action for x button
+		
+		//add this panel to the JFrame
+		//allows connection with "drawing"
 		
 		//setup animation timer
 		animationTimer = new Timer(16, this);
@@ -527,11 +580,14 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		f.addMouseListener(this);
 		
 		f.setVisible(true);
+		
+		
 	}
-
+	
 	public void update() {
-
+		
 	}
+
 	
 	//this method is invoked/called by the timer
 	@Override
@@ -541,89 +597,6 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		//call the frame to refresh
 		update();
 		repaint();
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-		//System.out.println(e.getKeyCode());
-		if(e.getKeyCode() == 38){	//up
-			player.moveUp();
-		}
-		if(e.getKeyCode() == 39){	//right
-			player.moveRight();
-		}
-		if(e.getKeyCode() == 37){	//left
-			player.moveLeft();
-		}
-		if(e.getKeyCode() == 40) {
-			player.moveDown();
-		}
-		if(e.getKeyCode() == 32) {
-			background.hide();
-			//setImg("background.png");
-		}
-		
-		for (int i = 0; i < wallNames.size(); i++) {
-			for (Walls temp: wallNames.get(i)) {
-				if(temp.hitPlayer(player) && e.getKeyCode() == 39) {
-					player.moveLeft();
-				}
-				if(temp.hitPlayer(player) && e.getKeyCode() == 40) {
-					player.moveUp();
-			}
-				if(temp.hitPlayer(player) && e.getKeyCode() == 38) {
-					player.moveDown();
-				}
-				if(temp.hitPlayer(player) && e.getKeyCode() == 37) {
-					player.moveRight();
-				}
-				
-			}
-		}
-		
-		
-			if(barrier1.hitPlayer(player) && e.getKeyCode() == 39) {
-				player.moveLeft();
-			}
-			if(barrier1.hitPlayer(player) && e.getKeyCode() == 40) {
-				player.moveUp();
-		}
-			if(barrier1.hitPlayer(player) && e.getKeyCode() == 38) {
-				player.moveDown();
-			}
-			if(barrier1.hitPlayer(player) && e.getKeyCode() == 37) {
-				player.moveRight();
-			}
-		
-			if(barrier3.hitPlayer(player) && e.getKeyCode() == 39) {
-				player.moveLeft();
-			}
-			if(barrier3.hitPlayer(player) && e.getKeyCode() == 40) {
-				player.moveUp();
-		}
-			if(barrier3.hitPlayer(player) && e.getKeyCode() == 38) {
-				player.moveDown();
-			}
-			if(barrier3.hitPlayer(player) && e.getKeyCode() == 37) {
-				player.moveRight();
-			}
-	
-		
-		
-		
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -652,6 +625,87 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 
 	@Override
 	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		//System.out.println(e.getKeyCode());
+		if(e.getKeyCode() == 38) {
+			player.moveUp();
+		} 
+		else if (e.getKeyCode() == 40) {
+			player.moveDown();
+		} 
+		else if (e.getKeyCode() == 37) {
+			player.moveLeft();
+		} 
+		else if (e.getKeyCode() == 39) {
+			player.moveRight();
+		}
+		if(e.getKeyCode() == 32) {
+			background.hide();
+			
+			//setImg("background.png");
+			
+		}
+		
+		
+		for (int i = 0; i < wallNames.size(); i++) {
+			for (Walls temp: wallNames.get(i)) {
+				if(temp.hitPlayer(player) && e.getKeyCode() == 39) {
+					player.moveLeft();
+				}
+				if(temp.hitPlayer(player) && e.getKeyCode() == 40) {
+					player.moveUp();
+			}
+				if(temp.hitPlayer(player) && e.getKeyCode() == 38) {
+					player.moveDown();
+				}
+				if(temp.hitPlayer(player) && e.getKeyCode() == 37) {
+					player.moveRight();
+				}
+				
+			}
+		}
+		
+		if(barrier1.hitPlayer(player) && e.getKeyCode() == 39) {
+			player.moveLeft();
+		}
+		if(barrier1.hitPlayer(player) && e.getKeyCode() == 40) {
+			player.moveUp();
+		}
+		if(barrier1.hitPlayer(player) && e.getKeyCode() == 38) {
+			player.moveDown();
+		}
+		if(barrier1.hitPlayer(player) && e.getKeyCode() == 37) {
+			player.moveRight();
+		}
+		
+		if(barrier3.hitPlayer(player) && e.getKeyCode() == 39) {
+			player.moveLeft();
+		}
+		if(barrier3.hitPlayer(player) && e.getKeyCode() == 40) {
+			player.moveUp();
+		}
+		if(barrier3.hitPlayer(player) && e.getKeyCode() == 38) {
+			player.moveDown();
+		}
+		if(barrier3.hitPlayer(player) && e.getKeyCode() == 37) {
+			player.moveRight();
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 		
 	}

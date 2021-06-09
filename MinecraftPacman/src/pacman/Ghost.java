@@ -61,6 +61,8 @@ public class Ghost {
 		tx.setToTranslation(a, b);
 		tx.scale(1, 1);
 	}
+	
+	
 
 	// converts image to make it drawable in paint
 	private Image getImage(String path) {
@@ -73,10 +75,14 @@ public class Ghost {
 		}
 		return tempImage;
 	}
-
+	
+	public void changeImg(String image) {
+		img = getImage(image);
+	}
+	
 	// setters and getters
 	public void reset() {
-		x = 400;
+		x = 450;
 		y = 610;
 		vx = 0;
 	}
@@ -84,13 +90,6 @@ public class Ghost {
 
 	public int getX() {
 		return x;
-	}
-	
-	public int getVx() {
-		return vx;
-	}
-	public int getVy() {
-		return vy;
 	}
 
 	public void setX(int x) {
@@ -130,21 +129,25 @@ public class Ghost {
 	}
 
 	public void moveUp() {
+		//y -= step;
 		y -= 50;
 		tx.setToTranslation(x, y);
 	}
 	
 	public void moveDown() {
+		//y += step;
 		y += 50;
 		tx.setToTranslation(x, y);
 	}
 	
 	public void moveRight() {
+		//x += step;
 		x += 50;
 		tx.setToTranslation(x, y);
 	}
 	
 	public void moveLeft() {
+		//x -= step;
 		x -= 50;
 		tx.setToTranslation(x, y);
 	}
@@ -154,6 +157,12 @@ public class Ghost {
 		vy = 0;
 	}
 	
+	public int getVx() {
+		return vx;
+	}
+	public int getVy() {
+		return vy;
+	}
 	public void setVx(int vx) {
 		this.vx = vx;
 	}
@@ -171,7 +180,6 @@ public class Ghost {
 		return temp.intersects(player);
 	}
 	
-
 	public int checkMove(Walls[] temp) {
 		int result = 0;
 		for (Walls check: temp) {
@@ -214,10 +222,7 @@ public class Ghost {
 				}
 			}
 			return result;
-		}
-
-	
-
+	}
 	
 	public void move1(int rand, ArrayList<Integer> temp) {
 		if (temp.contains(rand)) {
